@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 12:03:47 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/10 12:50:44 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/10 14:18:24 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,13 @@
  */
 typedef struct s_token
 {
-	int		is_special;
+	int		is_string;
 	char	*token;
 }	t_token;
 
 /**
  * @brief Given a substring denoted by start, end, extract the tokens
- * determined by quotes, spaces/tabs, env vars, and wildcards IN THAT ORDER!
+ * determined by quotes, env vars, spaces/tabs, and wildcards IN THAT ORDER!
  * @note tokens must also remain in the order they are read
  * @note uses the get_tokens function
  * @param s intput string
