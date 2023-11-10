@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 12:07:21 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/10 13:14:32 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/10 17:10:54 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,17 @@ int	verify_input(char *s);
 int	verify_paranthesis(char *s);
 
 /**
- * @brief 
+ * Allowed cases: && (, ) ||, )))
+ * Illegal cases: ( ), ) (, && ||, | >>, || ||, ( && etc
+ */
+
+/**
+ * @brief Verifies that special characters aren't adjacent
  * 
  * @param s 
  * @return int 
  */
-int	handle_special_characters(char *s);
-
+int	verify_special_characters(char *s);
 
 /**
  * @brief Checks that the given token always has a command after it

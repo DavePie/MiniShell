@@ -6,14 +6,23 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 13:25:21 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/10 16:47:24 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/10 17:24:16 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-//#include <utils.h>
 
-size_t	ft_strlen(const char *s)
+int	ft_strcmp(char *s, char *r)
+{
+	while (*s && *r && *s == *r)
+	{
+		s++;
+		r++;
+	}
+	return ((unsigned char)*s - (unsigned char)*r);
+}
+
+int	ft_strlen(const char *s)
 {
 	int	i;
 

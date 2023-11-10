@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 14:27:39 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/10 16:48:25 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/10 16:53:21 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,11 @@
 #include "logic.h"
 #include "utils.h"
 
-// temp function TO REMOVE
+// temp function TO REMOVE!!
+// norminette error here on purpose!
 int	run(char *str, int start, int end)
 {
-	int temp = start;
+	int	temp = start;
 
 	printf("ran: |");
 	while (start < end)
@@ -84,7 +85,6 @@ int	get_next_command(char *str, char *op, int i)
 		return (-1);
 	return (i);
 }
-
 
 int	run_all_commands(char *str)
 {

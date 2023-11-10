@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 12:08:31 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/10 16:47:59 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/10 17:24:41 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,15 @@ int	instr(char *s, int i);
  * @return int (its length)
  */
 int	ft_strlen(const char *s);
+
+/**
+ * @brief Compare two strings
+ * 
+ * @param s 
+ * @param r 
+ * @return int 
+ */
+int	ft_strcmp(char *s, char *r)
 
 /**
  * @brief Given an error message, write it in the correct format
