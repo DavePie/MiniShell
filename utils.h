@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 12:08:31 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/10 13:50:39 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/10 16:47:59 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,22 @@ int	ft_strlen(const char *s);
  */
 int	ewrite(char *s);
 
+/**
+ * @brief Given two strings, state if the second string is in the first
+ * at the starting index given
+ * 
+ * @param str first string (stack)
+ * @param index starting index
+ * @param input second string (needle)
+ * @return int (if found)
+ */
+int	str_at(char *str, int index, char *input);
+
+/**
+ * @brief Returns if the given character is a whitespace character
+ * @note currently space and tab
+ * @param c the char
+ * @return int (if whitespace)
+ */
+int	is_s(char c);
 #endif

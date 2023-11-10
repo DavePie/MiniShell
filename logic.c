@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 14:27:39 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/10 16:10:11 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/10 16:48:25 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 int	run(char *str, int start, int end)
 {
 	int temp = start;
+
 	printf("ran: |");
 	while (start < end)
 	{
@@ -26,17 +27,6 @@ int	run(char *str, int start, int end)
 	}
 	printf("| (%d)\n", (end - temp) % 2);
 	return ((end - temp) % 2);
-}
-
-int	str_at(char *str, int index, char *input)
-{
-	int	i;
-
-	i = 0;
-	while (str[index + i] && input[i]
-		&& str[index + i] == input[i])
-		i++;
-	return (!input[i]);
 }
 
 int	is_logic(char *str, int i)
@@ -62,31 +52,28 @@ int	run_command_at(char *str, int start)
 {
 	int	i;
 
-	while (is_logic(str, start))
+	while (is_logic(str, start) || is_s(str[start]))
 		start++;
 	i = start;
 	while (str[i] && (instr(str, i) || !is_logic(str, i)))
-	{
-		//printf("%c is valid\n", str[i]);
-		//printf("%d %d\n", instr(str, i), !is_logic(str, i));
 		i++;
-	}
 	return (run(str, start, i));
 }
 
-int	get_next_command(char *str, char *op, int start)
+int	get_next_command(char *str, char *op, int i)
 {
 	int	depth;
-	int	i;
 
-	while (is_logic(str, start))
-		start++;
-	i = start;
+	while (is_logic(str, i) || is_s(str[i]))
+		i++;
 	depth = 0;
 	while (str[i] && (depth || instr(str, i) || !str_at(str, i, op)))
 	{
 		if (instr(str, i))
+		{
+			i++;
 			continue ;
+		}
 		if (str[i] == '(')
 			depth++;
 		if (str[i] == ')' && depth)
@@ -116,7 +103,6 @@ int	run_all_commands(char *str)
 		if (next_i == -1)
 			break ;
 		cur = run_command_at(str, next_i);
-		next_i++;
 	}
 	return (0);
 }

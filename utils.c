@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 13:25:21 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/10 15:42:12 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/10 16:47:24 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,20 @@ int	instr(char *s, int i)
 		s++;
 	}
 	return (cur);
+}
+
+int	str_at(char *str, int index, char *input)
+{
+	int	i;
+
+	i = 0;
+	while (str[index + i] && input[i]
+		&& str[index + i] == input[i])
+		i++;
+	return (!input[i]);
+}
+
+int	is_s(char c)
+{
+	return (c == ' ' || c == '\t');
 }
