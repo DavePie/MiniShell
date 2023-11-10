@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 13:25:21 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/10 13:36:50 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/10 13:47:18 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,4 +27,5 @@ int	ewrite(char *s)
 {
 	write(0, "minishell: ", ft_strlen("minishell: "));
 	write(0, s, ft_strlen(s));
+	write(0, "\n", ft_strlen("\n"));
 }
