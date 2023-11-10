@@ -1,30 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.h                                            :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/10 12:08:31 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/10 13:32:01 by dvandenb         ###   ########.fr       */
+/*   Created: 2023/11/10 13:25:21 by dvandenb          #+#    #+#             */
+/*   Updated: 2023/11/10 13:36:50 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef UTILS_H
-# define UTILS_H
+#include <minishell.h>
+//#include <utils.h>
 
-/**
- * @brief Returns if the selected index is within quotes
- * emphasis on the outermost quotes
- * 
- * @param s the string to search
- * @param i the index
- * @return int 1 if single quote, 2 if double quote
- */
-int		instr(char *s, int i);
+size_t	ft_strlen(const char *s)
+{
+	int	i;
 
-int	ft_strlen(const char *s);
+	i = 0;
+	while (s[i++])
+		;
+	return (i - 1);
+}
 
-int		ewrite(char *s);
-
-#endif
+int	ewrite(char *s)
+{
+	write(0, "minishell: ", ft_strlen("minishell: "));
+	write(0, s, ft_strlen(s));
+}

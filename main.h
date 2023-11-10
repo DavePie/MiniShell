@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 12:07:21 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/10 13:06:36 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/10 13:14:32 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,20 @@
 # define MAIN_H
 
 /**
- * @brief Checks that paranthesis work, no stray logic operators (&& || ())
- * @note (echo a &&)) &&
- * @note ()
- * @note &&((echo b)
- * @param s the user input
- * @return int if it is valid
+ * @brief Verifies that input is valid
+ * 
+ * @param s the input
+ * @return int (if it is valid)
  */
-int	verify_logic(char *s);
+int	verify_input(char *s);
 
 /**
- * @brief Checks that there are no stray pipe/redir operators (| > >> < <<)
+ * @brief Verifies that paranthesis are valid
  * 
  * @param s 
  * @return int 
  */
-int	verify_pipes_redir(char *s);
+int	verify_paranthesis(char *s);
 
 /**
  * @brief 
@@ -37,7 +35,7 @@ int	verify_pipes_redir(char *s);
  * @param s 
  * @return int 
  */
-int handle_special_characters(char *s);
+int	handle_special_characters(char *s);
 
 
 /**
