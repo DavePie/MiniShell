@@ -6,12 +6,12 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 13:13:17 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/13 09:35:28 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/13 10:26:48 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
-#include "minishell.h"
+#include "logic.h"
 
 int	verify_input(char *s)
 {
@@ -28,11 +28,11 @@ int	verify_paranthesis(char *s)
 	i = 0;
 	while (s[i])
 	{
-		if (instr(s, i))
+		if (instr(s, i) && ++i)
 			continue ;
-		if (*s == '(')
+		if (s[i] == '(')
 			counter++;
-		else if (*s == ')')
+		else if (s[i] == ')')
 			counter--;
 		if (counter < 0)
 		{
@@ -113,7 +113,7 @@ int	verify_special_characters(char *s)
 		j++;
 	while (s[j] && j < ft_strlen(s))
 	{
-		if (is_special(s, j)
+		if (is_special(s, j) && !instr(s, i)
 			&& !is_expection(is_special(s, i), is_special(s, j)))
 			return (0);
 		i = j;
@@ -122,6 +122,59 @@ int	verify_special_characters(char *s)
 		j = i + ft_strlen(is_special(s, i));
 		while (j < ft_strlen(s) && is_s(s[j]))
 			j++;
+	}
+	return (1);
+}
+
+int	verify_edges(char *s)
+{
+	const char	*edges[8]
+		= {"&&", "||", "|", "<<", ">>", "<", ">", 0};
+	int			i;
+	int			j;
+	int			k;
+
+	i = 0;
+	k = ft_strlen(s) - 1;
+	while (s[i] && is_s(s[i]))
+		s++;
+	while (k > 0 && s[k] && is_s(s[k]))
+		k--;
+	j = -1;
+	while (edges[++j])
+	{
+		if (str_at(s, i, (char *)edges[j])
+			|| str_at(s, k, (char *)edges[j]))
+			return (0);
+	}
+	return (1);
+}
+
+int	verify_paren_logic(char *s)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (s[i])
+	{
+		if (!instr(s, i) && s[i] == '(' && i > 0)
+		{
+			j = i - 1;
+			while (is_s(s[j]) && j > 0 && s[j] != '(')
+				j--;
+			if (j > 0 && !is_logic(s, j))
+				return (0);
+		}
+		if (!instr(s, i) && s[i] == ')')
+		{
+			j = i + 1;
+			while (s[j] && is_s(s[j]))
+				j++;
+			if (s[j] && !is_logic(s, j) && s[j] != ')')
+				return (0);
+		}
+		i++;
 	}
 	return (1);
 }

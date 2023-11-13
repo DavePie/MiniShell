@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 12:07:21 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/10 17:10:54 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/13 10:18:33 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,27 @@ int	verify_paranthesis(char *s);
 int	verify_special_characters(char *s);
 
 /**
- * @brief Checks that the given token always has a command after it
- * @note token must not be inside a string
- * @param s 
- * @param token 
- * @return int 
+ * @brief Verify no special chars around edges
+ * @note && | || > >> < <<, paran fine
+ * @param s the string
+ * @return int (if valid)
  */
-int	has_command_around(char *s, char token);
+int	verify_edges(char *s);
+
+/**
+ * @brief Verify that strings close
+ * 
+ * @param s the input
+ * @return int (if valid)
+ */
+int	verify_str(char *s);
+
+/**
+ * @brief Verify that outside parenthesis there is only logic
+ * @note Valid: a && (b || c), Invalid: (a) (b)
+ * @param s the input
+ * @return int (if there is only logic outside paren)
+ */
+int	verify_paren_logic(char *s);
 
 #endif
