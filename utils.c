@@ -6,11 +6,11 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 13:25:21 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/10 17:24:16 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/13 09:30:54 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include "minishell.h"
 
 int	ft_strcmp(char *s, char *r)
 {
@@ -27,9 +27,9 @@ int	ft_strlen(const char *s)
 	int	i;
 
 	i = 0;
-	while (s[i++])
-		;
-	return (i - 1);
+	while (s && s[i])
+		i++;
+	return (i);
 }
 
 int	ewrite(char *s)

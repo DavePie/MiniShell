@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 11:44:56 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/10 13:34:43 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/13 09:35:43 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,6 @@
 # define STR1 = 1
 # define STR2 = 2
 # define NAME = "minishell"
-
-
-
 
 /**
  * For evaluating () || &&, commands are always executed left->right
@@ -39,7 +36,5 @@
  * @return int (return value of group)
  */
 int		eval_input(char *s);
-
-
 
 #endif

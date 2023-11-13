@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 12:08:31 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/10 17:24:41 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/13 09:16:18 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	ft_strlen(const char *s);
  * @param r 
  * @return int 
  */
-int	ft_strcmp(char *s, char *r)
+int	ft_strcmp(char *s, char *r);
 
 /**
  * @brief Given an error message, write it in the correct format

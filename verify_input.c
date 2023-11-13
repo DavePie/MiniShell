@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 13:13:17 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/10 17:30:41 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/13 09:35:28 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 int	verify_input(char *s)
 {
+	s++;
 	return (0);
 }
 
@@ -71,29 +72,28 @@ char	*is_special(char *str, int i)
 	const char	*vals[10]
 		= {"&&", "(", ")", "||", "|", "<<", ">>", "<", ">", 0};
 	int			j;
-	int			back;
 
 	j = -1;
 	while (vals[++j])
 	{
 		if (str_at(str, i, (char *)vals[j]))
-			return (vals[j]);
+			return ((char *)vals[j]);
 	}
 	return (0);
 }
 
 int	is_expection(char *first, char *second)
 {
-	const char	*vals[4][2]
+	const char	*vals[7][2]
 		= {{"&&", "("}, {"||", "("}, {")", "||"},
-	{")", "&&"}, {"(", "("}, {")", ")"}, 0};
+	{")", "&&"}, {"(", "("}, {")", ")"}, {0}};
 	int			i;
 
 	i = -1;
-	while (vals[++i])
+	while (vals[++i][0])
 	{
-		if (!ft_strcmp(first, vals[i][0])
-			&& !ft_strcmp(second, vals[i][1]))
+		if (!ft_strcmp(first, (char *)vals[i][0])
+			&& !ft_strcmp(second, (char *)vals[i][1]))
 			return (1);
 	}
 	return (0);
@@ -106,17 +106,22 @@ int	verify_special_characters(char *s)
 
 	i = 0;
 	j = 0;
-	while (s[i] && !is_special(s, i))
-		i++;
 	if (!s[i])
 		return (1);
-	j = i + 1;
+	j += ft_strlen(is_special(s, i));
 	while (is_s(s[j]))
 		j++;
-	while (s[j])
+	while (s[j] && j < ft_strlen(s))
 	{
-		if (is_special(s, j) && !is_expection())
+		if (is_special(s, j)
+			&& !is_expection(is_special(s, i), is_special(s, j)))
+			return (0);
+		i = j;
+		while (s[i] && !is_special(s, i))
+			i++;
+		j = i + ft_strlen(is_special(s, i));
+		while (j < ft_strlen(s) && is_s(s[j]))
+			j++;
 	}
 	return (1);
 }
-
