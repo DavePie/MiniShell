@@ -1,24 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_shell.h                                      :+:      :+:    :+:   */
+/*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/13 11:48:42 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/13 11:59:21 by dvandenb         ###   ########.fr       */
+/*   Created: 2023/11/13 12:56:10 by dvandenb          #+#    #+#             */
+/*   Updated: 2023/11/13 13:03:29 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef UTILS_SHELL_H
-# define UTILS_SHELL_H
+#include "utils.h"
 
-/**
- * @brief Given an error message, write it in the correct format
- * @note minishell: <error-message>
- * @param s 
- * @return int 
- */
-int	ewrite(char *s);
+int	echo(int ac, char*av[])
+{
+	int	nl;
+	int	i;
 
-#endif
+	if (ac == 1)
+	{
+		printf("\n");
+		return (0);
+	}
+	nl = ft_strcmp("-n", av[1]);
+	i = 1 + nl;
+	while (i < ac)
+		printf("%s", av[i++]);
+	if (nl)
+		printf("\n");
+	return (0);
+}
+

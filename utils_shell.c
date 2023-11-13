@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 11:48:32 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/13 11:51:13 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/13 12:39:03 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,4 +20,10 @@ int	ewrite(char *s)
 	write(0, s, ft_strlen(s));
 	write(0, "\n", ft_strlen("\n"));
 	return (0);
+}
+
+int	exit_shell(int code)
+{
+	clear_history();
+	exit(code);
 }
