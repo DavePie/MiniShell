@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 12:07:21 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/10 17:10:54 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/13 13:46:38 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
  * @param s the input
  * @return int (if it is valid)
  */
-int	verify_input(char *s);
+int		verify_input(char *s);
 
 /**
  * @brief Verifies that paranthesis are valid
@@ -27,7 +27,7 @@ int	verify_input(char *s);
  * @param s 
  * @return int 
  */
-int	verify_paranthesis(char *s);
+int		verify_paranthesis(char *s);
 
 /**
  * Allowed cases: && (, ) ||, )))
@@ -37,18 +37,33 @@ int	verify_paranthesis(char *s);
 /**
  * @brief Verifies that special characters aren't adjacent
  * 
- * @param s 
- * @return int 
+ * @param s the string
+ * @return char * (the second adjacent character) 
  */
-int	verify_special_characters(char *s);
+char	*verify_special_characters(char *s);
 
 /**
- * @brief Checks that the given token always has a command after it
- * @note token must not be inside a string
- * @param s 
- * @param token 
- * @return int 
+ * @brief Verify no special chars around edges
+ * @note && | || > >> < <<, paran fine
+ * @param s the string
+ * @return char * (returns the invalid special chars)
  */
-int	has_command_around(char *s, char token);
+char	*verify_edges(char *s);
+
+/**
+ * @brief Verify that strings close
+ * 
+ * @param s the input
+ * @return int (if valid)
+ */
+int		verify_str(char *s);
+
+/**
+ * @brief Verify that outside parenthesis there is only logic
+ * @note Valid: a && (b || c), Invalid: (a) (b)
+ * @param s the input
+ * @return char (if there is an unexpected char, return it)
+ */
+char	verify_paren_logic(char *s);
 
 #endif

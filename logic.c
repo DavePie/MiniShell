@@ -6,16 +6,16 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 14:27:39 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/10 16:53:21 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/13 10:17:11 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "logic.h"
 #include "utils.h"
 
 // temp function TO REMOVE!!
 // norminette error here on purpose!
+#include <stdio.h>
 int	run(char *str, int start, int end)
 {
 	int	temp = start;
@@ -34,7 +34,6 @@ int	is_logic(char *str, int i)
 {
 	const char	*vals[5] = {"&&", "(", ")", "||", 0};
 	int			j;
-	int			back;
 
 	j = 0;
 	while (vals[j])
@@ -89,7 +88,6 @@ int	get_next_command(char *str, char *op, int i)
 int	run_all_commands(char *str)
 {
 	int	cur;
-	int	i;
 	int	next_i;
 
 	cur = run_command_at(str, 0);
