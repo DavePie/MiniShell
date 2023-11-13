@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 11:48:32 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/13 12:39:03 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/13 13:33:50 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,27 @@
 #include "minishell.h"
 #include "utils.h"
 
+int	fdwrite(int fd, char *s)
+{
+	return (write(fd, s, ft_strlen(s)));
+}
+
 int	ewrite(char *s)
 {
-	write(0, "minishell: ", ft_strlen("minishell: "));
-	write(0, s, ft_strlen(s));
-	write(0, "\n", ft_strlen("\n"));
+	fdwrite(0, "minishell: ");
+	fdwrite(0, s);
+	fdwrite(0, "\n");
+	return (0);
+}
+
+int	e_token_write(char *s, char *expec)
+{
+	fdwrite(0, "minishell: ");
+	fdwrite(0, "synatx error near ");
+	fdwrite(0, expec);
+	fdwrite(0, " token `");
+	fdwrite(0, s);
+	fdwrite(0, "'\n");
 	return (0);
 }
 

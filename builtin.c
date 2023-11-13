@@ -6,11 +6,12 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 12:56:10 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/13 13:03:29 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/13 13:33:39 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
+#include "minishell.h"
 
 int	echo(int ac, char*av[])
 {

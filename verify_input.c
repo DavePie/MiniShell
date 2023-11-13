@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 13:13:17 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/13 11:56:24 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/13 14:20:22 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int	is_expection(char *first, char *second)
 	return (0);
 }
 
-int	verify_special_characters(char *s)
+char	*verify_special_characters(char *s)
 {
 	int	i;
 	int	j;
@@ -102,7 +102,7 @@ int	verify_special_characters(char *s)
 	i = 0;
 	j = 0;
 	if (!s[i])
-		return (1);
+		return (0);
 	j += ft_strlen(is_special(s, i));
 	while (is_s(s[j]))
 		j++;
@@ -110,7 +110,7 @@ int	verify_special_characters(char *s)
 	{
 		if (is_special(s, j) && !instr(s, i)
 			&& !is_expection(is_special(s, i), is_special(s, j)))
-			return (0);
+			return (is_special(s, j));
 		i = j;
 		while (s[i] && !is_special(s, i))
 			i++;
@@ -118,13 +118,13 @@ int	verify_special_characters(char *s)
 		while (j < ft_strlen(s) && is_s(s[j]))
 			j++;
 	}
-	return (1);
+	return (0);
 }
 
-int	verify_edges(char *s)
+char	*verify_edges(char *s)
 {
-	const char	*edges[8]
-		= {"&&", "||", "|", "<<", ">>", "<", ">", 0};
+	const char	*end[8] = {"&&", "||", "|", "<<", ">>", "<", ">", 0};
+	const char	*start[4] = {"&&", "||", "|", 0};
 	int			i;
 	int			j;
 	int			k;
@@ -132,22 +132,25 @@ int	verify_edges(char *s)
 	i = 0;
 	k = ft_strlen(s) - 1;
 	if (k < 0)
-		return (1);
+		return (0);
 	while (s[i] && is_s(s[i]))
-		s++;
+		i++;
 	while (k > 0 && s[k] && is_s(s[k]))
 		k--;
+	if (k > 0 && (s[k] == '&' || (s[k] == '|' && s[k - 1] == '|')))
+		k--;
 	j = -1;
-	while (edges[++j])
-	{
-		if (str_at(s, i, (char *)edges[j])
-			|| str_at(s, k, (char *)edges[j]))
-			return (0);
-	}
-	return (1);
+	while (end[++j])
+		if (str_at(s, k, (char *)end[j]))
+			return ((char *)end[j]);
+	j = -1;
+	while (start[++j])
+		if (str_at(s, i, (char *)start[j]))
+			return ((char *)start[j]);
+	return (0);
 }
 
-int	verify_paren_logic(char *s)
+char	verify_paren_logic(char *s)
 {
 	int	i;
 	int	j;
@@ -161,7 +164,7 @@ int	verify_paren_logic(char *s)
 			while (is_s(s[j]) && j > 0 && s[j] != '(')
 				j--;
 			if (j > 0 && !is_logic(s, j))
-				return (0);
+				return (s[j]);
 		}
 		if (!instr(s, i) && s[i] == ')')
 		{
@@ -169,15 +172,23 @@ int	verify_paren_logic(char *s)
 			while (s[j] && is_s(s[j]))
 				j++;
 			if (s[j] && !is_logic(s, j) && s[j] != ')')
-				return (0);
+				return (s[j]);
 		}
 		i++;
 	}
-	return (1);
+	return (0);
 }
 
 int	verify_input(char *s)
 {
-	return (verify_special_characters(s) && verify_edges(s)
-		&& verify_paranthesis(s) && verify_str(s) && verify_paren_logic(s));
+	char	e;
+
+	e = verify_paren_logic(s);
+	if (e)
+		return (e_token_write("&& or ||", "missing"));
+	if (verify_edges(s))
+		return (e_token_write(verify_edges(s), "unexpected"));
+	if (verify_special_characters(s))
+		return (e_token_write(verify_special_characters(s), "unexpected"));
+	return (verify_paranthesis(s) && verify_str(s) && verify_paren_logic(s));
 }
