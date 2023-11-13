@@ -1,41 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokens.h                                           :+:      :+:    :+:   */
+/*   tokens.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alde-oli <alde-oli@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/10 12:03:47 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/13 14:29:38 by alde-oli         ###   ########.fr       */
+/*   Created: 2023/11/13 10:09:36 by alde-oli          #+#    #+#             */
+/*   Updated: 2023/11/13 14:26:49 by alde-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TOKENS_H
-# define TOKENS_H
-
-//need calloc, strlen and strdup
-
-# include <dirent.h>
-# include <unistd.h>
-/*
-!caution! two adjacent strings are the same token
-	but don't get spaces removed, similar to strings
-	this is due to the described order
-!caution! exported variables can contain wildcards
-!caution! while strings can become commands,
-	strings can't become redirections/pipes
-	
-*/
-
-/**
- * @brief struct containing the token and if it is a pipe/redir
- * @note We need this since a string can't become a pipe/redir.
- */
-typedef struct s_token
-{
-	int		is_string;
-	char	*token;
-}	t_token;
+#include "tokens.h"
 
 /**
  * @brief Given a substring denoted by start, end, extract the tokens
@@ -58,33 +33,76 @@ t_token	*get_tokens_all(char *s, int start, int end);
  */
 t_token	*get_tokens(char *s, int start, int end);
 
-/**
- * @brief Get the file names from a wildcard. use "./" for current directory
- * 
- * @param wcard the card to match to
- * @param dir the directory to search in
- * @return char** a NULL terminated array of matching file names
- */
-char	**get_wildcard(char *wcard, char *dir);
-/**
- * @brief Get the elems object from a wildcard
- * 
- * @param elems 
- * @param n 
- * @param dir 
- * @param wcard 
- * @return char** 
- */
-char	**get_elems(char **elems, int n, char *dir, char *wcard);
+char	**get_wildcard(char *wcard, char *dir)
+{
+	DIR				*directory;
+	struct dirent	*elem;
+	char			**elems;
+	int				n;
 
-/**
- * @brief Given a wildcard and a string, say if it matches 
- * 
- * @param wcard the wildcard
- * @param s the string
- * @return int (if it matches)
- */
-int		match_wildcard(char *wcard, char *s);
+	directory = opendir(dir);
+	if (!directory)
+		return (NULL);
+	elem = readdir(directory);
+	n = 0;
+	while (elem)
+	{
+		if (match_wildcard(wcard, elem->d_name) == 0)
+			n++;
+		elem = readdir(directory);
+	}
+	closedir(directory);
+	elems = ft_calloc(n + 1, sizeof(char *));
+	if (!elems)
+		return (NULL);
+	return (get_elems(elems, n, dir, wcard));
+}
+
+char	**get_elems(char **elems, int n, char *dir, char *wcard)
+{
+	struct dirent	*elem;
+	DIR				*directory;
+	int				i;
+
+	directory = opendir(dir);
+	i = 0;
+	elem = readdir(directory);
+	while (i < n && elem)
+	{
+		if (match_wildcard(wcard, elem->d_name) == 0)
+		{
+			elems[i] = ft_strdup(elem->d_name);
+			if (!elems[i])
+				return (NULL);
+			i++;
+		}
+		elem = readdir(directory);
+	}
+	elems[i] = NULL;
+	closedir(directory);
+	return (elems);
+}
+
+int	match_wildcard(char *wcard, char *s)
+{
+	if (*wcard == '*' && !*(wcard + 1))
+		return (0);
+	if (*wcard == '*')
+	{
+		wcard++;
+		while (*s && *s != *wcard)
+			s++;
+		if (!*s)
+			return (-1);
+	}
+	while (*s && *wcard && *wcard != '*')
+	{
+		if (*s != *wcard)
+			return (-1);
+		s++;
+		wcard++;
+	}
+}
 
 /**
  * @brief Given a string without () && ||, execute the command
@@ -95,5 +113,3 @@ int		match_wildcard(char *wcard, char *s);
  * @return int 
  */
 int		eval_str(char *s, int start, int end);
-
-#endif
