@@ -6,12 +6,13 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 13:13:17 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/13 11:19:05 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/13 11:56:24 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
 #include "logic.h"
+#include "utils_shell.h"
 
 int	verify_paranthesis(char *s)
 {
@@ -84,7 +85,7 @@ int	is_expection(char *first, char *second)
 	int			i;
 
 	i = -1;
-	while (vals[++i][0])
+	while (vals[++i][0] && first && second)
 	{
 		if (!ft_strcmp(first, (char *)vals[i][0])
 			&& !ft_strcmp(second, (char *)vals[i][1]))
