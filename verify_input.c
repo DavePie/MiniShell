@@ -6,18 +6,12 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 13:13:17 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/13 10:26:48 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/13 11:19:05 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
 #include "logic.h"
-
-int	verify_input(char *s)
-{
-	s++;
-	return (0);
-}
 
 int	verify_paranthesis(char *s)
 {
@@ -136,6 +130,8 @@ int	verify_edges(char *s)
 
 	i = 0;
 	k = ft_strlen(s) - 1;
+	if (k < 0)
+		return (1);
 	while (s[i] && is_s(s[i]))
 		s++;
 	while (k > 0 && s[k] && is_s(s[k]))
@@ -177,4 +173,10 @@ int	verify_paren_logic(char *s)
 		i++;
 	}
 	return (1);
+}
+
+int	verify_input(char *s)
+{
+	return (verify_special_characters(s) && verify_edges(s)
+		&& verify_paranthesis(s) && verify_str(s) && verify_paren_logic(s));
 }
