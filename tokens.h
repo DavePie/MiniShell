@@ -6,7 +6,7 @@
 /*   By: alde-oli <alde-oli@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 12:03:47 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/13 14:29:38 by alde-oli         ###   ########.fr       */
+/*   Updated: 2023/11/14 11:56:39 by alde-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,9 @@
  */
 typedef struct s_token
 {
-	int		is_string;
-	char	*token;
+	int				is_string;
+	char			*token;
+	struct s_token	*next;
 }	t_token;
 
 /**
