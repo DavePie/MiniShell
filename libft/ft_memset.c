@@ -1,39 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   history.c                                          :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/13 10:36:13 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/14 11:43:26 by dvandenb         ###   ########.fr       */
+/*   Created: 2023/06/28 16:24:36 by dvandenb          #+#    #+#             */
+/*   Updated: 2023/10/10 13:05:52 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "history.h"
-#include "minishell.h"
+#include <stdlib.h>
 
-char	*ft_read_line(void)
+void	*ft_memset(void *add, int c, size_t len)
 {
-	char		*line;
-	int			status;
-	const pid_t	p = fork();
+	unsigned char	*ptr;
 
-	if (p == 0)
-	{
-		line = readline("minishell$ ");
-		//kill()
-		exit(0);
-	}
-	else if (p == -1)
-	{
-		printf("error\n");
-		exit(1);
-	}
-	while (!g_sig)
-		kill(0, SIGKILL);
-	waitpid(p, &status, 0);
-	// if (line && *line)
-	// 	add_history(line);
-	return "";
+	ptr = (unsigned char *)add;
+	while (len-- > 0)
+		*(ptr++) = (unsigned char)c;
+	return (add);
 }

@@ -1,39 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   history.c                                          :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/13 10:36:13 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/14 11:43:26 by dvandenb         ###   ########.fr       */
+/*   Created: 2023/06/29 10:52:29 by dvandenb          #+#    #+#             */
+/*   Updated: 2023/10/11 17:59:56 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "history.h"
-#include "minishell.h"
+#include "libft.h"
+#include <limits.h>
 
-char	*ft_read_line(void)
+void	*ft_calloc(size_t count, size_t size)
 {
-	char		*line;
-	int			status;
-	const pid_t	p = fork();
+	void	*ptr;
 
-	if (p == 0)
-	{
-		line = readline("minishell$ ");
-		//kill()
-		exit(0);
-	}
-	else if (p == -1)
-	{
-		printf("error\n");
-		exit(1);
-	}
-	while (!g_sig)
-		kill(0, SIGKILL);
-	waitpid(p, &status, 0);
-	// if (line && *line)
-	// 	add_history(line);
-	return "";
+	ptr = malloc(count * size);
+	if (ptr)
+		ft_bzero(ptr, size * count);
+	return (ptr);
 }

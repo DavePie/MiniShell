@@ -1,39 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   history.c                                          :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/13 10:36:13 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/14 11:43:26 by dvandenb         ###   ########.fr       */
+/*   Created: 2023/10/10 11:37:27 by dvandenb          #+#    #+#             */
+/*   Updated: 2023/10/11 17:57:43 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "history.h"
-#include "minishell.h"
+#include <unistd.h>
+#include "libft.h"
 
-char	*ft_read_line(void)
+void	ft_putstr_fd(char *s, int fd)
 {
-	char		*line;
-	int			status;
-	const pid_t	p = fork();
-
-	if (p == 0)
-	{
-		line = readline("minishell$ ");
-		//kill()
-		exit(0);
-	}
-	else if (p == -1)
-	{
-		printf("error\n");
-		exit(1);
-	}
-	while (!g_sig)
-		kill(0, SIGKILL);
-	waitpid(p, &status, 0);
-	// if (line && *line)
-	// 	add_history(line);
-	return "";
+	write(fd, s, ft_strlen(s));
 }

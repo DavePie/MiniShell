@@ -1,39 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   history.c                                          :+:      :+:    :+:   */
+/*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/13 10:36:13 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/14 11:43:26 by dvandenb         ###   ########.fr       */
+/*   Created: 2023/06/28 20:11:31 by dvandenb          #+#    #+#             */
+/*   Updated: 2023/10/10 13:19:37 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "history.h"
-#include "minishell.h"
+#include <stdlib.h>
 
-char	*ft_read_line(void)
+char	*ft_strnstr(const char *haystack, const char *needle,
+size_t len)
 {
-	char		*line;
-	int			status;
-	const pid_t	p = fork();
+	char	*hay;
+	char	*need;
+	size_t	l;
 
-	if (p == 0)
+	if (!*needle)
+		return ((char *)haystack);
+	while (len > 0 && *haystack)
 	{
-		line = readline("minishell$ ");
-		//kill()
-		exit(0);
+		hay = (char *)haystack;
+		need = (char *)needle;
+		l = len;
+		while (*(need++) == *(hay++) && l-- > 0)
+			if (*need == '\0')
+				return ((char *)haystack);
+		len--;
+		haystack++;
 	}
-	else if (p == -1)
-	{
-		printf("error\n");
-		exit(1);
-	}
-	while (!g_sig)
-		kill(0, SIGKILL);
-	waitpid(p, &status, 0);
-	// if (line && *line)
-	// 	add_history(line);
-	return "";
+	return (0);
 }

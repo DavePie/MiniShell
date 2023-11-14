@@ -1,39 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   history.c                                          :+:      :+:    :+:   */
+/*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/13 10:36:13 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/14 11:43:26 by dvandenb         ###   ########.fr       */
+/*   Created: 2023/10/09 18:08:02 by dvandenb          #+#    #+#             */
+/*   Updated: 2023/10/11 17:57:04 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "history.h"
-#include "minishell.h"
+#include <stdlib.h>
+#include "libft.h"
 
-char	*ft_read_line(void)
+char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-	char		*line;
-	int			status;
-	const pid_t	p = fork();
+	int		l;
+	char	*ans;
 
-	if (p == 0)
-	{
-		line = readline("minishell$ ");
-		//kill()
-		exit(0);
-	}
-	else if (p == -1)
-	{
-		printf("error\n");
-		exit(1);
-	}
-	while (!g_sig)
-		kill(0, SIGKILL);
-	waitpid(p, &status, 0);
-	// if (line && *line)
-	// 	add_history(line);
-	return "";
+	l = ft_strlen(s);
+	ans = malloc(sizeof(char) * (l + 1));
+	if (!ans)
+		return (0);
+	ans[l] = '\0';
+	if (!ans)
+		return (0);
+	while (--l >= 0)
+		ans[l] = f(l, s[l]);
+	return (ans);
 }

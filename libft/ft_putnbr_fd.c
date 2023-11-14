@@ -1,39 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   history.c                                          :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/13 10:36:13 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/14 11:43:26 by dvandenb         ###   ########.fr       */
+/*   Created: 2023/10/10 10:03:56 by dvandenb          #+#    #+#             */
+/*   Updated: 2023/10/11 17:57:54 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "history.h"
-#include "minishell.h"
+#include "libft.h"
 
-char	*ft_read_line(void)
+static void	ft_recur_nbr(long n, int fd)
 {
-	char		*line;
-	int			status;
-	const pid_t	p = fork();
+	if (!n)
+		return ;
+	ft_recur_nbr((int)(n / 10), fd);
+	ft_putchar_fd((int)(n % 10) + '0', fd);
+}
 
-	if (p == 0)
+void	ft_putnbr_fd(int n, int fd)
+{
+	long	temp;
+
+	temp = n;
+	if (n < 0)
 	{
-		line = readline("minishell$ ");
-		//kill()
-		exit(0);
+		temp *= -1;
+		ft_putchar_fd('-', fd);
 	}
-	else if (p == -1)
-	{
-		printf("error\n");
-		exit(1);
-	}
-	while (!g_sig)
-		kill(0, SIGKILL);
-	waitpid(p, &status, 0);
-	// if (line && *line)
-	// 	add_history(line);
-	return "";
+	if (n == 0)
+		ft_putchar_fd('0', fd);
+	else
+		ft_recur_nbr(temp, fd);
 }

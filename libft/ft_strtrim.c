@@ -1,33 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin.c                                          :+:      :+:    :+:   */
+/*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/13 12:56:10 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/14 08:41:57 by dvandenb         ###   ########.fr       */
+/*   Created: 2023/10/09 17:02:10 by dvandenb          #+#    #+#             */
+/*   Updated: 2023/10/11 17:56:45 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "utils.h"
-#include "minishell.h"
+#include <stdlib.h>
+#include "libft.h"
 
-int	echo(int ac, char*av[])
+char	*ft_strtrim(char const *s1, char const *set)
 {
-	int	nl;
-	int	i;
+	char	*ans;
+	int		slen;
+	int		i;
 
-	if (ac == 1)
-	{
-		printf("\n");
+	while (s1 && *s1 && ft_strchr(set, *s1))
+		s1++;
+	slen = ft_strlen(s1);
+	while (slen - 1 >= 0 && s1[slen - 1] && ft_strchr(set, s1[slen - 1]))
+		slen--;
+	i = -1;
+	ans = malloc(sizeof(char) * (slen) + 1);
+	if (!ans)
 		return (0);
-	}
-	nl = ft_strcmp("-n", av[1]);
-	i = 1 + nl;
-	while (i < ac)
-		printf("%s", av[i++]);
-	if (nl)
-		printf("\n");
-	return (0);
+	while (++i < slen)
+		ans[i] = s1[i];
+	ans[i] = '\0';
+	return (ans);
 }

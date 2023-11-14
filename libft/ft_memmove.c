@@ -1,39 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   history.c                                          :+:      :+:    :+:   */
+/*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/13 10:36:13 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/14 11:43:26 by dvandenb         ###   ########.fr       */
+/*   Created: 2023/06/28 19:55:11 by dvandenb          #+#    #+#             */
+/*   Updated: 2023/10/11 17:58:45 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "history.h"
-#include "minishell.h"
+#include "libft.h"
 
-char	*ft_read_line(void)
+void	*ft_memmove(void *dst, const void *src, size_t len)
 {
-	char		*line;
-	int			status;
-	const pid_t	p = fork();
+	char		*to;
+	const char	*from;
 
-	if (p == 0)
+	to = dst;
+	from = src;
+	if (from > to)
+		return (ft_memcpy(dst, src, len));
+	if (from == to)
+		return (dst);
+	while (len > 0)
 	{
-		line = readline("minishell$ ");
-		//kill()
-		exit(0);
+		to[len - 1] = from[len - 1];
+		len--;
 	}
-	else if (p == -1)
-	{
-		printf("error\n");
-		exit(1);
-	}
-	while (!g_sig)
-		kill(0, SIGKILL);
-	waitpid(p, &status, 0);
-	// if (line && *line)
-	// 	add_history(line);
-	return "";
+	return (dst);
 }

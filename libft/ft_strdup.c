@@ -1,39 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   history.c                                          :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/13 10:36:13 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/14 11:43:26 by dvandenb         ###   ########.fr       */
+/*   Created: 2023/06/29 11:41:55 by dvandenb          #+#    #+#             */
+/*   Updated: 2023/10/11 17:57:27 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "history.h"
-#include "minishell.h"
+#include <stdlib.h>
+#include "libft.h"
 
-char	*ft_read_line(void)
+char	*ft_strdup(const char *s1)
 {
-	char		*line;
-	int			status;
-	const pid_t	p = fork();
+	char	*dup;
+	char	*start;
 
-	if (p == 0)
-	{
-		line = readline("minishell$ ");
-		//kill()
-		exit(0);
-	}
-	else if (p == -1)
-	{
-		printf("error\n");
-		exit(1);
-	}
-	while (!g_sig)
-		kill(0, SIGKILL);
-	waitpid(p, &status, 0);
-	// if (line && *line)
-	// 	add_history(line);
-	return "";
+	dup = (char *)malloc(sizeof(char) * (ft_strlen(s1) + 1));
+	start = dup;
+	if (!dup)
+		return (0);
+	while (*s1)
+		*(dup++) = *(s1++);
+	*dup = '\0';
+	return (start);
 }

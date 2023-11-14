@@ -3,14 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alde-oli <alde-oli@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 14:30:27 by alde-oli          #+#    #+#             */
-/*   Updated: 2023/11/13 14:33:50 by alde-oli         ###   ########.fr       */
+/*   Updated: 2023/11/14 09:03:07 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipe.h"
+#include "libft.h"
+#include "utils.h"
+
+char	**ft_free_str_tab(char **s)
+{
+	while (*s)
+	{
+		free(*s);
+		s++;
+	}
+	s = 0;
+	return (0);
+}
+
+//TEMP
+char	*ft_free(char *s)
+{
+	if (s)
+		free(s);
+	s = 0;
+	return (0);
+}
+//TEMP
+void	ft_error(char *s)
+{
+	printf("%s\n", s);
+}
 
 void	ft_close(int fd)
 {
@@ -71,12 +98,12 @@ static char	*join_path_with_cmd(const char *path, const char *cmd)
 
 	path_len = ft_strlen(path);
 	cmd_len = ft_strlen(cmd);
-	full_path = ft_calloc(sizeof(char) * (path_len + cmd_len + 2));
+	full_path = ft_calloc(sizeof(char), (path_len + cmd_len + 2));
 	if (!full_path)
 		return (NULL);
-	ft_strcpy(full_path, path);
+	ft_strcpy(full_path, (char *)path);
 	full_path[path_len] = '/';
-	ft_strcpy(&full_path[path_len + 1], cmd);
+	ft_strcpy(&full_path[path_len + 1], (char *)cmd);
 	full_path[path_len + cmd_len + 1] = '\0';
 	return (full_path);
 }
@@ -154,7 +181,7 @@ int	ft_parent(int *pipefd, int *prev_input_fd, pid_t child_pid)
 	return (pipefd[0]);
 }
 
-static void	ft_fork_and_exec(int *prev_input_fd, char *cmd, char **envp)
+void	ft_fork_and_exec(int *prev_input_fd, char *cmd, char **envp)
 {
 	int		pipefd[2];
 	pid_t	pid;

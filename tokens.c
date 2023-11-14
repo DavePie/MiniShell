@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alde-oli <alde-oli@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 10:09:36 by alde-oli          #+#    #+#             */
-/*   Updated: 2023/11/13 14:26:49 by alde-oli         ###   ########.fr       */
+/*   Updated: 2023/11/14 11:13:21 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokens.h"
+#include "libft.h"
 
 /**
  * @brief Given a substring denoted by start, end, extract the tokens
@@ -102,6 +103,7 @@ int	match_wildcard(char *wcard, char *s)
 		s++;
 		wcard++;
 	}
+	return (0);
 }
 
 /**

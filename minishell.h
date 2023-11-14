@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 11:44:56 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/13 11:59:25 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/14 11:06:51 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,13 @@
 # include <string.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <signal.h>
 # define STR1 = 1
 # define STR2 = 2
 # define NAME = "minishell"
 
+
+extern int	g_sig;
 /**
  * For evaluating () || &&, commands are always executed left->right
  * However, whether or not a command is executed, and the final return value,

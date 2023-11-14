@@ -1,39 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   history.c                                          :+:      :+:    :+:   */
+/*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/13 10:36:13 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/14 11:43:26 by dvandenb         ###   ########.fr       */
+/*   Created: 2023/10/09 13:50:42 by dvandenb          #+#    #+#             */
+/*   Updated: 2023/10/10 13:58:37 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "history.h"
-#include "minishell.h"
-
-char	*ft_read_line(void)
+unsigned int	ft_strlcat(char *dest, const char *src, unsigned long int size)
 {
-	char		*line;
-	int			status;
-	const pid_t	p = fork();
+	unsigned int	len;
+	unsigned int	s;
 
-	if (p == 0)
+	if (!size && !src)
+		return (0);
+	s = size;
+	len = 0;
+	while (s > 0 && *dest != '\0')
 	{
-		line = readline("minishell$ ");
-		//kill()
-		exit(0);
+		dest++;
+		len++;
+		s--;
 	}
-	else if (p == -1)
+	while (s > 1 && *src != '\0')
 	{
-		printf("error\n");
-		exit(1);
+		*dest++ = *src++;
+		s--;
+		len++;
 	}
-	while (!g_sig)
-		kill(0, SIGKILL);
-	waitpid(p, &status, 0);
-	// if (line && *line)
-	// 	add_history(line);
-	return "";
+	while (*src++ != '\0')
+		len++;
+	if (s > 0)
+		*dest = '\0';
+	return (len);
 }

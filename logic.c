@@ -6,13 +6,13 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 14:27:39 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/13 10:17:11 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/14 09:02:30 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "logic.h"
 #include "utils.h"
-
+#include "libft.h"
 // temp function TO REMOVE!!
 // norminette error here on purpose!
 #include <stdio.h>

@@ -1,39 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   history.c                                          :+:      :+:    :+:   */
+/*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/13 10:36:13 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/14 11:43:26 by dvandenb         ###   ########.fr       */
+/*   Created: 2023/10/10 11:35:18 by dvandenb          #+#    #+#             */
+/*   Updated: 2023/10/10 16:15:33 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "history.h"
-#include "minishell.h"
+#include "libft.h"
 
-char	*ft_read_line(void)
+void	ft_lstadd_back(t_list **lst, t_list *new)
 {
-	char		*line;
-	int			status;
-	const pid_t	p = fork();
+	t_list	*cur;
 
-	if (p == 0)
+	if (!*lst)
 	{
-		line = readline("minishell$ ");
-		//kill()
-		exit(0);
+		*lst = new;
+		return ;
 	}
-	else if (p == -1)
+	cur = *lst;
+	while (cur->next)
 	{
-		printf("error\n");
-		exit(1);
+		cur = cur->next;
 	}
-	while (!g_sig)
-		kill(0, SIGKILL);
-	waitpid(p, &status, 0);
-	// if (line && *line)
-	// 	add_history(line);
-	return "";
+	cur->next = new;
 }

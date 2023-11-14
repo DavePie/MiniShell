@@ -1,39 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   history.c                                          :+:      :+:    :+:   */
+/*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/13 10:36:13 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/14 11:43:26 by dvandenb         ###   ########.fr       */
+/*   Created: 2023/10/09 17:27:39 by dvandenb          #+#    #+#             */
+/*   Updated: 2023/10/13 10:36:53 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "history.h"
-#include "minishell.h"
+#include "libft.h"
 
-char	*ft_read_line(void)
+char	*ft_itoa(int n)
 {
-	char		*line;
-	int			status;
-	const pid_t	p = fork();
+	long	temp;
+	int		len;
+	char	*s;
 
-	if (p == 0)
+	temp = n;
+	len = 1;
+	while (temp != 0 && len++)
+		temp /= 10;
+	temp = n;
+	if (n <= 0 && len++)
+		temp *= -1;
+	s = malloc(sizeof(char) * (len));
+	if (!s)
+		return (0);
+	s[--len] = '\0';
+	while ((len > 0 && n >= 0) || len > 1)
 	{
-		line = readline("minishell$ ");
-		//kill()
-		exit(0);
+		s[--len] = (char)(temp % 10 + '0');
+		temp /= 10;
 	}
-	else if (p == -1)
-	{
-		printf("error\n");
-		exit(1);
-	}
-	while (!g_sig)
-		kill(0, SIGKILL);
-	waitpid(p, &status, 0);
-	// if (line && *line)
-	// 	add_history(line);
-	return "";
+	if (n < 0)
+		s[0] = '-';
+	return (s);
 }

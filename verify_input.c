@@ -6,13 +6,14 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 13:13:17 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/13 14:20:22 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/14 09:07:56 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
 #include "logic.h"
 #include "utils_shell.h"
+#include "libft.h"
 
 int	verify_paranthesis(char *s)
 {
@@ -103,10 +104,11 @@ char	*verify_special_characters(char *s)
 	j = 0;
 	if (!s[i])
 		return (0);
-	j += ft_strlen(is_special(s, i));
+	if (is_special(s, i))
+		j += ft_strlen(is_special(s, i));
 	while (is_s(s[j]))
 		j++;
-	while (s[j] && j < ft_strlen(s))
+	while (s[j] && j < (int)ft_strlen(s))
 	{
 		if (is_special(s, j) && !instr(s, i)
 			&& !is_expection(is_special(s, i), is_special(s, j)))
@@ -115,7 +117,7 @@ char	*verify_special_characters(char *s)
 		while (s[i] && !is_special(s, i))
 			i++;
 		j = i + ft_strlen(is_special(s, i));
-		while (j < ft_strlen(s) && is_s(s[j]))
+		while (j && j < (int)ft_strlen(s) && is_s(s[j]))
 			j++;
 	}
 	return (0);

@@ -1,39 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   history.c                                          :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/13 10:36:13 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/14 11:43:26 by dvandenb         ###   ########.fr       */
+/*   Created: 2023/10/09 13:22:39 by dvandenb          #+#    #+#             */
+/*   Updated: 2023/10/10 16:49:30 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "history.h"
-#include "minishell.h"
+#include <stdlib.h>
 
-char	*ft_read_line(void)
+int	ft_strncmp(const char *s1, const char *s2, size_t a)
 {
-	char		*line;
-	int			status;
-	const pid_t	p = fork();
-
-	if (p == 0)
+	while (*s1 != '\0' && *s1 == *s2 && a > 0)
 	{
-		line = readline("minishell$ ");
-		//kill()
-		exit(0);
+		s1++;
+		s2++;
+		a--;
 	}
-	else if (p == -1)
-	{
-		printf("error\n");
-		exit(1);
-	}
-	while (!g_sig)
-		kill(0, SIGKILL);
-	waitpid(p, &status, 0);
-	// if (line && *line)
-	// 	add_history(line);
-	return "";
+	if (a == 0)
+		return (0);
+	return ((unsigned char)*s1 - (unsigned char)*s2);
 }

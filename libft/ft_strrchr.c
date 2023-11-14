@@ -1,39 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   history.c                                          :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/13 10:36:13 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/14 11:43:26 by dvandenb         ###   ########.fr       */
+/*   Created: 2023/06/28 20:07:38 by dvandenb          #+#    #+#             */
+/*   Updated: 2023/10/09 13:44:58 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "history.h"
-#include "minishell.h"
-
-char	*ft_read_line(void)
+char	*ft_strrchr(const char *s, int c)
 {
-	char		*line;
-	int			status;
-	const pid_t	p = fork();
+	char	*ans;
 
-	if (p == 0)
+	ans = 0;
+	while (*s)
 	{
-		line = readline("minishell$ ");
-		//kill()
-		exit(0);
+		if (*s == (char)c)
+			ans = (char *)s;
+		s++;
 	}
-	else if (p == -1)
-	{
-		printf("error\n");
-		exit(1);
-	}
-	while (!g_sig)
-		kill(0, SIGKILL);
-	waitpid(p, &status, 0);
-	// if (line && *line)
-	// 	add_history(line);
-	return "";
+	if (*s == (char)c)
+		return ((char *)s);
+	return (ans);
 }

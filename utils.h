@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 12:08:31 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/13 11:49:26 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/14 09:01:14 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,7 @@
  */
 int	instr(char *s, int i);
 
-/**
- * @brief Given a string, return its length
- * 
- * @param s the string
- * @return int (its length)
- */
-int	ft_strlen(const char *s);
+void	ft_strcpy(char *a, char *b);
 
 /**
  * @brief Compare two strings

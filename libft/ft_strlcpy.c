@@ -1,39 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   history.c                                          :+:      :+:    :+:   */
+/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/13 10:36:13 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/14 11:43:26 by dvandenb         ###   ########.fr       */
+/*   Created: 2023/06/10 19:12:57 by dvandenb          #+#    #+#             */
+/*   Updated: 2023/10/09 15:10:52 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "history.h"
-#include "minishell.h"
+#include <stdlib.h>
 
-char	*ft_read_line(void)
+size_t	ft_strlcpy(char *dest, const char *src, size_t size)
 {
-	char		*line;
-	int			status;
-	const pid_t	p = fork();
+	unsigned int	len;
 
-	if (p == 0)
+	len = 0;
+	if (size > 0)
 	{
-		line = readline("minishell$ ");
-		//kill()
-		exit(0);
+		while (size - 1 > 0 && *src != '\0')
+		{
+			*dest = *src;
+			dest++;
+			src++;
+			len++;
+			size--;
+		}	
+		*dest = '\0';
 	}
-	else if (p == -1)
+	while (*src != '\0')
 	{
-		printf("error\n");
-		exit(1);
+		src++;
+		len++;
 	}
-	while (!g_sig)
-		kill(0, SIGKILL);
-	waitpid(p, &status, 0);
-	// if (line && *line)
-	// 	add_history(line);
-	return "";
+	return (len);
 }

@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 13:25:21 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/13 11:48:48 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/14 09:00:04 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,14 @@ int	ft_strcmp(char *s, char *r)
 	return ((unsigned char)*s - (unsigned char)*r);
 }
 
-int	ft_strlen(const char *s)
+void	ft_strcpy(char *a, char *b)
 {
-	int	i;
-
-	i = 0;
-	while (s && s[i])
-		i++;
-	return (i);
+	while (*b)
+	{
+		*a = *b;
+		a++;
+		b++;
+	}
 }
 
 

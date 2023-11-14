@@ -1,39 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   history.c                                          :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/13 10:36:13 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/14 11:43:26 by dvandenb         ###   ########.fr       */
+/*   Created: 2023/10/14 11:13:45 by marvin            #+#    #+#             */
+/*   Updated: 2023/10/18 16:25:46 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "history.h"
-#include "minishell.h"
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
+# include <unistd.h>
+# include <fcntl.h>
+# include <stdlib.h>
 
-char	*ft_read_line(void)
+typedef struct s_buffers
 {
-	char		*line;
-	int			status;
-	const pid_t	p = fork();
-
-	if (p == 0)
-	{
-		line = readline("minishell$ ");
-		//kill()
-		exit(0);
-	}
-	else if (p == -1)
-	{
-		printf("error\n");
-		exit(1);
-	}
-	while (!g_sig)
-		kill(0, SIGKILL);
-	waitpid(p, &status, 0);
-	// if (line && *line)
-	// 	add_history(line);
-	return "";
-}
+	int					fd;
+	char				*buffer;
+	struct s_buffers	*next;
+	int					index;
+	int					end;
+}	t_buffers;
+char	*get_next_line(int fd);
+int		reallojoin(char **dest, int cur_size, char *src, int src_size);
+int		remove_fd(t_buffers **begin_list, int fd);
+#endif
