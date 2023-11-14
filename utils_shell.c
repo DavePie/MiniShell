@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 11:48:32 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/14 09:09:38 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/14 12:25:43 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int	e_token_write(char *s, char *expec)
 
 int	exit_shell(int code)
 {
+	printf("exit\n");
 	clear_history();
 	exit(code);
 }

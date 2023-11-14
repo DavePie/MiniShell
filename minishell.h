@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 11:44:56 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/14 11:06:51 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/14 12:21:35 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@
 # define STR2 = 2
 # define NAME = "minishell"
 
+
+void	rl_replace_line(char *c, int d);
 
 extern int	g_sig;
 /**
