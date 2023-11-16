@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 11:48:32 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/14 12:25:43 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/16 11:44:57 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,26 +22,25 @@ int	fdwrite(int fd, char *s)
 
 int	ewrite(char *s)
 {
-	fdwrite(0, "minishell: ");
-	fdwrite(0, s);
-	fdwrite(0, "\n");
+	fdwrite(2, "minishell: ");
+	fdwrite(2, s);
+	fdwrite(2, "\n");
 	return (0);
 }
 
 int	e_token_write(char *s, char *expec)
 {
-	fdwrite(0, "minishell: ");
-	fdwrite(0, "syntax error near ");
-	fdwrite(0, expec);
-	fdwrite(0, " token `");
-	fdwrite(0, s);
-	fdwrite(0, "'\n");
+	fdwrite(2, "minishell: ");
+	fdwrite(2, "syntax error near ");
+	fdwrite(2, expec);
+	fdwrite(2, " token `");
+	fdwrite(2, s);
+	fdwrite(2, "'\n");
 	return (0);
 }
 
 int	exit_shell(int code)
 {
-	printf("exit\n");
 	clear_history();
 	exit(code);
 }
