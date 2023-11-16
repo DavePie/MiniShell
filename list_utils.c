@@ -6,14 +6,14 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 12:01:15 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/16 13:09:19 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/16 13:54:06 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokens.h"
 #include "minishell.h"
 
-t_token	*t_new(char *token)
+t_token	*t_new(char *token, int isstr)
 {
 	t_token	*ans;
 
@@ -21,6 +21,7 @@ t_token	*t_new(char *token)
 	if (ans)
 	{
 		ans->token = token;
+		ans->is_string = isstr;
 		ans->next = 0;
 	}
 	return (ans);

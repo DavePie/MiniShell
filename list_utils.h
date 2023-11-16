@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 12:24:13 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/16 13:09:19 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/16 13:54:19 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define LIST_UTILS_H
 # include "tokens.h"
 
-t_token	*t_new(char *token);
+t_token	*t_new(char *token, int isstr);
 
 int		t_size(t_token *lst);
 
