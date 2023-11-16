@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 12:22:32 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/16 12:29:21 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/16 14:48:19 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,5 @@ t_token	*t_insert(t_token *dest, t_token *src)
 	while (dest->next)
 		dest = dest->next;
 	dest->next = back;
-	return (back);
+	return (dest);
 }

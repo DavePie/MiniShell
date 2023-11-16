@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 11:46:12 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/16 14:12:43 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/16 14:46:44 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ t_token	**split_args(char *input)
 		i += add_token_split(first, input + i);
 		is_special = (!t_get_last(*first)->is_string
 				&& ft_strchr("|<>", t_get_last(*first)->token[0]));
-		t_get_last(*first)->adj_prev = (!prev && is_special);
+		t_get_last(*first)->adj_prev = (!prev * is_special);
 	}
 	return (first);
 }
