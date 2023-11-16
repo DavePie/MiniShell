@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 11:46:12 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/16 14:46:44 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/16 15:17:09 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,16 +67,40 @@ t_token	**split_args(char *input)
 	return (first);
 }
 
-void	merge_tokens(t_token **first)
+void	merge_str(t_token *cur, int l)
 {
-	t_token	*cur;
-	int	l;
+	t_token	*temp;
+	char	*s;
 
-	cur = *first;
+	temp = cur->next;
+	free(cur->token);
+	cur->token = malloc(sizeof(char) * l + 1);
+	s = cur->token;
+	while (temp && temp->adj_prev)
+	{
+		ft_strcpy(s, temp->token);
+		s += ft_strlen(temp->token);
+		t_del(0, cur, temp);
+		temp = cur->next;
+	}
+}
+
+void	merge_tokens(t_token *cur)
+{
+	t_token	*temp;
+	int		l;
+
 	while (cur)
 	{
 		l = ft_strlen(cur->token);
-		while (cur->next && cur->next->adj_prev)
-			l += ft_strlen(cur->token);
+		temp = cur->next;
+		while (temp && temp->adj_prev)
+		{
+			l += ft_strlen(temp->token);
+			temp = temp->next;
+		}
+		if (l != ft_strlen(cur->token))
+			merge_str(cur, l);
+		cur = cur->next;
 	}
 }
