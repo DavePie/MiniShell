@@ -6,7 +6,7 @@
 /*   By: alde-oli <alde-oli@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 12:03:47 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/13 14:29:38 by alde-oli         ###   ########.fr       */
+/*   Updated: 2023/11/15 11:06:50 by alde-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,9 @@
  */
 typedef struct s_token
 {
-	int		is_string;
-	char	*token;
+	int				is_string;
+	char			*token;
+	struct s_token	*next;
 }	t_token;
 
 /**
@@ -56,7 +57,7 @@ t_token	*get_tokens_all(char *s, int start, int end);
  * @param end index
  * @return t_token* 
  */
-t_token	*get_tokens(char *s, int start, int end);
+t_token	*get_tokens(char *s, int start, int end, char **envp);
 
 /**
  * @brief Get the file names from a wildcard. use "./" for current directory
