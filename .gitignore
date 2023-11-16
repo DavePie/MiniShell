@@ -4,3 +4,4 @@ a.out
 test.txt
 .DS_Store
 minishell
+.vscode/c_cpp_properties.json
