@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alde-oli <alde-oli@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 12:03:47 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/15 11:06:50 by alde-oli         ###   ########.fr       */
+/*   Updated: 2023/11/16 13:10:22 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct s_token
 	int				is_string;
 	char			*token;
 	struct s_token	*next;
+	int				adj_prev;
 }	t_token;
 
 /**

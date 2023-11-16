@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 12:01:15 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/16 12:29:02 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/16 13:09:19 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,13 @@ int	t_size(t_token *lst)
 	return (len);
 }
 
+t_token	*t_get_last(t_token *start)
+{
+	while (start && start->next)
+		start = start->next;
+	return (start);
+}
+
 void	t_del(t_token **begin_list, t_token *prev, t_token *cur)
 {
 	if (prev)
@@ -49,14 +56,14 @@ void	t_del(t_token **begin_list, t_token *prev, t_token *cur)
 	free(cur);
 }
 
-void	t_add_back(t_token **lst, t_token *new_t)
+t_token	*t_add_back(t_token **lst, t_token *new_t)
 {
 	t_token	*cur;
 
 	if (!*lst)
 	{
 		*lst = new_t;
-		return ;
+		return (new_t);
 	}
 	cur = *lst;
 	while (cur->next)
@@ -64,4 +71,5 @@ void	t_add_back(t_token **lst, t_token *new_t)
 		cur = cur->next;
 	}
 	cur->next = new_t;
+	return (new_t);
 }
