@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 11:46:12 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/16 15:17:09 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/16 16:36:19 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void	merge_tokens(t_token *cur)
 			l += ft_strlen(temp->token);
 			temp = temp->next;
 		}
-		if (l != ft_strlen(cur->token))
+		if (l != (int)ft_strlen(cur->token))
 			merge_str(cur, l);
 		cur = cur->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 12:08:31 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/14 09:01:14 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/16 16:39:30 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
  * @param i the index
  * @return int 1 if single quote, 2 if double quote
  */
-int	instr(char *s, int i);
+int		instr(char *s, int i);
 
 void	ft_strcpy(char *a, char *b);
 
@@ -32,7 +32,7 @@ void	ft_strcpy(char *a, char *b);
  * @param r 
  * @return int 
  */
-int	ft_strcmp(char *s, char *r);
+int		ft_strcmp(char *s, char *r);
 
 /**
  * @brief Given two strings, state if the second string is in the first
@@ -43,7 +43,7 @@ int	ft_strcmp(char *s, char *r);
  * @param input second string (needle)
  * @return int (if found)
  */
-int	str_at(char *str, int index, char *input);
+int		str_at(char *str, int index, char *input);
 
 /**
  * @brief Returns if the given character is a whitespace character
@@ -51,5 +51,5 @@ int	str_at(char *str, int index, char *input);
  * @param c the char
  * @return int (if whitespace)
  */
-int	is_s(char c);
+int		is_s(char c);
 #endif

@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 13:25:21 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/14 09:00:04 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/16 16:40:10 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ void	ft_strcpy(char *a, char *b)
 		b++;
 	}
 }
-
 
 int	instr(char *s, int i)
 {
