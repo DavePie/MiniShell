@@ -6,7 +6,7 @@
 /*   By: alde-oli <alde-oli@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 11:42:02 by alde-oli          #+#    #+#             */
-/*   Updated: 2023/11/17 11:07:58 by alde-oli         ###   ########.fr       */
+/*   Updated: 2023/11/17 14:14:45 by alde-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,14 +127,13 @@ t_token	**ft_convert_envs(t_token **tokens, char **envp)
 	prev = NULL;
 	while (cur)
 	{
-		if (cur->is_string != SINGLE && ft_is_env(cur->token, cur->token
-				+ ft_strlen(cur->token)))
+		if (cur->is_string != SINGLE && ft_is_env(cur->token))
 		{
 			env = ft_get_env(envp, cur->token);
 			cur->token = ft_insert_env(cur->token, env);
+			if (cur->is_string == 0)
+				ft_split_token(tokens, cur, prev, cur->adj_prev);
 		}
-		if (cur->is_string == 0)
-			ft_split_token(tokens, cur, prev, cur->adj_prev);
 		prev = cur;
 		cur = cur->next;
 	}
