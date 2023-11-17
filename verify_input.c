@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 13:13:17 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/14 09:07:56 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/17 10:40:30 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "logic.h"
 #include "utils_shell.h"
 #include "libft.h"
+#include "minishell.h"
 
 int	verify_paranthesis(char *s)
 {
@@ -192,5 +193,5 @@ int	verify_input(char *s)
 		return (e_token_write(verify_edges(s), "unexpected"));
 	if (verify_special_characters(s))
 		return (e_token_write(verify_special_characters(s), "unexpected"));
-	return (verify_paranthesis(s) && verify_str(s) && verify_paren_logic(s));
+	return (verify_paranthesis(s) && verify_str(s) && !verify_paren_logic(s));
 }
