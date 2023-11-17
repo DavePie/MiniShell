@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 14:27:39 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/17 10:40:07 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/17 13:07:35 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,25 @@ int	run(char *str, int start, int end)
 			cur->token, cur->is_string, cur->adj_prev);
 		cur = cur->next;
 	}
+	printf("\n");
+	merge_tokens(*f_list, 0);
+	cur = *f_list;
+	while (cur)
+	{
+		printf("[%s](s:%d)(ad:%d), ",
+			cur->token, cur->is_string, cur->adj_prev);
+		cur = cur->next;
+	}
+	printf("\n");
+	merge_tokens(*f_list, 1);
+	cur = *f_list;
+	while (cur)
+	{
+		printf("[%s](s:%d)(ad:%d), ",
+			cur->token, cur->is_string, cur->adj_prev);
+		cur = cur->next;
+	}
+	printf("\n");
 	return ((start - end) % 2);
 }
 
