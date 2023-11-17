@@ -6,28 +6,36 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 14:27:39 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/14 09:02:30 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/17 10:40:07 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "logic.h"
 #include "utils.h"
 #include "libft.h"
+#include "tokens.h"
+#include "create_tokens.h"
 // temp function TO REMOVE!!
 // norminette error here on purpose!
 #include <stdio.h>
+
 int	run(char *str, int start, int end)
 {
-	int	temp = start;
+	char	*input;
+	t_token	**f_list;
+	t_token	*cur;
 
-	printf("ran: |");
-	while (start < end)
+	f_list = malloc(sizeof(t_token *));
+	input = ft_substr(str, start, end - start);
+	f_list = split_args(input);
+	cur = *f_list;
+	while (cur)
 	{
-		printf("%c", str[start]);
-		start++;
+		printf("[%s](s:%d)(ad:%d), ",
+			cur->token, cur->is_string, cur->adj_prev);
+		cur = cur->next;
 	}
-	printf("| (%d)\n", (end - temp) % 2);
-	return ((end - temp) % 2);
+	return ((start - end) % 2);
 }
 
 int	is_logic(char *str, int i)
