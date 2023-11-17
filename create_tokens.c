@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 11:46:12 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/16 16:36:19 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/17 10:37:55 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "utils_shell.h"
 #include "list_utils.h"
 #include "libft.h"
+#include "create_tokens.h"
 
 int	add_token_split(t_token **list, char *s)
 {
@@ -24,19 +25,20 @@ int	add_token_split(t_token **list, char *s)
 	int		is_str;
 
 	i = 0;
-	is_str = (*s == '"' || *s == '\'');
+	is_str = 2 * (*s == '"') + 1 * (*s == '\'');
 	if ((*s == '|' || *s == '<' || *s == '>'))
 	{
 		i = 1 + (*s == s[1]);
 		ans = t_add_back(list, t_new(ft_substr(s, 0, i), 0));
 		return (i);
 	}
-	while (is_str && s[i] && s[i] != *s)
-		i++;
+	i++;
+	while (is_str && s[i] && (s[i++] != *s))
+		;
 	while (!is_str && s[i]
 		&& !is_s(s[i]) && !ft_strchr("$\"'|><", s[i]))
 		i++;
-	t_add_back(list, t_new(ft_substr(s, is_str, i - 2 * is_str), is_str));
+	t_add_back(list, t_new(ft_substr(s, !!is_str, i - 2 * !!is_str), is_str));
 	return (i);
 }
 
@@ -46,12 +48,13 @@ t_token	**split_args(char *input)
 	t_token	**first;
 	int		prev;
 	int		is_special;
+	int		spec_prev;
 
+	spec_prev = 0;
 	i = 0;
-	first = malloc(sizeof(t_token *));
+	first = ft_calloc(1, sizeof(t_token *));
 	if (!input || !first)
 		return (0);
-	*first = 0;
 	while (input[i])
 	{
 		prev = 0;
@@ -62,7 +65,8 @@ t_token	**split_args(char *input)
 		i += add_token_split(first, input + i);
 		is_special = (!t_get_last(*first)->is_string
 				&& ft_strchr("|<>", t_get_last(*first)->token[0]));
-		t_get_last(*first)->adj_prev = (!prev * is_special);
+		t_get_last(*first)->adj_prev = !prev * !is_special * spec_prev;
+		spec_prev = !is_special;
 	}
 	return (first);
 }
