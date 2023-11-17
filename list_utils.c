@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 12:01:15 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/16 13:54:06 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/17 10:53:13 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,11 @@ t_token	*t_get_last(t_token *start)
 	return (start);
 }
 
-void	t_del(t_token **begin_list, t_token *prev, t_token *cur)
+void	t_del(t_token **begin_list, t_token *prev)
 {
+	t_token *cur;
+
+	cur = prev->next;
 	if (prev)
 		prev->next = prev->next->next;
 	else
