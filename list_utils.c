@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 12:01:15 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/17 10:53:13 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/17 10:59:18 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,7 @@ t_token	*t_new(char *token, int isstr)
 
 	ans = (t_token *)malloc(sizeof(*ans));
 	if (ans)
-	{
-		ans->token = token;
-		ans->is_string = isstr;
-		ans->next = 0;
-	}
+		*ans = (t_token){.token = token, .is_string = isstr};
 	return (ans);
 }
 
