@@ -12,194 +12,153 @@
 
 #include "tokens.h"
 #include "libft/libft.h"
+#include "list_utils.h"
 
-int	ft_is_wildcard(char *s)
+int	ft_is_star(t_token *token)
 {
-	while (*s && *s != ' ' && *s != '\t')
-	{
-		if (*s == '*')
-			return (1);
-		s++;
-	}
+	if (token->is_string == 0 && ft_strchr(token->token, '*'))
+		return (1);
 	return (0);
 }
 
-char	*wcard_len(char *s)
+int	is_wildcard(t_token *token)
 {
-	int	i;
-	int	wc_len;
+	int	is_next;
+	int	found_star;
 
-	i = 0;
-	wc_len = 0;
-	while (s[i])
+	is_next = 1;
+	found_star = 0;
+	while (token && is_next && !found_star)
 	{
-		if (s[i] == '*' && s[i + 1] != '*')
-			wc_len++;
-		else if (s[i] != '*')
-			wc_len++;
-		i++;
+		if (!token->next && !token->next->adj_prev)
+			is_next = 0;
+		if(ft_is_star(token))
+			found_star = 1;
 	}
+	return (found_star);
 }
 
-char	*clean_wcard(char *s)
+int	ft_search_substr(char *str, char *substr)
 {
-	char	*wcard;
-	int		i;
-	int		j;
+	int	i;
+	int	j;
 
 	i = 0;
 	j = 0;
-	wcard = ft_calloc(wcard_len(s), sizeof(char));
-	if (!wcard)
-		return (NULL);
-	while (s[i])
+	while (str[i])
 	{
-		if (s[i] == '*' && s[i + 1] != '*')
-		{
-			wcard[j] = '*';
+		while (str[i + j] == substr[j] && str[i + j] && substr[j])
 			j++;
-		}
-		else if (s[i] != '*')
-		{
-			wcard[j] = s[i];
-			j++;
-		}
+		if (!substr[j])
+			return (i);
+		j = 0;
 		i++;
 	}
-	return (wcard);
+	return (-1);
 }
 
-char	**get_wildcard(char *s, char *dir)
-{
-	DIR				*directory;
-	struct dirent	*elem;
-	char			**elems;
-	int				n;
-	char			*wcard;
-
-	wcard = clean_wcard(s);
-	directory = opendir(dir);
-	if (!directory)
-		return (NULL);
-	elem = readdir(directory);
-	n = 0;
-	while (elem)
-	{
-		if (match_wildcard(wcard, elem->d_name) == 0)
-			n++;
-		elem = readdir(directory);
-	}
-	closedir(directory);
-	elems = ft_calloc(n + 1, sizeof(char *));
-	if (!elems)
-		return (NULL);
-	elems = get_wc_elems(elems, n, dir, wcard);
-	free(wcard);
-	return (elems);
-}
-
-char	**get_wc_elems(char **elems, int n, char *dir, char *wcard)
-{
-	struct dirent	*elem;
-	DIR				*directory;
-	int				i;
-
-	directory = opendir(dir);
-	i = 0;
-	elem = readdir(directory);
-	while (i < n && elem)
-	{
-		if (match_wildcard(wcard, elem->d_name) == 0)
-		{
-			elems[i] = ft_strdup(elem->d_name);
-			if (!elems[i])
-				return (NULL);
-			i++;
-		}
-		elem = readdir(directory);
-	}
-	elems[i] = NULL;
-	closedir(directory);
-	return (elems);
-}
-
-int	strstarcmp(char **wcard, char **s)
+int	ft_match_last(char *str, char *substr)
 {
 	int	i;
+	int	j;
 
-	while (**s && **wcard)
+	i = ft_strlen(str);
+	j = ft_strlen(substr);
+	if (j > i)
+		return (0);
+	while (j >= 0)
 	{
-		if (**s != **wcard)
-			*s += 1;
-		else if (**s == **wcard)
-		{
-			i = 0;
-			while ((*s)[i] && (*wcard)[i] && (*wcard)[i]
-				!= '*' && (*s)[i] == (*wcard)[i])
-				i++;
-			if ((*wcard)[i] == '*' || !(*wcard)[i])
-			{
-				*wcard += i;
-				s += i;
-				return (1);
-			}
-			*s += 1;
-		}
-	}
-}
-
-int	match_wildcard(char *wcard, char *s)
-{
-	while (*s && *wcard)
-	{
-		if (*wcard == '*' && !*(wcard + 1))
-			return (1);
-		else if (*wcard == '*')
-		{
-			wcard++;
-			while (*s && *s != *wcard)
-				s++;
-		}
-		else if (!strstarcmp(&wcard, &s))
+		if (str[i] != substr[j])
 			return (0);
+		i--;
+		j--;
 	}
 	return (1);
 }
 
-void	ft_split_token(t_token **tokens, t_token *cur, t_token *prev, char **wildcard)
+int	match_wildcard(t_token *token, char *str)
 {
-	t_token	**split;
-	t_token	*tmp;
-	int		i;
+	int	is_matching;
 
-	i = 0;
-	while (wildcard[i])
+	is_matching = 1;
+	if (!ft_is_star(token) && ft_search_substr(str, token->token) != 0)
+		is_matching = 0;
+	else if (!ft_is_star(token))
+		str += ft_strlen(token->token);
+	token = token->next;
+	while ((token && token->adj_prev) && (token->next && token->next->adj_prev) && is_matching)
 	{
-		tmp = t_new(wildcard[i], 0);
-		t_add_back(split, tmp);
-		tmp->token = ft_strdup(wildcard[i]);
+		if (!ft_is_star(token) && ft_search_substr(str, token->token) < 0)
+			is_matching = 0;
+		else if (!ft_is_star(token))
+			str += ft_search_substr(str, token->token) + ft_strlen(token->token);
 	}
-	t_replace(tokens, prev, cur, *split);
+	if (is_matching && (token && token->adj_prev) && !ft_is_star(token) && !ft_match_last(str, token->token))
+		is_matching = 0;
+	return (is_matching);
 }
 
-t_token	**ft_convert_wildcards(t_token **tokens)
+t_token	*get_matching_elems(t_token *token)
+{
+	DIR				*dir;
+	struct dirent	*elem;
+	t_token			*new_list;
+	t_token			*new_token;
+
+	new_list = NULL;
+	new_token = NULL;
+	dir = opendir(".");
+	if (!dir)
+		return (NULL);
+	elem = readdir(dir);
+	while (elem)
+	{
+		if (match_wildcard(token, elem->d_name))
+			t_add_back(&new_list, t_new(elem->d_name, 0)); //not sure if I should set it as 0 or 1
+		elem = readdir(dir);
+	}
+	closedir(dir);
+	return (new_list);
+}
+
+t_token	*replace_wildcard(t_token **list, t_token *prev, t_token *cur)
+{
+	t_token	*new_list;
+	t_token	*next;
+
+	new_list = get_matching_elems(cur);
+	prev->next = new_list;
+	next = cur->next;
+	free(cur->token);
+	free(cur);
+	while (next && next->adj_prev)
+	{
+		cur = next;
+		next = next->next;
+		free(cur->token);
+		free(cur);
+	}
+	t_add_back(&new_list, next);
+	return (next);
+}
+
+t_token	**convert_wildcards(t_token **list)
 {
 	t_token	*cur;
 	t_token	*prev;
-	char	**wildcards;
+	t_token	*next;
 
-	cur = *tokens;
+	cur = *list;
 	prev = NULL;
-	while (cur)
+	while (cur && cur->adj_prev)
 	{
-		if (!cur->is_string && ft_is_wildcard(cur->token))
+		if (is_wildcard(cur))
+			next = replace_wildcard(list, prev, cur);
+		else
 		{
-			wildcards = get_wildcard(cur->token, "./");
-			ft_insert_wildcards(tokens, cur, prev, wildcards);
-			ft_free_str_tab(wildcards);
+			prev = cur;
+			cur = cur->next;
 		}
-		prev = cur;
-		cur = cur->next;
 	}
-	return (tokens);
+	return (list);
 }
