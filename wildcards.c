@@ -6,7 +6,7 @@
 /*   By: alde-oli <alde-oli@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 11:16:39 by alde-oli          #+#    #+#             */
-/*   Updated: 2023/11/20 10:48:47 by alde-oli         ###   ########.fr       */
+/*   Updated: 2023/11/20 11:02:32 by alde-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	is_wildcard(t_token *token)
 	found_star = 0;
 	while (token && is_next && !found_star)
 	{
-		if (!token->next && !token->next->adj_prev)
+		if (!token->next || !token->next->adj_prev)
 			is_next = 0;
 		if (ft_is_star(token))
 			found_star = 1;
