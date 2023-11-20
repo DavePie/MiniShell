@@ -6,7 +6,7 @@
 /*   By: alde-oli <alde-oli@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 11:16:39 by alde-oli          #+#    #+#             */
-/*   Updated: 2023/11/17 14:50:35 by alde-oli         ###   ########.fr       */
+/*   Updated: 2023/11/20 10:48:47 by alde-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	is_wildcard(t_token *token)
 	{
 		if (!token->next && !token->next->adj_prev)
 			is_next = 0;
-		if(ft_is_star(token))
+		if (ft_is_star(token))
 			found_star = 1;
 	}
 	return (found_star);
@@ -86,14 +86,18 @@ int	match_wildcard(t_token *token, char *str)
 	else if (!ft_is_star(token))
 		str += ft_strlen(token->token);
 	token = token->next;
-	while ((token && token->adj_prev) && (token->next && token->next->adj_prev) && is_matching)
+	while ((token && token->adj_prev) && (token->next && token->next->adj_prev)
+		&& is_matching)
 	{
 		if (!ft_is_star(token) && ft_search_substr(str, token->token) < 0)
 			is_matching = 0;
 		else if (!ft_is_star(token))
-			str += ft_search_substr(str, token->token) + ft_strlen(token->token);
+			str += ft_search_substr(str, token->token)
+				+ ft_strlen(token->token);
+		token = token->next;
 	}
-	if (is_matching && (token && token->adj_prev) && !ft_is_star(token) && !ft_match_last(str, token->token))
+	if (is_matching && (token && token->adj_prev) && !ft_is_star(token)
+		&& !ft_match_last(str, token->token))
 		is_matching = 0;
 	return (is_matching);
 }
