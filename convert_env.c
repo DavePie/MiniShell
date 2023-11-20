@@ -6,29 +6,24 @@
 /*   By: alde-oli <alde-oli@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 11:42:02 by alde-oli          #+#    #+#             */
-/*   Updated: 2023/11/17 14:14:45 by alde-oli         ###   ########.fr       */
+/*   Updated: 2023/11/20 11:40:34 by alde-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokens.h"
-#include "libft/libft.h"
 #include "list_utils.h"
+#include "utils.h"
+#include "minishell.h"
+#include "libft.h"
 
 int	ft_is_env(char *s)
 {
 	while (*s)
 	{
-		if (*s == '$' && *(s + 1) != '\0' && !ft_isspace(*(s + 1)))
+		if (*s == '$' && *(s + 1) != '\0' && !is_s(*(s + 1)))
 			return (1);
 		s++;
 	}
-	return (0);
-}
-
-int	ft_isspace(char c)
-{
-	if (c == ' ' || c == '\t')
-		return (1);
 	return (0);
 }
 
@@ -39,18 +34,18 @@ char	*ft_get_env_var(char *s)
 	char	*env;
 
 	i = 0;
-	while (s[i] && !ft_isspace(s[i]) && s[i] != '$')
+	while (s[i] && !is_s(s[i]) && s[i] != '$')
 		i++;
 	if (s[i] != '$')
 		return (NULL);
 	j = 0;
-	while (s[i + j] && !ft_isspace(s[i + j]))
+	while (s[i + j] && !is_s(s[i + j]))
 		j++;
 	env = ft_calloc(j + 1, sizeof(char));
 	if (!env)
 		return (NULL);
 	j = 0;
-	while (s[i + j] && !ft_isspace(s[i]))
+	while (s[i + j] && !is_s(s[i]))
 	{
 		env[j] = s[i + j];
 		j++;
@@ -84,8 +79,6 @@ char	*ft_get_env(char **envp, char *s)
 
 char	*ft_insert_env(char *s, char *env)
 {
-	int	pos;
-
 	return (ft_str_replace(s, env, ft_strchr(s, '$') - s, ft_strlen(env) + 1));
 }
 
@@ -97,7 +90,8 @@ void	ft_split_token(t_token **tokens, t_token *cur, t_token *prev, int adj_prev)
 	int		i;
 
 	i = 0;
-	if (ft_isspace(cur->token))
+	split = NULL;
+	if (is_s(*cur->token))
 		adj_prev = 0;
 	strs = ft_split((const char *)cur->token, ' ');
 	while (strs[i])
@@ -127,6 +121,7 @@ t_token	**ft_convert_envs(t_token **tokens, char **envp)
 	prev = NULL;
 	while (cur)
 	{
+		printf("token: %s\n", cur->token);
 		if (cur->is_string != SINGLE && ft_is_env(cur->token))
 		{
 			env = ft_get_env(envp, cur->token);

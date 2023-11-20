@@ -6,7 +6,7 @@
 /*   By: alde-oli <alde-oli@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 11:16:39 by alde-oli          #+#    #+#             */
-/*   Updated: 2023/11/20 11:02:32 by alde-oli         ###   ########.fr       */
+/*   Updated: 2023/11/20 11:33:16 by alde-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ t_token	*get_matching_elems(t_token *token)
 	return (new_list);
 }
 
-t_token	*replace_wildcard(t_token **list, t_token *prev, t_token *cur)
+t_token	*replace_wildcard(t_token *prev, t_token *cur)
 {
 	t_token	*new_list;
 	t_token	*next;
@@ -157,7 +157,7 @@ t_token	**convert_wildcards(t_token **list)
 	while (cur && cur->adj_prev)
 	{
 		if (is_wildcard(cur))
-			next = replace_wildcard(list, prev, cur);
+			next = replace_wildcard(prev, cur);
 		else
 		{
 			prev = cur;

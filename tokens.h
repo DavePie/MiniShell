@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alde-oli <alde-oli@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 12:03:47 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/16 13:10:22 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/20 11:31:53 by alde-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,15 +78,6 @@ char	**get_wildcard(char *wcard, char *dir);
  * @return char** 
  */
 char	**get_elems(char **elems, int n, char *dir, char *wcard);
-
-/**
- * @brief Given a wildcard and a string, say if it matches 
- * 
- * @param wcard the wildcard
- * @param s the string
- * @return int (if it matches)
- */
-int		match_wildcard(char *wcard, char *s);
 
 /**
  * @brief Given a string without () && ||, execute the command
