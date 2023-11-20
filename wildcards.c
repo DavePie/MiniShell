@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 11:16:39 by alde-oli          #+#    #+#             */
-/*   Updated: 2023/11/20 11:49:42 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/20 13:22:18 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "libft/libft.h"
 #include "list_utils.h"
 #include "minishell.h"
+#include "run_command.h"
 
 int	ft_is_star(t_token *token)
 {
@@ -31,11 +32,11 @@ int	is_wildcard(t_token *token)
 	found_star = 0;
 	while (token && is_next && !found_star)
 	{
-		printf("okay thennnnn\n");
 		if (!token->next || !token->next->adj_prev)
 			is_next = 0;
 		if (ft_is_star(token))
 			found_star = 1;
+		token = token->next;
 	}
 	return (found_star);
 }
@@ -111,7 +112,6 @@ t_token	*get_matching_elems(t_token *token)
 	t_token			*new_list;
 	t_token			*new_token;
 
-	printf("this starts\n");
 	new_list = NULL;
 	new_token = NULL;
 	dir = opendir(".");
@@ -121,53 +121,48 @@ t_token	*get_matching_elems(t_token *token)
 	while (elem)
 	{
 		if (match_wildcard(token, elem->d_name))
-			t_add_back(&new_list, t_new(elem->d_name, 0)); //not sure if I should set it as 0 or 1
+			t_add_back(&new_list, t_new(ft_strdup(elem->d_name), 1));
 		elem = readdir(dir);
 	}
 	closedir(dir);
-	printf("this ends\n");
 	return (new_list);
 }
 
-t_token	*replace_wildcard(t_token *prev, t_token *cur)
+t_token	*replace_wildcard(t_token **first, t_token *prev, t_token *cur)
 {
-	printf("this runs for %s\n", cur->token);
 	t_token	*new_list;
-	t_token	*next;
 
 	new_list = get_matching_elems(cur);
-	prev->next = new_list;
-	next = cur->next;
-	printf("1\n");
-	free(cur->token);
-	free(cur);
-	printf("2\n");
-	while (next && next->adj_prev)
+	if (!new_list)
 	{
-		cur = next;
-		next = next->next;
-		free(cur->token);
-		free(cur);
+		while (cur->next && cur->next->adj_prev)
+			cur = cur->next;
+		return (cur->next);
 	}
-	printf("3\n");
-	t_add_back(&new_list, next);
-	printf("successful\n");
-	return (next);
+	if (prev)
+		prev->next = new_list;
+	else
+		*first = new_list;
+	t_del(first, cur);
+	while (cur->next && cur->next->adj_prev)
+		t_del(first, cur);
+	return (cur->next);
 }
 
 t_token	**convert_wildcards(t_token **list)
 {
 	t_token	*cur;
 	t_token	*prev;
-	t_token	*next;
 
-	printf("start:\n");
 	cur = *list;
 	prev = NULL;
+	printf("before the mess:\n");
+	print_tokens(*list);
+
 	while (cur)
 	{
 		if (is_wildcard(cur))
-			next = replace_wildcard(prev, cur);
+			cur = replace_wildcard(list, prev, cur);
 		else
 		{
 			prev = cur;

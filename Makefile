@@ -7,7 +7,7 @@ INCDIR	:= -I . -I libft -I $(HOME)/.brew/Cellar/readline/8.1.1/include
 LIB	:= libft.a
 LIBDIR := libft
 LIBPATH := $(LIBDIR)/$(LIB)
-CFLAGS	:= -Wall -Wextra -Werror $(INCDIR) #-fsanitize=address 
+CFLAGS	:= -Wall -Wextra -Werror $(INCDIR) -fsanitize=address 
 
 all: $(NAME)
 

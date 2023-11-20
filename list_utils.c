@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alde-oli <alde-oli@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 12:01:15 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/20 10:25:21 by alde-oli         ###   ########.fr       */
+/*   Updated: 2023/11/20 13:10:22 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,17 @@ void	t_del(t_token **begin_list, t_token *prev)
 {
 	t_token	*cur;
 
+	if (!prev)
+		return ;
 	cur = prev->next;
+	if (!cur)
+		return ;
 	if (prev)
 		prev->next = prev->next->next;
 	else
 		*begin_list = (*begin_list)->next;
 	free(cur->token);
+	cur->token = 0;
 	free(cur);
 }
 
