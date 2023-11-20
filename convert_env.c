@@ -6,7 +6,7 @@
 /*   By: alde-oli <alde-oli@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 11:42:02 by alde-oli          #+#    #+#             */
-/*   Updated: 2023/11/20 11:40:34 by alde-oli         ###   ########.fr       */
+/*   Updated: 2023/11/20 14:27:44 by alde-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,11 @@ char	*ft_get_env_var(char *s)
 	char	*env;
 
 	i = 0;
-	while (s[i] && !is_s(s[i]) && s[i] != '$')
+	while (s[i] && s[i] != '$')
 		i++;
 	if (s[i] != '$')
 		return (NULL);
+	i++;
 	j = 0;
 	while (s[i + j] && !is_s(s[i + j]))
 		j++;
@@ -45,7 +46,7 @@ char	*ft_get_env_var(char *s)
 	if (!env)
 		return (NULL);
 	j = 0;
-	while (s[i + j] && !is_s(s[i]))
+	while (s[i + j] && !is_s(s[i + j]))
 	{
 		env[j] = s[i + j];
 		j++;
@@ -79,7 +80,27 @@ char	*ft_get_env(char **envp, char *s)
 
 char	*ft_insert_env(char *s, char *env)
 {
-	return (ft_str_replace(s, env, ft_strchr(s, '$') - s, ft_strlen(env) + 1));
+	char	*env_var;
+	char	*modified_s;
+	int		i;
+
+	env_var = ft_get_env_var(s);
+	modified_s = ft_calloc(ft_strlen(s) - ft_strlen(env_var)
+			+ ft_strlen(env) + 1, sizeof(char));
+	i = 0;
+	while (s[i] && s[i] != '$')
+	{
+		modified_s[i] = s[i];
+		i++;
+	}
+	printf("\n\nmodified_s = %s\n\n", modified_s);
+	i++;
+	i += ft_strlen(env_var);
+	ft_strlcat(modified_s, env, i + ft_strlen(env) + 1);
+	printf("\n\nmodified_s = %s\n\n", modified_s);
+	ft_strlcat(modified_s, s + i, i + ft_strlen(env) + ft_strlen(s) - i + 1);
+	printf("\n\nmodified_s = %s\n\n", modified_s);
+	return (modified_s);
 }
 
 void	ft_split_token(t_token **tokens, t_token *cur, t_token *prev, int adj_prev)
@@ -102,9 +123,11 @@ void	ft_split_token(t_token **tokens, t_token *cur, t_token *prev, int adj_prev)
 	i = 0;
 	while (strs[i])
 	{
-		tmp = t_new(strs[i], 0);
+		tmp = t_new(ft_strdup(strs[i]), 0);
 		t_add_back(split, tmp);
+		printf("split->token = %s\n", tmp->token);
 		tmp->token = ft_strdup(strs[i]);
+		i++;
 	}
 	(*split)->adj_prev = adj_prev;
 	t_replace(tokens, prev, cur, *split);
@@ -121,11 +144,12 @@ t_token	**ft_convert_envs(t_token **tokens, char **envp)
 	prev = NULL;
 	while (cur)
 	{
-		printf("token: %s\n", cur->token);
 		if (cur->is_string != SINGLE && ft_is_env(cur->token))
 		{
 			env = ft_get_env(envp, cur->token);
+			printf("env %s\n", env);
 			cur->token = ft_insert_env(cur->token, env);
+			free(env);
 			if (cur->is_string == 0)
 				ft_split_token(tokens, cur, prev, cur->adj_prev);
 		}
