@@ -6,13 +6,16 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 11:07:11 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/20 11:16:01 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/20 11:24:22 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokens.h"
 #include "convert_env.h"
 #include "minishell.h"
+#include "wildcards.h"
+#include "create_tokens.h"
+#include "libft.h"
 
 void	print_tokens(t_token *cur)
 {
@@ -30,7 +33,6 @@ int	run(char *str, int start, int end, char **envp)
 {
 	char	*input;
 	t_token	**f_list;
-	t_token	*cur;
 
 	f_list = malloc(sizeof(t_token *));
 	input = ft_substr(str, start, end - start);
@@ -43,7 +45,7 @@ int	run(char *str, int start, int end, char **envp)
 	merge_tokens(*f_list, 0);
 	print_tokens(*f_list);
 	
-	convert_wildcards(*f_list);
+	convert_wildcards(f_list);
 	print_tokens(*f_list);
 	
 	merge_tokens(*f_list, 1);
