@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 14:27:39 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/17 13:07:35 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/20 11:08:50 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,47 +15,8 @@
 #include "libft.h"
 #include "tokens.h"
 #include "create_tokens.h"
-// temp function TO REMOVE!!
-// norminette error here on purpose!
+#include "run_command.h"
 #include <stdio.h>
-
-int	run(char *str, int start, int end)
-{
-	char	*input;
-	t_token	**f_list;
-	t_token	*cur;
-
-	f_list = malloc(sizeof(t_token *));
-	input = ft_substr(str, start, end - start);
-	f_list = split_args(input);
-	cur = *f_list;
-	while (cur)
-	{
-		printf("[%s](s:%d)(ad:%d), ",
-			cur->token, cur->is_string, cur->adj_prev);
-		cur = cur->next;
-	}
-	printf("\n");
-	merge_tokens(*f_list, 0);
-	cur = *f_list;
-	while (cur)
-	{
-		printf("[%s](s:%d)(ad:%d), ",
-			cur->token, cur->is_string, cur->adj_prev);
-		cur = cur->next;
-	}
-	printf("\n");
-	merge_tokens(*f_list, 1);
-	cur = *f_list;
-	while (cur)
-	{
-		printf("[%s](s:%d)(ad:%d), ",
-			cur->token, cur->is_string, cur->adj_prev);
-		cur = cur->next;
-	}
-	printf("\n");
-	return ((start - end) % 2);
-}
 
 int	is_logic(char *str, int i)
 {

@@ -1,4 +1,4 @@
-CFILES	:= verify_input.c utils.c utils_shell.c test.c logic.c list_utils2.c list_utils.c history.c builtin.c create_tokens.c
+CFILES	:= verify_input.c utils.c utils_shell.c test.c logic.c list_utils2.c list_utils.c history.c builtin.c create_tokens.c run_command.c wildcards.c convert_env.c
 RM		:= rm -f
 NAME	:= minishell
 CC		:= gcc
