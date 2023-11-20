@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   wildcards.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alde-oli <alde-oli@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 11:16:39 by alde-oli          #+#    #+#             */
-/*   Updated: 2023/11/20 11:33:16 by alde-oli         ###   ########.fr       */
+/*   Updated: 2023/11/20 11:49:42 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokens.h"
 #include "libft/libft.h"
 #include "list_utils.h"
+#include "minishell.h"
 
 int	ft_is_star(t_token *token)
 {
@@ -30,6 +31,7 @@ int	is_wildcard(t_token *token)
 	found_star = 0;
 	while (token && is_next && !found_star)
 	{
+		printf("okay thennnnn\n");
 		if (!token->next || !token->next->adj_prev)
 			is_next = 0;
 		if (ft_is_star(token))
@@ -109,6 +111,7 @@ t_token	*get_matching_elems(t_token *token)
 	t_token			*new_list;
 	t_token			*new_token;
 
+	printf("this starts\n");
 	new_list = NULL;
 	new_token = NULL;
 	dir = opendir(".");
@@ -122,19 +125,23 @@ t_token	*get_matching_elems(t_token *token)
 		elem = readdir(dir);
 	}
 	closedir(dir);
+	printf("this ends\n");
 	return (new_list);
 }
 
 t_token	*replace_wildcard(t_token *prev, t_token *cur)
 {
+	printf("this runs for %s\n", cur->token);
 	t_token	*new_list;
 	t_token	*next;
 
 	new_list = get_matching_elems(cur);
 	prev->next = new_list;
 	next = cur->next;
+	printf("1\n");
 	free(cur->token);
 	free(cur);
+	printf("2\n");
 	while (next && next->adj_prev)
 	{
 		cur = next;
@@ -142,7 +149,9 @@ t_token	*replace_wildcard(t_token *prev, t_token *cur)
 		free(cur->token);
 		free(cur);
 	}
+	printf("3\n");
 	t_add_back(&new_list, next);
+	printf("successful\n");
 	return (next);
 }
 
@@ -152,9 +161,10 @@ t_token	**convert_wildcards(t_token **list)
 	t_token	*prev;
 	t_token	*next;
 
+	printf("start:\n");
 	cur = *list;
 	prev = NULL;
-	while (cur && cur->adj_prev)
+	while (cur)
 	{
 		if (is_wildcard(cur))
 			next = replace_wildcard(prev, cur);

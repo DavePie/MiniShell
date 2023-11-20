@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 12:10:04 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/10 16:53:35 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/20 11:52:57 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	get_next_command(char *str, char *op, int start);
  * @param start 
  * @return int 
  */
-int	run_command_at(char *str, int start);
+int	run_command_at(char *str, int start, char **envp);
 
 /**
  * @brief Handles the logic layer runs the commands as needed
@@ -47,5 +47,5 @@ int	run_command_at(char *str, int start);
  * @param str 
  * @return int 
  */
-int	run_all_commands(char *str);
+int	run_all_commands(char *str, char **envp);
 #endif

@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 14:27:39 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/20 11:08:50 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/20 11:52:27 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	is_logic(char *str, int i)
 	return (0);
 }
 
-int	run_command_at(char *str, int start)
+int	run_command_at(char *str, int start, char **envp)
 {
 	int	i;
 
@@ -45,7 +45,7 @@ int	run_command_at(char *str, int start)
 	i = start;
 	while (str[i] && (instr(str, i) || !is_logic(str, i)))
 		i++;
-	return (run(str, start, i));
+	return (run(str, start, i, envp));
 }
 
 int	get_next_command(char *str, char *op, int i)
@@ -73,12 +73,12 @@ int	get_next_command(char *str, char *op, int i)
 	return (i);
 }
 
-int	run_all_commands(char *str)
+int	run_all_commands(char *str, char **envp)
 {
 	int	cur;
 	int	next_i;
 
-	cur = run_command_at(str, 0);
+	cur = run_command_at(str, 0, envp);
 	next_i = 0;
 	while (next_i != -1)
 	{
@@ -88,7 +88,7 @@ int	run_all_commands(char *str)
 			next_i = get_next_command(str, "||", next_i);
 		if (next_i == -1)
 			break ;
-		cur = run_command_at(str, next_i);
+		cur = run_command_at(str, next_i, envp);
 	}
 	return (0);
 }

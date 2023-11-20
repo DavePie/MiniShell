@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 09:35:09 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/17 15:09:31 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/20 11:53:19 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	handle_ctrlc(int val)
 int	main(int ac, char *av[], char **envp)
 {
 	char	*input;
-	ac++;av++;envp++;
+	ac++;av++;
 	//int		i = 2;
 
 	// while (i < ac)
@@ -52,7 +52,7 @@ int	main(int ac, char *av[], char **envp)
 			exit_shell(0);
 		printf("intput is %d\n", verify_input(input));
 		if (verify_input(input))
-			run_all_commands(input);
+			run_all_commands(input, envp);
 		free(input);
 	}
 	return (0);
