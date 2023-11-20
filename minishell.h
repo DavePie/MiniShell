@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alde-oli <alde-oli@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 11:44:56 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/20 11:22:54 by alde-oli         ###   ########.fr       */
+/*   Updated: 2023/11/20 16:26:35 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,11 @@
 # define SINGLE 1
 # define DOUBLE 2
 # define NAME = "minishell"
-
+# define PIPE 1
+# define OUT 2
+# define OUT_A 3
+# define IN 4
+# define IN_D 5
 
 void	rl_replace_line(char *c, int d);
 
