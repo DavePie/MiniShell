@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 11:16:39 by alde-oli          #+#    #+#             */
-/*   Updated: 2023/11/20 13:22:18 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/20 15:02:44 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,14 +139,21 @@ t_token	*replace_wildcard(t_token **first, t_token *prev, t_token *cur)
 			cur = cur->next;
 		return (cur->next);
 	}
-	if (prev)
-		prev->next = new_list;
-	else
-		*first = new_list;
-	t_del(first, cur);
-	while (cur->next && cur->next->adj_prev)
-		t_del(first, cur);
-	return (cur->next);
+	t_del(first, prev);
+	while ((prev && prev->next && prev->next->adj_prev)
+		|| (!prev && (*first) && (*first)->adj_prev))
+		t_del(first, prev);
+	if (prev && t_insert(prev, new_list))
+		return (*first);
+	if (*first)
+		prev = *first;
+	*first = new_list;
+	cur = *first;
+	while (cur->next)
+		cur = cur->next;
+	if (*first)
+		cur->next = prev;
+	return (*first);
 }
 
 t_token	**convert_wildcards(t_token **list)
@@ -156,9 +163,6 @@ t_token	**convert_wildcards(t_token **list)
 
 	cur = *list;
 	prev = NULL;
-	printf("before the mess:\n");
-	print_tokens(*list);
-
 	while (cur)
 	{
 		if (is_wildcard(cur))
