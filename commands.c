@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 15:40:46 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/20 16:56:29 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/21 13:52:50 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,31 @@ int	type_t(t_token *token)
 	return (0);
 }
 
-int	exec_commands(t_token *first)
+int	*set_file(int inputfd)
+{
+	int	fd[2];
+
+	while (cur && type_t(cur) != PIPE)
+	{
+		if (type_t(cur) == OUT)
+			;//normal open, return -1 if error
+		if (type_t(cur) == OUT_A)
+			;//normal open, return -1 if error
+		if (type_t(cur) == IN)
+			;//normal open, return -1 if error
+		if (type_t(cur) == IN_D)
+			;//STDIN input delimiter
+	}
+	return (fd);
+}
+int	exec_commands(t_token **first, char **envp)
 {
 	t_token	*cur;
 	t_com	cur_c;
 	int		prev;
 
 	cur_c = (t_com){};
-	cur = first;
+	cur = *first;
 	prev = -1;
 	while (cur)
 	{
