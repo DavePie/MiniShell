@@ -6,7 +6,7 @@
 /*   By: alde-oli <alde-oli@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 11:42:02 by alde-oli          #+#    #+#             */
-/*   Updated: 2023/11/21 07:58:58 by alde-oli         ###   ########.fr       */
+/*   Updated: 2023/11/21 10:09:18 by alde-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,40 +96,36 @@ char	*ft_insert_env(char *s, char *env)
 		modified_s[i] = s[i];
 		i++;
 	}
-	printf("\n\nmodified_s = %s\n\n", modified_s);
 	i++;
 	i += ft_strlen(env_var);
 	ft_strlcat(modified_s, env, i + ft_strlen(env) + 1);
-	printf("\n\nmodified_s = %s\n\n", modified_s);
 	ft_strlcat(modified_s, s + i, i + ft_strlen(env) + ft_strlen(s) - i + 1);
-	printf("\n\nmodified_s = %s\n\n", modified_s);
+	free(env);
+	free(env_var);
 	return (modified_s);
 }
 
-void	ft_split_token(t_token **tokens, t_token *cur, t_token *prev, int adj_prev)
+t_token	*ft_split_token(t_token **tokens, t_token *cur, t_token *prev, int adj_prev)
 {
-	t_token	**split;
-	t_token	*tmp;
+	t_token	*split;
 	char	**strs;
 	int		i;
 
 	split = NULL;
 	if (!(ft_strchr(cur->token, ' ') || ft_strchr(cur->token, '\t')))
-		return ;
+		return (cur);
 	strs = ft_split2((const char *)cur->token, " \t");
 	i = 0;
 	while (strs[i])
 	{
-		printf("\n\ncoucou\n\n");
-		tmp = t_new(ft_strdup(strs[i]), 0);
-		t_add_back(split, tmp);
-		printf("split->token = %s\n", tmp->token);
-		tmp->token = ft_strdup(strs[i]);
+		t_add_back(&split, t_new(ft_strdup(strs[i]), 0));
 		i++;
 	}
-	(*split)->adj_prev = adj_prev;
-	t_replace(tokens, prev, cur, *split);
+	split->adj_prev = adj_prev;
+	printf("adj_prev %d\n", adj_prev);
+	cur = t_replace(tokens, prev, cur, split);
 	ft_free_str_tab(strs);
+	return (cur);
 }
 
 t_token	**ft_convert_envs(t_token **tokens, char **envp)
@@ -145,11 +141,15 @@ t_token	**ft_convert_envs(t_token **tokens, char **envp)
 		if (cur->is_string != SINGLE && ft_is_env(cur->token))
 		{
 			env = ft_get_env(envp, cur->token);
-			printf("env %s\n", env);
-			cur->token = ft_insert_env(cur->token, env);
-			free(env);
-			if (cur->is_string == 0)
-				ft_split_token(tokens, cur, prev, cur->adj_prev * is_s(*cur->token));
+			if (env)
+			{
+				cur->token = ft_insert_env(cur->token, env);
+				if (cur->is_string == 0)
+					cur = ft_split_token(tokens, cur, prev,
+							cur->adj_prev * !is_s(*cur->token));
+			}
+			else
+				//remove the token but it doesn't work and I don't know why
 		}
 		prev = cur;
 		cur = cur->next;
