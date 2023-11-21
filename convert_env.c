@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   convert_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alde-oli <alde-oli@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 11:42:02 by alde-oli          #+#    #+#             */
-/*   Updated: 2023/11/21 10:09:18 by alde-oli         ###   ########.fr       */
+/*   Updated: 2023/11/21 12:11:28 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ char	*ft_insert_env(char *s, char *env)
 	char	*modified_s;
 	int		i;
 
+	if (!env)
+		env = ft_strdup("");
 	env_var = ft_get_env_var(s);
 	modified_s = ft_calloc(ft_strlen(s) - ft_strlen(env_var)
 			+ ft_strlen(env) + 1, sizeof(char));
@@ -122,10 +124,22 @@ t_token	*ft_split_token(t_token **tokens, t_token *cur, t_token *prev, int adj_p
 		i++;
 	}
 	split->adj_prev = adj_prev;
-	printf("adj_prev %d\n", adj_prev);
 	cur = t_replace(tokens, prev, cur, split);
 	ft_free_str_tab(strs);
 	return (cur);
+}
+
+int	remove_env_token(t_token **tokens, char *env, t_token **cur, t_token **prev)
+{
+	if (!(env || (*cur)->is_string == DOUBLE))
+	{
+		t_del(tokens, *prev);
+		*cur = *tokens;
+		if (*prev)
+			*cur = (*prev)->next;
+		return (1);
+	}
+	return (0);
 }
 
 t_token	**ft_convert_envs(t_token **tokens, char **envp)
@@ -141,15 +155,13 @@ t_token	**ft_convert_envs(t_token **tokens, char **envp)
 		if (cur->is_string != SINGLE && ft_is_env(cur->token))
 		{
 			env = ft_get_env(envp, cur->token);
-			if (env)
-			{
+			if (env || cur->is_string == DOUBLE)
 				cur->token = ft_insert_env(cur->token, env);
-				if (cur->is_string == 0)
-					cur = ft_split_token(tokens, cur, prev,
-							cur->adj_prev * !is_s(*cur->token));
-			}
-			else
-				//remove the token but it doesn't work and I don't know why
+			if (cur->is_string == 0 && (env || cur->is_string == DOUBLE))
+				cur = ft_split_token(tokens, cur, prev,
+						cur->adj_prev * !is_s(*cur->token));
+			if (remove_env_token(tokens, env, &cur, &prev))
+				continue ;
 		}
 		prev = cur;
 		cur = cur->next;
