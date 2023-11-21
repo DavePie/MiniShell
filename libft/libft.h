@@ -6,7 +6,7 @@
 /*   By: alde-oli <alde-oli@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 12:36:17 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/20 13:13:42 by alde-oli         ###   ########.fr       */
+/*   Updated: 2023/11/21 07:54:19 by alde-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ char			*ft_substr(char const *s, unsigned int start,
 char			*ft_strjoin(char const *s1, char const *s2);
 char			*ft_strtrim(char const *s1, char const *set);
 char			**ft_split(char const *str, char c);
+char			**ft_split2(char const *str, char *split);
 char			*ft_itoa(int n);
 char			*ft_strmapi(char const *s,
 					char (*f)(unsigned int, char));

@@ -6,7 +6,7 @@
 /*   By: alde-oli <alde-oli@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 11:42:02 by alde-oli          #+#    #+#             */
-/*   Updated: 2023/11/20 14:27:44 by alde-oli         ###   ########.fr       */
+/*   Updated: 2023/11/21 07:58:58 by alde-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,24 +57,27 @@ char	*ft_get_env_var(char *s)
 char	*ft_get_env(char **envp, char *s)
 {
 	char	*env;
+	char	*env_var;
 
-	env = ft_get_env_var(s);
-	if (!env)
+
+	env_var = ft_get_env_var(s);
+	if (!env_var)
 		return (NULL);
 	while (*envp)
 	{
-		if (ft_strncmp(env, *envp, ft_strlen(env)) == 0)
+		if (ft_strncmp(env_var, *envp, ft_strlen(env_var)) == 0
+			&& (*envp)[ft_strlen(env_var)] == '=')
 		{
-			free(env);
-			env = ft_strndup (*envp + ft_strlen(env) + 2,
-					ft_strlen(*envp) - ft_strlen(env) - 3);
+			env = ft_strndup (*envp + ft_strlen(env_var) + 1,
+					ft_strlen(*envp) - ft_strlen(env_var) - 2);
+			free(env_var);
 			if (!env)
 				return (NULL);
 			return (env);
 		}
 		envp++;
 	}
-	free(env);
+	free(env_var);
 	return (NULL);
 }
 
@@ -110,19 +113,14 @@ void	ft_split_token(t_token **tokens, t_token *cur, t_token *prev, int adj_prev)
 	char	**strs;
 	int		i;
 
-	i = 0;
 	split = NULL;
-	if (is_s(*cur->token))
-		adj_prev = 0;
-	strs = ft_split((const char *)cur->token, ' ');
-	while (strs[i])
-	{
-		ft_strtrim(strs[i], "\t");
-		i++;
-	}
+	if (!(ft_strchr(cur->token, ' ') || ft_strchr(cur->token, '\t')))
+		return ;
+	strs = ft_split2((const char *)cur->token, " \t");
 	i = 0;
 	while (strs[i])
 	{
+		printf("\n\ncoucou\n\n");
 		tmp = t_new(ft_strdup(strs[i]), 0);
 		t_add_back(split, tmp);
 		printf("split->token = %s\n", tmp->token);
@@ -151,7 +149,7 @@ t_token	**ft_convert_envs(t_token **tokens, char **envp)
 			cur->token = ft_insert_env(cur->token, env);
 			free(env);
 			if (cur->is_string == 0)
-				ft_split_token(tokens, cur, prev, cur->adj_prev);
+				ft_split_token(tokens, cur, prev, cur->adj_prev * is_s(*cur->token));
 		}
 		prev = cur;
 		cur = cur->next;
