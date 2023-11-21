@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alde-oli <alde-oli@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 11:44:56 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/20 16:26:35 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/21 07:13:23 by alde-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 # define IN 4
 # define IN_D 5
 
-void	rl_replace_line(char *c, int d);
+void	rl_replace_line(const char *c, int d);
 
 extern int	g_sig;
 /**

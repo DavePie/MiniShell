@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcards.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alde-oli <alde-oli@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 11:16:39 by alde-oli          #+#    #+#             */
-/*   Updated: 2023/11/20 15:02:44 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/21 07:15:59 by alde-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,10 +110,8 @@ t_token	*get_matching_elems(t_token *token)
 	DIR				*dir;
 	struct dirent	*elem;
 	t_token			*new_list;
-	t_token			*new_token;
 
 	new_list = NULL;
-	new_token = NULL;
 	dir = opendir(".");
 	if (!dir)
 		return (NULL);
