@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 11:07:11 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/20 11:55:11 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/21 13:01:52 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "wildcards.h"
 #include "create_tokens.h"
 #include "libft.h"
+#include "commands.h"
 
 void	print_tokens(t_token *cur)
 {
@@ -58,6 +59,7 @@ int	run(char *str, int start, int end, char **envp)
 	printf("final merge:\n");
 	merge_tokens(*f_list, 1);
 	print_tokens(*f_list);
-
+	
+	//exec_commands(f_list, envp);
 	return ((start - end) % 2);
 }

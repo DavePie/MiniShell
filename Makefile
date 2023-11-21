@@ -23,6 +23,7 @@ clean:
 fclean: clean
 	$(RM) $(LIBPATH)
 	make -C $(LIBDIR) clean
+	$(RM) $(NAME)
 
 re: fclean all
 
