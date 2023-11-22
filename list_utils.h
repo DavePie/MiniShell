@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 12:24:13 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/17 10:53:28 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/21 17:35:28 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 # include "tokens.h"
 
 t_token	*t_new(char *token, int isstr);
-
-int		t_size(t_token *lst);
 
 t_token	*t_get_last(t_token *start);
 
