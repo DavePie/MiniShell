@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 09:35:09 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/20 11:53:19 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/21 17:36:55 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,19 +32,9 @@ void	handle_ctrlc(int val)
 int	main(int ac, char *av[], char **envp)
 {
 	char	*input;
-	ac++;av++;
-	//int		i = 2;
 
-	// while (i < ac)
-	// {
-	// 	cur->next = t_new(av[i], 0);
-	// 	i++;
-	// }
-	//int fd = open("start", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	//printf("%d\n", ft_pipe(fd, echo, envp, 1));
+	av += ac * 0;
 	signal(SIGINT, handle_ctrlc);
-	// av += ac;
-	// envp++;
 	while (1)
 	{
 		input = ft_read_line();

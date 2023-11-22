@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 12:01:15 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/20 14:44:50 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/21 17:35:25 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,6 @@ t_token	*t_new(char *token, int isstr)
 	return (ans);
 }
 
-int	t_size(t_token *lst)
-{
-	int	len;
-
-	len = 0;
-	while (lst)
-	{
-		lst = lst->next;
-		len++;
-	}
-	return (len);
-}
 
 t_token	*t_get_last(t_token *start)
 {

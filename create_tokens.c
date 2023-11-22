@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_tokens.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alde-oli <alde-oli@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 11:46:12 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/21 07:15:03 by alde-oli         ###   ########.fr       */
+/*   Updated: 2023/11/21 17:32:41 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,14 @@
 int	add_token_split(t_token **list, char *s)
 {
 	int		i;
-	t_token	*ans;
 	int		is_str;
 
-	ans = NULL;
-	if (!ans)
-		ans = NULL;
 	i = 0;
 	is_str = 2 * (*s == '"') + 1 * (*s == '\'');
 	if ((*s == '|' || *s == '<' || *s == '>' || *s == '*'))
 	{
 		i = 1 + (*s == s[1]);
-		ans = t_add_back(list, t_new(ft_substr(s, 0, i), 0));
+		t_add_back(list, t_new(ft_substr(s, 0, i), 0));
 		return (i);
 	}
 	i++;
