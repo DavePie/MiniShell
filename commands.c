@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 15:40:46 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/22 16:32:16 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/22 17:16:42 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,21 +25,7 @@ Command: is not before redir.
 Pipes: Fake pipe if redir on command
 Arg not redir but after command without pipe
 */
-// void	ft_error(char *s)
-// {
-// 	printf("%s\n", s);
-// }
-// void	ft_close(int fd)
-// {
-// 	if (fd != -1)
-// 		close(fd);
-// }
 
-// void	ft_dup2(int fd1, int fd2)
-// {
-// 	dup2(fd1, fd2);
-// 	ft_close(fd1);
-// }
 /**
  * @brief Get the type object
  * 
@@ -93,20 +79,6 @@ int	open_fd(char *name, int prev, int tags, int mode)
 	// error out if -1
 	return (fd);
 }
-void	ft_c(int *pipefd, char *input)
-{
-	ft_close(pipefd[0]);
-	ft_dup2(pipefd[1], STDOUT_FILENO);
-	printf("%s", input);
-	exit(0);
-}
-
-int	ft_p(int *pipefd, pid_t child_pid)
-{
-	ft_close(pipefd[1]);
-	waitpid(child_pid, NULL, 0);
-	return (pipefd[0]);
-}
 
 int	exec_redir(char *input)
 {
@@ -119,8 +91,15 @@ int	exec_redir(char *input)
 	if (pid == -1)
 		ft_error("Fork error");
 	if (pid == 0)
-		ft_c(pipefd, input);
-	return ft_p(pipefd, pid);
+	{
+		ft_close(pipefd[0]);
+		ft_dup2(pipefd[1], STDOUT_FILENO);
+		printf("%s", input);
+		exit(0);
+	}
+	ft_close(pipefd[1]);
+	waitpid(pid, NULL, 0);
+	return (pipefd[0]);
 }
 
 int	exec_next_command(t_token **cur, t_com *cmd)
@@ -156,7 +135,7 @@ int	exec_next_command(t_token **cur, t_com *cmd)
 		(*cur) = (*cur)->next;
 	}
 	set_cmd_args(first, l, cmd);
-	return (ft_fork_and_exec(cmd)); // return run command
+	return (ft_fork_and_exec(cmd));
 }
 
 int	exec_commands(t_token **first, char **envp)
@@ -172,5 +151,5 @@ int	exec_commands(t_token **first, char **envp)
 		cur_c = (t_com){.env = envp, .i_fd = prev, .o_fd = OUTPUT_STD};
 		prev = exec_next_command(&cur, &cur_c);
 	}
-	return (prev); // last command output.
+	return (prev);
 }

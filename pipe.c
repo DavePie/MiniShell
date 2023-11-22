@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 14:30:27 by alde-oli          #+#    #+#             */
-/*   Updated: 2023/11/22 16:58:22 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/22 18:39:03 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,18 +161,24 @@ void	ft_child(int *pipefd, t_com *cmd)
 		ft_dup2(cmd->o_fd, STDOUT_FILENO);
 	if (cmd->args[0])
 		ft_exec_command(cmd->args, cmd->env);
-	else
-		exit(0);
+	exit(0);
 }
 
 int	ft_parent(int *pipefd, t_com *cmd, pid_t child_pid)
 {
 	int return_val;
+	int	pid;
 
 	ft_close(pipefd[1]);
 	if (cmd->i_fd)
 		ft_close(cmd->i_fd);
-	waitpid(child_pid, &return_val, 0);
+	if (cmd->o_fd != OUTPUT_PIPE)
+	{
+		waitpid(child_pid, &return_val, WCONTINUED);
+		pid = 0;
+		while (pid >= 0)
+			pid = wait(NULL);
+	}
 	if (cmd->o_fd != OUTPUT_PIPE)
 		return (return_val);
 	return (pipefd[0]);
