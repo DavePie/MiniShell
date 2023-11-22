@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 15:40:46 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/21 17:16:50 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/22 16:32:16 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #include "libft.h"
 #include "minishell.h"
 #include "commands.h"
+#include "pipe.h"
+#include "utils.h"
 
 /*
 File: directly after redir (< file), checked first.
@@ -23,7 +25,21 @@ Command: is not before redir.
 Pipes: Fake pipe if redir on command
 Arg not redir but after command without pipe
 */
+// void	ft_error(char *s)
+// {
+// 	printf("%s\n", s);
+// }
+// void	ft_close(int fd)
+// {
+// 	if (fd != -1)
+// 		close(fd);
+// }
 
+// void	ft_dup2(int fd1, int fd2)
+// {
+// 	dup2(fd1, fd2);
+// 	ft_close(fd1);
+// }
 /**
  * @brief Get the type object
  * 
@@ -47,7 +63,7 @@ int	type_t(t_token *token)
 	return (0);
 }
 
-void	set_cmd_args(t_token cur, int l, t_com *cur_c)
+void	set_cmd_args(t_token *cur, int l, t_com *cur_c)
 {
 	char	**args;
 	int		prev;
@@ -73,15 +89,44 @@ int	open_fd(char *name, int prev, int tags, int mode)
 
 	if (prev > 0)
 		close(prev);
-	fd = open(name, tags);
+	fd = open(name, tags, mode);
 	// error out if -1
 	return (fd);
+}
+void	ft_c(int *pipefd, char *input)
+{
+	ft_close(pipefd[0]);
+	ft_dup2(pipefd[1], STDOUT_FILENO);
+	printf("%s", input);
+	exit(0);
+}
+
+int	ft_p(int *pipefd, pid_t child_pid)
+{
+	ft_close(pipefd[1]);
+	waitpid(child_pid, NULL, 0);
+	return (pipefd[0]);
+}
+
+int	exec_redir(char *input)
+{
+	int		pipefd[2];
+	pid_t	pid;
+
+	if (pipe(pipefd) == -1)
+		ft_error("Pipe error");
+	pid = fork();
+	if (pid == -1)
+		ft_error("Fork error");
+	if (pid == 0)
+		ft_c(pipefd, input);
+	return ft_p(pipefd, pid);
 }
 
 int	exec_next_command(t_token **cur, t_com *cmd)
 {
 	int		l;
-	t_token	first;
+	t_token	*first;
 
 	first = *cur;
 	l = 0;
@@ -94,9 +139,9 @@ int	exec_next_command(t_token **cur, t_com *cmd)
 			cmd->o_fd = open_fd((*cur)->next->token,
 					cmd->o_fd, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		else if (type_t(*cur) == IN)
-			cmd->o_fd = open_fd((*cur)->next->token, cmd->i_fd, O_RDONLY, 0);
+			cmd->i_fd = open_fd((*cur)->next->token, cmd->i_fd, O_RDONLY, 0);
 		else if (type_t(*cur) == IN_D)
-			cmd->i_fd = 0;//SPECIAL CASE TO FIX
+			cmd->i_fd = exec_redir((*cur)->next->token);
 		else if (type_t(*cur) == PIPE)
 		{
 			if (cmd->o_fd == OUTPUT_STD)
@@ -104,14 +149,14 @@ int	exec_next_command(t_token **cur, t_com *cmd)
 			(*cur) = (*cur)->next;
 			break ;
 		}
-		if (type_t(cur))
+		if (type_t(*cur))
 			(*cur) = (*cur)->next;
 		else
 			l++;
 		(*cur) = (*cur)->next;
 	}
-	set_cmd_args(*cur)
-	return (0); // return run command
+	set_cmd_args(first, l, cmd);
+	return (ft_fork_and_exec(cmd)); // return run command
 }
 
 int	exec_commands(t_token **first, char **envp)
@@ -119,14 +164,13 @@ int	exec_commands(t_token **first, char **envp)
 	t_token	*cur;
 	t_com	cur_c;
 	int		prev;
-	int		ans;
 
 	cur = *first;
 	prev = NO_INPUT;
 	while (cur)
 	{
 		cur_c = (t_com){.env = envp, .i_fd = prev, .o_fd = OUTPUT_STD};
-		cur_c->id_fd = exec_next_command(&cur, &cur_c);
+		prev = exec_next_command(&cur, &cur_c);
 	}
 	return (prev); // last command output.
 }

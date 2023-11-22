@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 12:05:34 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/21 15:38:14 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/22 16:15:08 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # define OUTPUT_PIPE -2
 # define OUTPUT_STD -3
 # define NO_INPUT -2
+# include "tokens.h"
 
 typedef struct s_com
 {
