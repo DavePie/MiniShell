@@ -6,27 +6,17 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 14:30:27 by alde-oli          #+#    #+#             */
-/*   Updated: 2023/11/14 09:03:07 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/22 16:58:22 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipe.h"
 #include "libft.h"
 #include "utils.h"
-
-char	**ft_free_str_tab(char **s)
-{
-	while (*s)
-	{
-		free(*s);
-		s++;
-	}
-	s = 0;
-	return (0);
-}
+#include "commands.h"
 
 //TEMP
-char	*ft_free(char *s)
+ char	*ft_free(char *s)
 {
 	if (s)
 		free(s);
@@ -34,18 +24,18 @@ char	*ft_free(char *s)
 	return (0);
 }
 //TEMP
-void	ft_error(char *s)
+ void	ft_error(char *s)
 {
 	printf("%s\n", s);
 }
 
-void	ft_close(int fd)
+ void	ft_close(int fd)
 {
 	if (fd != -1)
 		close(fd);
 }
 
-void	ft_dup2(int fd1, int fd2)
+ void	ft_dup2(int fd1, int fd2)
 {
 	dup2(fd1, fd2);
 	ft_close(fd1);
@@ -148,40 +138,47 @@ static char	*get_command_path(char *cmd, char **envp)
 	return (cmd_path);
 }
 
-int	ft_exec_command(char *cmd, char **envp)
+int	ft_exec_command(char **cmd, char **envp)
 {
-	char	**cmd_args;
+
 	char	*path;
 
-	cmd_args = ft_split(cmd, ' ');
-	if (cmd_args == NULL)
-		ft_error("Split error");
-	path = get_command_path(cmd_args[0], envp);
-	if (execve(path, cmd_args, envp) == -1)
+	path = get_command_path(cmd[0], envp);
+	if (execve(path, cmd, envp) == -1)
 		ft_error("Execve error");
-	ft_free_str_tab(cmd_args);
+	ft_free_str_tab(cmd);
 	path = ft_free(path);
 	return (1);
 }
 
 /**********************************************************/
-void	ft_child(int *pipefd, char *cmd, char **envp)
+void	ft_child(int *pipefd, t_com *cmd)
 {
 	ft_close(pipefd[0]);
-	ft_dup2(pipefd[1], STDOUT_FILENO);
-	ft_exec_command(cmd, envp);
+	if (cmd->o_fd == OUTPUT_PIPE)
+		ft_dup2(pipefd[1], STDOUT_FILENO);
+	if (cmd->o_fd != OUTPUT_STD)
+		ft_dup2(cmd->o_fd, STDOUT_FILENO);
+	if (cmd->args[0])
+		ft_exec_command(cmd->args, cmd->env);
+	else
+		exit(0);
 }
 
-int	ft_parent(int *pipefd, int *prev_input_fd, pid_t child_pid)
+int	ft_parent(int *pipefd, t_com *cmd, pid_t child_pid)
 {
+	int return_val;
+
 	ft_close(pipefd[1]);
-	if (prev_input_fd)
-		ft_close(*prev_input_fd);
-	waitpid(child_pid, NULL, 0);
+	if (cmd->i_fd)
+		ft_close(cmd->i_fd);
+	waitpid(child_pid, &return_val, 0);
+	if (cmd->o_fd != OUTPUT_PIPE)
+		return (return_val);
 	return (pipefd[0]);
 }
 
-void	ft_fork_and_exec(int *prev_input_fd, char *cmd, char **envp)
+int	ft_fork_and_exec(t_com *cmd)
 {
 	int		pipefd[2];
 	pid_t	pid;
@@ -193,37 +190,36 @@ void	ft_fork_and_exec(int *prev_input_fd, char *cmd, char **envp)
 		ft_error("Fork error");
 	if (pid == 0)
 	{
-		if (prev_input_fd)
-			ft_dup2(*prev_input_fd, STDIN_FILENO);
-		ft_child(pipefd, cmd, envp);
+		if (cmd->i_fd)
+			ft_dup2(cmd->i_fd, STDIN_FILENO);
+		ft_child(pipefd, cmd);
 	}
-	else
-		*prev_input_fd = ft_parent(pipefd, prev_input_fd, pid);
+	return ft_parent(pipefd, cmd, pid);
 }
 
-int	ft_pipe(int argc, char **argv, char **envp)
-{
-	int	i;
-	int	input_fd;
-	int	output_fd;
+// int	ft_pipe(int argc, char **argv, char **envp)
+// {
+// 	int	i;
+// 	int	input_fd;
+// 	int	output_fd;
 
-	ft_start_check(argc, argv, envp);
-	input_fd = open(argv[1], O_RDONLY);
-	if (input_fd == -1)
-		ft_error("Error with file1");
-	i = 2;
-	while (i < argc - 2)
-	{
-		ft_fork_and_exec(&input_fd, argv[i], envp);
-		i++;
-	}
-	ft_dup2(input_fd, STDIN_FILENO);
-	output_fd = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (output_fd == -1)
-		ft_error("Error with file2");
-	ft_dup2(output_fd, STDOUT_FILENO);
-	ft_exec_command(argv[argc - 2], envp);
-	ft_close(input_fd);
-	ft_close(output_fd);
-	return (0);
-}
+// 	ft_start_check(argc, argv, envp);
+// 	input_fd = open(argv[1], O_RDONLY);
+// 	if (input_fd == -1)
+// 		ft_error("Error with file1");
+// 	i = 2;
+// 	while (i < argc - 2)
+// 	{
+// 		ft_fork_and_exec(&input_fd, argv[i], envp);
+// 		i++;
+// 	}
+// 	ft_dup2(input_fd, STDIN_FILENO);
+// 	output_fd = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+// 	if (output_fd == -1)
+// 		ft_error("Error with file2");
+// 	ft_dup2(output_fd, STDOUT_FILENO);
+// 	ft_exec_command(argv[argc - 2], envp);
+// 	ft_close(input_fd);
+// 	ft_close(output_fd);
+// 	return (0);
+// }

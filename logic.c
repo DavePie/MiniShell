@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 14:27:39 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/20 11:52:27 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/22 16:44:47 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,9 @@ int	run_all_commands(char *str, char **envp)
 	while (next_i != -1)
 	{
 		if (cur)
-			next_i = get_next_command(str, "&&", next_i);
-		else
 			next_i = get_next_command(str, "||", next_i);
+		else
+			next_i = get_next_command(str, "&&", next_i);
 		if (next_i == -1)
 			break ;
 		cur = run_command_at(str, next_i, envp);

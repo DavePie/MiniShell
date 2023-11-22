@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 11:07:11 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/21 13:01:52 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/22 17:01:35 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,28 +38,27 @@ int	run(char *str, int start, int end, char **envp)
 	f_list = malloc(sizeof(t_token *));
 
 	input = ft_substr(str, start, end - start);
-	printf("input string: %s", input);
+	//printf("input string: %s", input);
 
-	printf("split args:\n");
+	//printf("split args:\n");
 	f_list = split_args(input);
-	print_tokens(*f_list);
+	//print_tokens(*f_list);
 
-	printf("add env:\n");
+	//printf("add env:\n");
 	ft_convert_envs(f_list, envp);
-	print_tokens(*f_list);
+	//print_tokens(*f_list);
 
-	printf("pre-merge wildcard:\n");
+	//printf("pre-merge wildcard:\n");
 	merge_tokens(*f_list, 0);
-	print_tokens(*f_list);
+	//print_tokens(*f_list);
 
-	printf("wildcard:\n");
+	//printf("wildcard:\n");
 	convert_wildcards(f_list);
-	print_tokens(*f_list);
+	//print_tokens(*f_list);
 
-	printf("final merge:\n");
+	//printf("final merge:\n");
 	merge_tokens(*f_list, 1);
-	print_tokens(*f_list);
-	
-	//exec_commands(f_list, envp);
-	return ((start - end) % 2);
+	//print_tokens(*f_list);
+
+	return (exec_commands(f_list, envp));
 }

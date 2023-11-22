@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alde-oli <alde-oli@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 10:06:33 by alde-oli          #+#    #+#             */
-/*   Updated: 2023/11/13 14:35:04 by alde-oli         ###   ########.fr       */
+/*   Updated: 2023/11/22 16:41:31 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,11 @@
 # include <fcntl.h>
 # include <sys/wait.h>
 # include <stdio.h>
+# include "commands.h"
+
+void	ft_error(char *s);
+
+char	*ft_free(char *s);
 
 /**
  * @brief (might be unnecessary) verif if fd != -1 and closes it
@@ -52,7 +57,7 @@ void	ft_start_check(int argc, char **argv, char **envp);
  * @param envp 
  * @return int 
  */
-int		ft_exec_command(char *cmd, char **envp);
+int		ft_exec_command(char **cmd, char **envp);
 /**
  * @brief executes child routine
  * @brief closes pipefd[0] and duplicates pipefd[1] to STDOUT_FILENO 
@@ -62,7 +67,7 @@ int		ft_exec_command(char *cmd, char **envp);
  * @param cmd 
  * @param envp 
  */
-void	ft_child(int *pipefd, char *cmd, char **envp);
+void	ft_child(int *pipefd, t_com *cmd);
 /**
  * @brief executes parent routine
  * @brief closes pipefd[1], waits forr child to finish and returns pipefd[0]
@@ -72,7 +77,7 @@ void	ft_child(int *pipefd, char *cmd, char **envp);
  * @param child_pid 
  * @return int 
  */
-int		ft_parent(int *pipefd, int *prev_input_fd, pid_t child_pid);
+int	ft_parent(int *pipefd, t_com *cmd, pid_t child_pid);
 /**
  * @brief creates the pipe and the fork, if child dups prev_input_fd to STDIN_FILENO,
  * @brief if parent calls ft_parent assigning the return value to prev_input_fd
@@ -81,7 +86,7 @@ int		ft_parent(int *pipefd, int *prev_input_fd, pid_t child_pid);
  * @param cmd 
  * @param envp 
 */
-void	ft_fork_and_exec(int *prev_input_fd, char *cmd, char **envp);
+int	ft_fork_and_exec(t_com *cmd);
 /**
  * @brief calls ft_start_check, opens infile, loops ft_fork_and_exec until last command
  * @brief opens outfile, dups outfile to STDOUT_FILENO and calls ft_exec_command
