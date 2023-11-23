@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 09:35:09 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/23 11:07:50 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/23 14:29:53 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 #include "history.h"
 #include "minishell.h"
 #include "utils_shell.h"
-#include "tokens.h"
 
 int	g_sig = 0;
 

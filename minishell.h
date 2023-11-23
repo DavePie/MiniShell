@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 11:44:56 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/21 15:29:09 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/23 14:03:03 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <readline/history.h>
 # include <signal.h>
 # include <fcntl.h>
+# include <dirent.h>
 # define SINGLE 1
 # define DOUBLE 2
 # define NAME = "minishell"
@@ -28,6 +29,18 @@
 # define OUT_A 3
 # define IN 4
 # define IN_D 5
+
+/**
+ * @brief struct containing the token and if it is a pipe/redir
+ * @note We need this since a string can't become a pipe/redir.
+ */
+typedef struct s_token
+{
+	int				is_string;
+	char			*token;
+	struct s_token	*next;
+	int				adj_prev;
+}	t_token;
 
 void	rl_replace_line(const char *c, int d);
 

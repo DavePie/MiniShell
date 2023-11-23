@@ -6,11 +6,10 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 11:07:11 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/23 12:28:43 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/23 14:30:29 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tokens.h"
 #include "convert_env.h"
 #include "minishell.h"
 #include "wildcards.h"
@@ -41,10 +40,8 @@ int	run(char *str, int start, int end, char **envp)
 	//printf("input string: %s", input);
 	//printf("split args:\n");
 	f_list = split_args(input);
-	envp++;
-	//print_tokens(*f_list);
 	//printf("add env:\n");
-	ft_convert_envs(f_list, envp);
+	ft_convert_envs(f_list);
 	//print_tokens(*f_list);
 	//printf("pre-merge wildcard:\n");
 	merge_tokens(*f_list, 0);
@@ -57,7 +54,7 @@ int	run(char *str, int start, int end, char **envp)
 	//print_tokens(*f_list);
 	free(input);
 	return_val = 0;
-	return_val = (exec_commands(f_list, envp));// 1 leak
+	return_val = (exec_commands(f_list, envp));
 	t_clear(f_list);
 	free(f_list);
 	return (return_val);

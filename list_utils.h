@@ -6,13 +6,13 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 12:24:13 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/23 11:12:02 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/23 14:03:26 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIST_UTILS_H
 # define LIST_UTILS_H
-# include "tokens.h"
+# include "minishell.h"
 
 t_token	*t_new(char *token, int isstr);
 

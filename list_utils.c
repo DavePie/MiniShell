@@ -6,11 +6,10 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 12:01:15 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/23 11:55:05 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/23 14:29:46 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tokens.h"
 #include "minishell.h"
 
 t_token	*t_new(char *token, int isstr)

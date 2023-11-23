@@ -6,11 +6,10 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 11:42:02 by alde-oli          #+#    #+#             */
-/*   Updated: 2023/11/23 12:00:11 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/23 14:30:18 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tokens.h"
 #include "list_utils.h"
 #include "utils.h"
 #include "minishell.h"
@@ -40,13 +39,13 @@ char	*ft_get_env_var(char *s)
 		return (NULL);
 	i++;
 	j = 0;
-	while (s[i + j] && !is_s(s[i + j]))
+	while (s[i + j] && !is_s(s[i + j]) && s[i + j] != '$')
 		j++;
 	env = ft_calloc(j + 1, sizeof(char));
 	if (!env)
 		return (NULL);
 	j = 0;
-	while (s[i + j] && !is_s(s[i + j]))
+	while (s[i + j] && !is_s(s[i + j]) && s[i + j] != '$')
 	{
 		env[j] = s[i + j];
 		j++;
@@ -54,31 +53,19 @@ char	*ft_get_env_var(char *s)
 	return (env);
 }
 
-char	*ft_get_env(char **envp, char *s)
+char	*ft_get_env(char *s)
 {
 	char	*env;
 	char	*env_var;
 
-
 	env_var = ft_get_env_var(s);
 	if (!env_var)
 		return (NULL);
-	while (*envp)
-	{
-		if (ft_strncmp(env_var, *envp, ft_strlen(env_var)) == 0
-			&& (*envp)[ft_strlen(env_var)] == '=')
-		{
-			env = ft_strndup (*envp + ft_strlen(env_var) + 1,
-					ft_strlen(*envp) - ft_strlen(env_var) - 2);
-			free(env_var);
-			if (!env)
-				return (NULL);
-			return (env);
-		}
-		envp++;
-	}
+	env = getenv(env_var);
 	free(env_var);
-	return (NULL);
+	if (!env)
+		return "";
+	return (env);
 }
 
 char	*ft_insert_env(char **token, char *env)
@@ -89,8 +76,6 @@ char	*ft_insert_env(char **token, char *env)
 	char	*s;
 
 	s = *token;
-	if (!env)
-		env = ft_strdup("");
 	env_var = ft_get_env_var(s);
 	modified_s = ft_calloc(ft_strlen(s) - ft_strlen(env_var)
 			+ ft_strlen(env) + 1, sizeof(char));
@@ -103,7 +88,6 @@ char	*ft_insert_env(char **token, char *env)
 	i += ft_strlen(env_var) + 1;
 	ft_strlcat(modified_s, env, i + ft_strlen(env) + 1);
 	ft_strlcat(modified_s, s + i, i + ft_strlen(env) + ft_strlen(s) - i + 1);
-	free(env);
 	if (*token)
 		free(*token);
 	*token = 0;
@@ -146,7 +130,7 @@ int	remove_env_token(t_token **tokens, char *env, t_token **cur, t_token **prev)
 	return (0);
 }
 
-t_token	**ft_convert_envs(t_token **tokens, char **envp)
+t_token	**ft_convert_envs(t_token **tokens)
 {
 	t_token	*cur;
 	t_token	*prev;
@@ -154,19 +138,18 @@ t_token	**ft_convert_envs(t_token **tokens, char **envp)
 
 	cur = *tokens;
 	prev = NULL;
-	env = *envp;
 	while (cur)
 	{
 		if (cur->is_string != SINGLE && ft_is_env(cur->token))
 		{
-			env = ft_get_env(envp, cur->token);
+			env = ft_get_env(cur->token);
 			if (env || cur->is_string == DOUBLE)
 				cur->token = ft_insert_env(&cur->token, env);
 			if (cur->is_string == 0 && (env || cur->is_string == DOUBLE))
 				cur = ft_split_token(tokens, cur, prev,
 						cur->adj_prev * !is_s(*cur->token));
-			if (remove_env_token(tokens, env, &cur, &prev))
-				continue ;
+			remove_env_token(tokens, env, &cur, &prev);
+			continue ;
 		}
 		prev = cur;
 		cur = cur->next;
