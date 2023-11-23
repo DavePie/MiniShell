@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alde-oli <alde-oli@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 12:56:10 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/14 08:41:57 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/23 11:56:59 by alde-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,3 +31,40 @@ int	echo(int ac, char*av[])
 		printf("\n");
 	return (0);
 }
+
+int	pwd(void)
+{
+	char	*pwd;
+	int		printf_return;
+
+	pwd = getcwd(NULL, 0);
+	if (!pwd)
+		return (1);
+	printf_return = printf("%s\n", pwd);
+	free(pwd);
+	return (printf_return);
+}
+
+int	cd(char *path, char **envp)
+{
+	char	*home;
+
+	if (!path)
+	{
+		while (envp && *envp)
+		{
+			if (!ft_strncmp(*envp, "HOME=", 5))
+				path = *envp + 5;
+			envp++;
+		}
+		if (!path)
+			return (-2);
+		home = ft_strdup(path);
+		path[0] = '/';
+		path[strlen(path) - 2] = 0;
+		return (chdir(home));
+	}
+	return (chdir(path));
+}
+
+
