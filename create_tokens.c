@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 11:46:12 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/22 13:49:47 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/23 12:26:35 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ void	merge_str(t_token *cur, int l, int ignore_wild)
 	s = cur->token;
 	cur->token = malloc(sizeof(char) * l + 1);
 	ft_strcpy(cur->token, s);
+	free(s);
 	s = cur->token + ft_strlen(s);
 	while (temp && temp->adj_prev && (ignore_wild || !is_wild_token(temp)))
 	{

@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 11:42:02 by alde-oli          #+#    #+#             */
-/*   Updated: 2023/11/21 12:14:52 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/23 12:00:11 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,12 +81,14 @@ char	*ft_get_env(char **envp, char *s)
 	return (NULL);
 }
 
-char	*ft_insert_env(char *s, char *env)
+char	*ft_insert_env(char **token, char *env)
 {
 	char	*env_var;
 	char	*modified_s;
 	int		i;
+	char	*s;
 
+	s = *token;
 	if (!env)
 		env = ft_strdup("");
 	env_var = ft_get_env_var(s);
@@ -98,11 +100,13 @@ char	*ft_insert_env(char *s, char *env)
 		modified_s[i] = s[i];
 		i++;
 	}
-	i++;
-	i += ft_strlen(env_var);
+	i += ft_strlen(env_var) + 1;
 	ft_strlcat(modified_s, env, i + ft_strlen(env) + 1);
 	ft_strlcat(modified_s, s + i, i + ft_strlen(env) + ft_strlen(s) - i + 1);
 	free(env);
+	if (*token)
+		free(*token);
+	*token = 0;
 	free(env_var);
 	return (modified_s);
 }
@@ -150,13 +154,14 @@ t_token	**ft_convert_envs(t_token **tokens, char **envp)
 
 	cur = *tokens;
 	prev = NULL;
+	env = *envp;
 	while (cur)
 	{
 		if (cur->is_string != SINGLE && ft_is_env(cur->token))
 		{
 			env = ft_get_env(envp, cur->token);
 			if (env || cur->is_string == DOUBLE)
-				cur->token = ft_insert_env(cur->token, env);
+				cur->token = ft_insert_env(&cur->token, env);
 			if (cur->is_string == 0 && (env || cur->is_string == DOUBLE))
 				cur = ft_split_token(tokens, cur, prev,
 						cur->adj_prev * !is_s(*cur->token));

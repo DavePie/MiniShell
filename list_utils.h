@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 12:24:13 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/21 17:35:28 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/23 11:12:02 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,7 @@ t_token	*t_insert(t_token *dest, t_token *src);
 
 t_token	*t_replace(t_token **first,
 			t_token *prev, t_token *arg, t_token *to_add);
+
+void	t_clear(t_token **lst);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 14:30:27 by alde-oli          #+#    #+#             */
-/*   Updated: 2023/11/22 18:39:03 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/23 12:37:12 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,6 @@ static char	*get_command_path(char *cmd, char **envp)
 
 int	ft_exec_command(char **cmd, char **envp)
 {
-
 	char	*path;
 
 	path = get_command_path(cmd[0], envp);
@@ -166,7 +165,7 @@ void	ft_child(int *pipefd, t_com *cmd)
 
 int	ft_parent(int *pipefd, t_com *cmd, pid_t child_pid)
 {
-	int return_val;
+	int	return_val;
 	int	pid;
 
 	ft_close(pipefd[1]);
@@ -200,7 +199,8 @@ int	ft_fork_and_exec(t_com *cmd)
 			ft_dup2(cmd->i_fd, STDIN_FILENO);
 		ft_child(pipefd, cmd);
 	}
-	return ft_parent(pipefd, cmd, pid);
+	free(cmd->args);
+	return (ft_parent(pipefd, cmd, pid));
 }
 
 // int	ft_pipe(int argc, char **argv, char **envp)

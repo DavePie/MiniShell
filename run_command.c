@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 11:07:11 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/22 17:01:35 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/23 12:28:43 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "create_tokens.h"
 #include "libft.h"
 #include "commands.h"
+#include "list_utils.h"
 
 void	print_tokens(t_token *cur)
 {
@@ -34,31 +35,30 @@ int	run(char *str, int start, int end, char **envp)
 {
 	char	*input;
 	t_token	**f_list;
-
-	f_list = malloc(sizeof(t_token *));
+	int		return_val;
 
 	input = ft_substr(str, start, end - start);
 	//printf("input string: %s", input);
-
 	//printf("split args:\n");
 	f_list = split_args(input);
+	envp++;
 	//print_tokens(*f_list);
-
 	//printf("add env:\n");
 	ft_convert_envs(f_list, envp);
 	//print_tokens(*f_list);
-
 	//printf("pre-merge wildcard:\n");
 	merge_tokens(*f_list, 0);
 	//print_tokens(*f_list);
-
 	//printf("wildcard:\n");
 	convert_wildcards(f_list);
 	//print_tokens(*f_list);
-
 	//printf("final merge:\n");
 	merge_tokens(*f_list, 1);
 	//print_tokens(*f_list);
-
-	return (exec_commands(f_list, envp));
+	free(input);
+	return_val = 0;
+	return_val = (exec_commands(f_list, envp));// 1 leak
+	t_clear(f_list);
+	free(f_list);
+	return (return_val);
 }
