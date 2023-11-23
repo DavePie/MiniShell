@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   run_command.c                                      :+:      :+:    :+:   */
+/*   commands2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 11:07:11 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/23 14:30:29 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/23 16:13:50 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,21 @@ void	print_tokens(t_token *cur)
 	printf("\n");
 }
 
+int	exec_commands(t_token **first, char **envp)
+{
+	t_token	*cur;
+	t_com	cur_c;
+	int		prev;
+
+	cur = *first;
+	prev = NO_INPUT;
+	while (cur)
+	{
+		cur_c = (t_com){.env = envp, .i_fd = prev, .o_fd = OUTPUT_STD};
+		prev = exec_next_command(&cur, &cur_c, 0);
+	}
+	return (prev);
+}
 
 int	run(char *str, int start, int end, char **envp)
 {
@@ -37,21 +52,11 @@ int	run(char *str, int start, int end, char **envp)
 	int		return_val;
 
 	input = ft_substr(str, start, end - start);
-	//printf("input string: %s", input);
-	//printf("split args:\n");
 	f_list = split_args(input);
-	//printf("add env:\n");
 	ft_convert_envs(f_list);
-	//print_tokens(*f_list);
-	//printf("pre-merge wildcard:\n");
 	merge_tokens(*f_list, 0);
-	//print_tokens(*f_list);
-	//printf("wildcard:\n");
 	convert_wildcards(f_list);
-	//print_tokens(*f_list);
-	//printf("final merge:\n");
 	merge_tokens(*f_list, 1);
-	//print_tokens(*f_list);
 	free(input);
 	return_val = 0;
 	return_val = (exec_commands(f_list, envp));

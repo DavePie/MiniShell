@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 11:42:02 by alde-oli          #+#    #+#             */
-/*   Updated: 2023/11/23 14:30:18 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/23 16:18:47 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char	*ft_get_env(char *s)
 	env = getenv(env_var);
 	free(env_var);
 	if (!env)
-		return "";
+		return ("");
 	return (env);
 }
 
@@ -95,7 +95,8 @@ char	*ft_insert_env(char **token, char *env)
 	return (modified_s);
 }
 
-t_token	*ft_split_token(t_token **tokens, t_token *cur, t_token *prev, int adj_prev)
+t_token	*ft_split_token(t_token **tokens, t_token *cur,
+	t_token *prev, int adj_prev)
 {
 	t_token	*split;
 	char	**strs;
@@ -115,44 +116,4 @@ t_token	*ft_split_token(t_token **tokens, t_token *cur, t_token *prev, int adj_p
 	cur = t_replace(tokens, prev, cur, split);
 	ft_free_str_tab(strs);
 	return (cur);
-}
-
-int	remove_env_token(t_token **tokens, char *env, t_token **cur, t_token **prev)
-{
-	if (!(env || (*cur)->is_string == DOUBLE))
-	{
-		t_del(tokens, *prev);
-		*cur = *tokens;
-		if (*prev)
-			*cur = (*prev)->next;
-		return (1);
-	}
-	return (0);
-}
-
-t_token	**ft_convert_envs(t_token **tokens)
-{
-	t_token	*cur;
-	t_token	*prev;
-	char	*env;
-
-	cur = *tokens;
-	prev = NULL;
-	while (cur)
-	{
-		if (cur->is_string != SINGLE && ft_is_env(cur->token))
-		{
-			env = ft_get_env(cur->token);
-			if (env || cur->is_string == DOUBLE)
-				cur->token = ft_insert_env(&cur->token, env);
-			if (cur->is_string == 0 && (env || cur->is_string == DOUBLE))
-				cur = ft_split_token(tokens, cur, prev,
-						cur->adj_prev * !is_s(*cur->token));
-			remove_env_token(tokens, env, &cur, &prev);
-			continue ;
-		}
-		prev = cur;
-		cur = cur->next;
-	}
-	return (tokens);
 }

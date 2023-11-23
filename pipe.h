@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 10:06:33 by alde-oli          #+#    #+#             */
-/*   Updated: 2023/11/22 16:41:31 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/23 16:19:45 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,24 +40,8 @@ void	ft_close(int fd);
  */
 void	ft_dup2(int fd1, int fd2);
 
-/**
- * @brief verifies if there are enough args, if envp exists 
- * @brief and if input and output are usable
- * 
- * @param argc 
- * @param argv 
- * @param envp 
- */
-void	ft_start_check(int argc, char **argv, char **envp);
-/**
- * @brief executes the command
- * @note will need adjustments for builtins 
- * 
- * @param cmd 
- * @param envp 
- * @return int 
- */
-int		ft_exec_command(char **cmd, char **envp);
+char	*join_path_with_cmd(const char *path, const char *cmd);
+
 /**
  * @brief executes child routine
  * @brief closes pipefd[0] and duplicates pipefd[1] to STDOUT_FILENO 
@@ -68,6 +52,7 @@ int		ft_exec_command(char **cmd, char **envp);
  * @param envp 
  */
 void	ft_child(int *pipefd, t_com *cmd);
+
 /**
  * @brief executes parent routine
  * @brief closes pipefd[1], waits forr child to finish and returns pipefd[0]
@@ -77,25 +62,18 @@ void	ft_child(int *pipefd, t_com *cmd);
  * @param child_pid 
  * @return int 
  */
-int	ft_parent(int *pipefd, t_com *cmd, pid_t child_pid);
+int		ft_parent(int *pipefd, t_com *cmd, pid_t child_pid);
+
 /**
- * @brief creates the pipe and the fork, if child dups prev_input_fd to STDIN_FILENO,
- * @brief if parent calls ft_parent assigning the return value to prev_input_fd
+ * @brief creates the pipe and the fork, if child dups prev_input_fd
+ * to STDIN_FILENO,
+ * @brief if parent calls ft_parent assigning the return value
+ * to prev_input_fd
  * 
  * @param prev_input_fd 
  * @param cmd 
  * @param envp 
 */
-int	ft_fork_and_exec(t_com *cmd);
-/**
- * @brief calls ft_start_check, opens infile, loops ft_fork_and_exec until last command
- * @brief opens outfile, dups outfile to STDOUT_FILENO and calls ft_exec_command
- * 
- * @param arg_nb 
- * @param args 
- * @param envp 
- * @return int 
- */
-int		ft_pipe(int arg_nb, char **args, char **envp);
+int		ft_fork_and_exec(t_com *cmd);
 
 #endif

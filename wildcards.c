@@ -6,55 +6,29 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 11:16:39 by alde-oli          #+#    #+#             */
-/*   Updated: 2023/11/23 14:29:57 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/23 16:15:00 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
+#include "libft.h"
 #include "list_utils.h"
 #include "minishell.h"
-#include "run_command.h"
-
-int	ft_is_star(t_token *token)
-{
-	if (token->is_string == 0 && ft_strchr(token->token, '*'))
-		return (1);
-	return (0);
-}
-
-int	is_wildcard(t_token *token)
-{
-	int	is_next;
-	int	found_star;
-
-	is_next = 1;
-	found_star = 0;
-	while (token && is_next && !found_star)
-	{
-		if (!token->next || !token->next->adj_prev)
-			is_next = 0;
-		if (ft_is_star(token))
-			found_star = 1;
-		token = token->next;
-	}
-	return (found_star);
-}
+#include "commands.h"
+#include "wildcards.h"
 
 int	ft_search_substr(char *str, char *substr)
 {
 	int	i;
 	int	j;
 
-	i = 0;
-	j = 0;
-	while (str[i])
+	i = -1;
+	while (str[++i])
 	{
+		j = 0;
 		while (str[i + j] == substr[j] && str[i + j] && substr[j])
 			j++;
 		if (!substr[j])
 			return (i);
-		j = 0;
-		i++;
 	}
 	return (-1);
 }
@@ -69,12 +43,8 @@ int	ft_match_last(char *str, char *substr)
 	if (j > i)
 		return (0);
 	while (j >= 0)
-	{
-		if (str[i] != substr[j])
+		if (str[i--] != substr[j--])
 			return (0);
-		i--;
-		j--;
-	}
 	return (1);
 }
 
@@ -151,24 +121,4 @@ t_token	*replace_wildcard(t_token **first, t_token *prev, t_token *cur)
 	if (*first)
 		cur->next = prev;
 	return (*first);
-}
-
-t_token	**convert_wildcards(t_token **list)
-{
-	t_token	*cur;
-	t_token	*prev;
-
-	cur = *list;
-	prev = NULL;
-	while (cur)
-	{
-		if (is_wildcard(cur))
-			cur = replace_wildcard(list, prev, cur);
-		else
-		{
-			prev = cur;
-			cur = cur->next;
-		}
-	}
-	return (list);
 }
