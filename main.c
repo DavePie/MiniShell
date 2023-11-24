@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 09:35:09 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/23 15:31:02 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/24 14:09:14 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "history.h"
 #include "minishell.h"
 #include "utils_shell.h"
+#include <termios.h>
 
 int	g_sig = 0;
 
@@ -23,7 +24,7 @@ void	handle_ctrlc(int val)
 {
 	if (val != SIGINT)
 		return ;
-	write(1, "\n", 1);
+	printf("\n");
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
@@ -31,17 +32,24 @@ void	handle_ctrlc(int val)
 
 int	main(int ac, char *av[], char **envp)
 {
-	char	*input;
+	char			*input;
+	struct termios	termios_new;
 
+	tcgetattr(0, &termios_new);
+	termios_new.c_lflag &= ~ECHOCTL;
+	tcsetattr(0, 0, &termios_new);
 	av += ac * 0;
 	signal(SIGINT, handle_ctrlc);
+
 	while (1)
 	{
 		input = ft_read_line();
+		printf("got input\n");
 		if (!input)
 			exit_shell(0);
 		if (verify_input(input))
 			run_all_commands(input, envp);
+		signal(SIGINT, handle_ctrlc);
 		free(input);
 	}
 	return (0);
