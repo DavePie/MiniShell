@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 15:40:46 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/23 16:15:48 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/24 10:56:30 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,6 @@ Pipes: Fake pipe if redir on command
 Arg not redir but after command without pipe
 */
 
-/**
- * @brief Get the type object
- * 
- * @param token 
- * @return int 
- */
 int	type_t(t_token *token)
 {
 	if (token->is_string)
@@ -71,10 +65,50 @@ int	set_cmd_args(t_token *cur, int l, t_com *cur_c)
 	return (1);
 }
 
-int	exec_redir(char *input)
+int	reallojoin(char **dest, int cur_size, char *src, int src_size)
+{
+	char	*temp;
+	int		i;
+
+	i = -1;
+	temp = (char *)malloc(sizeof(char) * (cur_size + src_size + 1));
+	if (!temp)
+		return (0);
+	while (++i < cur_size)
+		temp[i] = (*dest)[i];
+	while (i < cur_size + src_size)
+	{
+		temp[i] = src[i - cur_size];
+		i++;
+	}
+	temp[i] = '\0';
+	free(*dest);
+	*dest = temp;
+	return (cur_size + src_size);
+}
+
+char	*read_delimiter(char *del)
+{
+	char	*input;
+	char	*ans;
+
+	input = readline("> ");
+	ans = ft_calloc(1, sizeof(char));
+	while (ft_strcmp(input, del))
+	{
+		reallojoin(&ans, ft_strlen(ans), input, ft_strlen(input));
+		reallojoin(&ans, ft_strlen(ans), "\n", 1);
+		free(input);
+		input = readline("> ");
+	}
+	return (ans);
+}
+
+int	exec_redir(char *delim)
 {
 	int		pipefd[2];
 	pid_t	pid;
+	char	*input;
 
 	if (pipe(pipefd) == -1)
 		ft_error("Pipe error");
@@ -83,6 +117,7 @@ int	exec_redir(char *input)
 		ft_error("Fork error");
 	if (pid == 0)
 	{
+		input = read_delimiter(delim);
 		ft_close(pipefd[0]);
 		ft_dup2(pipefd[1], STDOUT_FILENO);
 		printf("%s", input);
@@ -91,59 +126,4 @@ int	exec_redir(char *input)
 	ft_close(pipefd[1]);
 	waitpid(pid, NULL, 0);
 	return (pipefd[0]);
-}
-
-int	open_fd(char *name, int prev, int type)
-{
-	int	fd;
-	int	tags;
-	int	mode;
-
-	if (prev > 0)
-		close(prev);
-	tags = O_RDONLY;
-	mode = 0;
-	if (type == OUT)
-	{
-		tags = O_WRONLY | O_CREAT | O_TRUNC;
-		mode = 0644;
-	}
-	else if (type == OUT_A)
-	{
-		tags = O_WRONLY | O_CREAT | O_APPEND;
-		mode = 0644;
-	}
-	if (type != IN_D)
-		fd = open(name, tags, mode);
-	else
-		fd = exec_redir(name);
-	return (fd);
-}
-
-int	exec_next_command(t_token **cur, t_com *cmd, int l)
-{
-	t_token	*first;
-
-	first = *cur;
-	while (*cur)
-	{
-		if (type_t(*cur) == OUT || type_t(*cur) == OUT_A)
-			cmd->o_fd = open_fd((*cur)->next->token, cmd->o_fd, type_t(*cur));
-		else if (type_t(*cur) == IN || type_t(*cur) == IN_D)
-			cmd->i_fd = open_fd((*cur)->next->token, cmd->i_fd, type_t(*cur));
-		else if (type_t(*cur) == PIPE)
-		{
-			if (cmd->o_fd == OUTPUT_STD)
-				cmd->o_fd = OUTPUT_PIPE;
-			(*cur) = (*cur)->next;
-			break ;
-		}
-		if (type_t(*cur))
-			(*cur) = (*cur)->next;
-		else
-			l++;
-		(*cur) = (*cur)->next;
-	}
-	set_cmd_args(first, l, cmd);
-	return (ft_fork_and_exec(cmd));
 }

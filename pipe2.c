@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 16:08:01 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/23 16:08:54 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/24 11:10:36 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,9 +108,11 @@ int	ft_fork_and_exec(t_com *cmd)
 		ft_error("Fork error");
 	if (pid == 0)
 	{
-		if (cmd->i_fd)
+		if (cmd->i_fd > 0)
 			ft_dup2(cmd->i_fd, STDIN_FILENO);
-		ft_child(pipefd, cmd);
+		if (cmd->i_fd != -1)
+			ft_child(pipefd, cmd);
+		exit(1);
 	}
 	free(cmd->args);
 	return (ft_parent(pipefd, cmd, pid));

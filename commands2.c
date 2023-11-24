@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 11:07:11 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/23 16:13:50 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/24 11:06:41 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,37 @@
 #include "libft.h"
 #include "commands.h"
 #include "list_utils.h"
+#include "pipe.h"
+#include "utils_shell.h"
+
+int	open_fd(char *name, int prev, int type)
+{
+	int	fd;
+	int	tags;
+	int	mode;
+
+	if (prev > 0)
+		close(prev);
+	tags = O_RDONLY;
+	mode = 0;
+	if (type == OUT)
+	{
+		tags = O_WRONLY | O_CREAT | O_TRUNC;
+		mode = 0644;
+	}
+	else if (type == OUT_A)
+	{
+		tags = O_WRONLY | O_CREAT | O_APPEND;
+		mode = 0644;
+	}
+	if (type != IN_D)
+		fd = open(name, tags, mode);
+	else
+		fd = exec_redir(name);
+	if (fd == -1)
+		e_file_write(name);
+	return (fd);
+}
 
 void	print_tokens(t_token *cur)
 {
@@ -27,6 +58,34 @@ void	print_tokens(t_token *cur)
 		cur = cur->next;
 	}
 	printf("\n");
+}
+
+int	exec_next_command(t_token **cur, t_com *cmd, int l)
+{
+	t_token	*first;
+
+	first = *cur;
+	while (*cur && cmd->i_fd != -1 && cmd->o_fd != -1)
+	{
+		if (type_t(*cur) == OUT || type_t(*cur) == OUT_A)
+			cmd->o_fd = open_fd((*cur)->next->token, cmd->o_fd, type_t(*cur));
+		else if (type_t(*cur) == IN || type_t(*cur) == IN_D)
+			cmd->i_fd = open_fd((*cur)->next->token, cmd->i_fd, type_t(*cur));
+		else if (type_t(*cur) == PIPE)
+		{
+			if (cmd->o_fd == OUTPUT_STD)
+				cmd->o_fd = OUTPUT_PIPE;
+			(*cur) = (*cur)->next;
+			break ;
+		}
+		if (type_t(*cur))
+			(*cur) = (*cur)->next;
+		else
+			l++;
+		(*cur) = (*cur)->next;
+	}
+	set_cmd_args(first, l, cmd);
+	return (ft_fork_and_exec(cmd));
 }
 
 int	exec_commands(t_token **first, char **envp)
