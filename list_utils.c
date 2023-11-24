@@ -6,11 +6,10 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 12:01:15 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/21 17:35:25 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/23 14:29:46 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tokens.h"
 #include "minishell.h"
 
 t_token	*t_new(char *token, int isstr)
@@ -22,7 +21,6 @@ t_token	*t_new(char *token, int isstr)
 		*ans = (t_token){.token = token, .is_string = isstr};
 	return (ans);
 }
-
 
 t_token	*t_get_last(t_token *start)
 {
@@ -47,7 +45,8 @@ void	t_del(t_token **begin_list, t_token *prev)
 	if (!cur)
 		return ;
 	prev->next = prev->next->next;
-	free(cur->token);
+	if (cur->token)
+		free(cur->token);
 	cur->token = 0;
 	free(cur);
 }
@@ -68,4 +67,22 @@ t_token	*t_add_back(t_token **lst, t_token *new_t)
 	}
 	cur->next = new_t;
 	return (new_t);
+}
+
+void	t_clear(t_token **lst)
+{
+	t_token	*cur;
+	t_token	*temp;
+
+	if (!lst)
+		return ;
+	cur = *lst;
+	while (cur)
+	{
+		temp = cur;
+		cur = cur->next;
+		free(temp->token);
+		free(temp);
+	}
+	*lst = 0;
 }

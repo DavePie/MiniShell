@@ -1,22 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 09:35:09 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/22 16:52:01 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/23 15:31:02 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "logic.h"
-#include "main.h"
 #include "pipe.h"
+#include "verify.h"
 #include "history.h"
 #include "minishell.h"
 #include "utils_shell.h"
-#include "tokens.h"
 
 int	g_sig = 0;
 

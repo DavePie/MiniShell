@@ -6,11 +6,10 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 15:40:46 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/22 17:16:42 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/23 16:15:48 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tokens.h"
 #include "libft.h"
 #include "minishell.h"
 #include "commands.h"
@@ -49,13 +48,15 @@ int	type_t(t_token *token)
 	return (0);
 }
 
-void	set_cmd_args(t_token *cur, int l, t_com *cur_c)
+int	set_cmd_args(t_token *cur, int l, t_com *cur_c)
 {
 	char	**args;
 	int		prev;
 	int		i;
 
 	args = malloc(sizeof(char *) * (l + 1));
+	if (!args)
+		return (0);
 	args[l] = 0;
 	prev = 0;
 	i = 0;
@@ -67,17 +68,7 @@ void	set_cmd_args(t_token *cur, int l, t_com *cur_c)
 		cur = cur->next;
 	}
 	cur_c->args = args;
-}
-
-int	open_fd(char *name, int prev, int tags, int mode)
-{
-	int	fd;
-
-	if (prev > 0)
-		close(prev);
-	fd = open(name, tags, mode);
-	// error out if -1
-	return (fd);
+	return (1);
 }
 
 int	exec_redir(char *input)
@@ -102,25 +93,44 @@ int	exec_redir(char *input)
 	return (pipefd[0]);
 }
 
-int	exec_next_command(t_token **cur, t_com *cmd)
+int	open_fd(char *name, int prev, int type)
 {
-	int		l;
+	int	fd;
+	int	tags;
+	int	mode;
+
+	if (prev > 0)
+		close(prev);
+	tags = O_RDONLY;
+	mode = 0;
+	if (type == OUT)
+	{
+		tags = O_WRONLY | O_CREAT | O_TRUNC;
+		mode = 0644;
+	}
+	else if (type == OUT_A)
+	{
+		tags = O_WRONLY | O_CREAT | O_APPEND;
+		mode = 0644;
+	}
+	if (type != IN_D)
+		fd = open(name, tags, mode);
+	else
+		fd = exec_redir(name);
+	return (fd);
+}
+
+int	exec_next_command(t_token **cur, t_com *cmd, int l)
+{
 	t_token	*first;
 
 	first = *cur;
-	l = 0;
 	while (*cur)
 	{
-		if (type_t(*cur) == OUT)
-			cmd->o_fd = open_fd((*cur)->next->token,
-					cmd->o_fd, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		else if (type_t(*cur) == OUT_A)
-			cmd->o_fd = open_fd((*cur)->next->token,
-					cmd->o_fd, O_WRONLY | O_CREAT | O_APPEND, 0644);
-		else if (type_t(*cur) == IN)
-			cmd->i_fd = open_fd((*cur)->next->token, cmd->i_fd, O_RDONLY, 0);
-		else if (type_t(*cur) == IN_D)
-			cmd->i_fd = exec_redir((*cur)->next->token);
+		if (type_t(*cur) == OUT || type_t(*cur) == OUT_A)
+			cmd->o_fd = open_fd((*cur)->next->token, cmd->o_fd, type_t(*cur));
+		else if (type_t(*cur) == IN || type_t(*cur) == IN_D)
+			cmd->i_fd = open_fd((*cur)->next->token, cmd->i_fd, type_t(*cur));
 		else if (type_t(*cur) == PIPE)
 		{
 			if (cmd->o_fd == OUTPUT_STD)
@@ -136,20 +146,4 @@ int	exec_next_command(t_token **cur, t_com *cmd)
 	}
 	set_cmd_args(first, l, cmd);
 	return (ft_fork_and_exec(cmd));
-}
-
-int	exec_commands(t_token **first, char **envp)
-{
-	t_token	*cur;
-	t_com	cur_c;
-	int		prev;
-
-	cur = *first;
-	prev = NO_INPUT;
-	while (cur)
-	{
-		cur_c = (t_com){.env = envp, .i_fd = prev, .o_fd = OUTPUT_STD};
-		prev = exec_next_command(&cur, &cur_c);
-	}
-	return (prev);
 }

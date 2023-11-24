@@ -6,17 +6,16 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 14:27:39 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/22 16:44:47 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/23 16:14:42 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "logic.h"
 #include "utils.h"
 #include "libft.h"
-#include "tokens.h"
 #include "create_tokens.h"
-#include "run_command.h"
-#include <stdio.h>
+#include "commands.h"
+#include "minishell.h"
 
 int	is_logic(char *str, int i)
 {
