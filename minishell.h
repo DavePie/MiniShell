@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alde-oli <alde-oli@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 11:44:56 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/23 14:03:03 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/24 13:48:12 by alde-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,23 @@
 # include <signal.h>
 # include <fcntl.h>
 # include <dirent.h>
+# include "commands.h"
+# include "error.h"
+# include "export_env.h"
+# include "list_utils.h"
+# include "pipe.h"
+# include "utils_shell.h"
+# include "convert_env.h"
+# include "export_env.h"
+# include "logic.h"
+# include "redir.h"
+# include "verify.h"
+# include "create_tokens.h"
+# include "history.h"
+# include "minishell.h"
+# include "utils.h"
+# include "wildcards.h"
+# include "libft.h"
 # define SINGLE 1
 # define DOUBLE 2
 # define NAME = "minishell"
