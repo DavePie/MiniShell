@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 16:08:01 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/24 13:08:53 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/24 15:37:42 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,8 @@ int	ft_parent(int *pipefd, t_com *cmd, pid_t child_pid)
 		pid = 0;
 		while (pid >= 0)
 			pid = wait(NULL);
+		if (return_val == 3)
+			printf("Quit: %d\n", return_val);
 	}
 	if (cmd->o_fd != OUTPUT_PIPE)
 		return (return_val);
@@ -115,6 +117,7 @@ int	ft_fork_and_exec(t_com *cmd)
 	if (pid == 0)
 	{
 		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		if (cmd->i_fd > 0)
 			ft_dup2(cmd->i_fd, STDIN_FILENO);
 		if (cmd->i_fd != -1)

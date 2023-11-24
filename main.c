@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 09:35:09 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/24 14:09:14 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/24 15:09:58 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,10 @@ int	main(int ac, char *av[], char **envp)
 	tcsetattr(0, 0, &termios_new);
 	av += ac * 0;
 	signal(SIGINT, handle_ctrlc);
-
+	signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
 		input = ft_read_line();
-		printf("got input\n");
 		if (!input)
 			exit_shell(0);
 		if (verify_input(input))
