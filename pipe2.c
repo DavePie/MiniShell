@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 16:08:01 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/24 13:08:53 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/24 14:11:54 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ int	ft_parent(int *pipefd, t_com *cmd, pid_t child_pid)
 	return (pipefd[0]);
 }
 
-int	ft_fork_and_exec(t_com *cmd)
+int	ft_fork_and_exec(t_	com *cmd)
 {
 	int		pipefd[2];
 	pid_t	pid;
