@@ -4,7 +4,7 @@ wildcards2.c verify_input2.c pipe2.c commands2.c convert_env2.c export_env.c exp
 RM		:= rm -f
 NAME	:= minishell
 CC		:= gcc
-INCDIR	:= -I . -I libft -I $(HOME)/.brew/Cellar/readline/8.1.1/include
+INCDIR	:= -I includes -I libft -I $(HOME)/.brew/Cellar/readline/8.1.1/include
 
 LIB	:= libft.a
 LIBDIR := libft

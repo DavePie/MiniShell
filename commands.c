@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 15:40:46 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/24 13:08:34 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/27 16:26:35 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	reallojoin(char **dest, int cur_size, char *src, int src_size)
 
 	i = -1;
 	temp = (char *)malloc(sizeof(char) * (cur_size + src_size + 1));
-	if (!temp)
+	if (!temp || !(*dest) || (!src))
 		return (0);
 	while (++i < cur_size)
 		temp[i] = (*dest)[i];
@@ -98,7 +98,8 @@ char	*read_delimiter(char *del)
 	{
 		reallojoin(&ans, ft_strlen(ans), input, ft_strlen(input));
 		reallojoin(&ans, ft_strlen(ans), "\n", 1);
-		free(input);
+		if (input)
+			free(input);
 		input = readline("> ");
 	}
 	return (ans);

@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 11:07:11 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/24 12:35:58 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/27 16:30:22 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,13 +112,14 @@ int	run(char *str, int start, int end, char **envp)
 
 	input = ft_substr(str, start, end - start);
 	f_list = split_args(input);
+	if (!input || !f_list)
+		return (0);
 	ft_convert_envs(f_list);
 	merge_tokens(*f_list, 0);
 	convert_wildcards(f_list);
 	merge_tokens(*f_list, 1);
 	free(input);
-	return_val = 0;
-	return_val = (exec_commands(f_list, envp));
+	return_val = exec_commands(f_list, envp);
 	t_clear(f_list);
 	free(f_list);
 	return (return_val);

@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 11:44:56 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/27 16:05:33 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/27 16:15:38 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,18 +45,6 @@
 # define IN 4
 # define IN_D 5
 
-
-
 void	rl_replace_line(const char *c, int d);
-
-extern int	g_sig;
-/**
- * For evaluating () || &&, commands are always executed left->right
- * However, whether or not a command is executed, and the final return value,
- * is changed by () || &&
- * A recursive approach should work well
- */
-
-
 
 #endif
