@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alde-oli <alde-oli@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 16:08:01 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/24 14:19:46 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/27 15:02:32 by alde-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "utils.h"
 #include "commands.h"
 
-static char	*check_access(char **paths, char *cmd)
+char	*check_access(char **paths, char *cmd)
 {
 	char	*full_path;
 	int		i;
@@ -34,7 +34,7 @@ static char	*check_access(char **paths, char *cmd)
 	return (NULL);
 }
 
-static char	*get_command_path(char *cmd)
+char	*get_command_path(char *cmd)
 {
 	char	*path_env;
 	char	*cmd_path;

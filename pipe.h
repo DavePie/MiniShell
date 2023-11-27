@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alde-oli <alde-oli@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 10:06:33 by alde-oli          #+#    #+#             */
-/*   Updated: 2023/11/23 16:19:45 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/27 15:46:10 by alde-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,10 @@
 void	ft_error(char *s);
 
 char	*ft_free(char *s);
+
+char	*check_access(char **paths, char *cmd);
+
+char	*get_command_path(char *cmd);
 
 /**
  * @brief (might be unnecessary) verif if fd != -1 and closes it
