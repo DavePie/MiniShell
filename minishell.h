@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 11:44:56 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/27 16:01:36 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/27 16:05:33 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,11 @@
 # include <dirent.h>
 # include "export_env.h"
 # include "commands.h"
-# include "error.h"
 # include "list_utils.h"
 # include "pipe.h"
 # include "utils_shell.h"
 # include "convert_env.h"
 # include "logic.h"
-# include "redir.h"
 # include "verify.h"
 # include "create_tokens.h"
 # include "history.h"
