@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 14:27:39 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/23 16:14:42 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/24 14:09:18 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ int	run_all_commands(char *str, char **envp)
 	int	cur;
 	int	next_i;
 
+	signal(SIGINT, SIG_IGN);
 	cur = run_command_at(str, 0, envp);
 	next_i = 0;
 	while (next_i != -1)

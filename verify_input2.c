@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 15:31:25 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/23 15:32:38 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/27 13:59:19 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,14 +77,11 @@ char	verify_paren_logic(char *s)
 
 int	verify_input(char *s)
 {
-	char	e;
-
-	e = verify_paren_logic(s);
-	if (e)
+	if (verify_paren_logic(s))
 		return (e_token_write("&& or ||", "missing"));
 	if (verify_edges(s))
 		return (e_token_write(verify_edges(s), "unexpected"));
 	if (verify_special_characters(s))
 		return (e_token_write(verify_special_characters(s), "unexpected"));
-	return (verify_paranthesis(s) && verify_str(s) && !verify_paren_logic(s));
+	return (verify_paranthesis(s) && verify_str(s));
 }

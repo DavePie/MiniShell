@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alde-oli <alde-oli@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 16:08:01 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/27 15:02:32 by alde-oli         ###   ########.fr       */
+/*   Updated: 2023/11/27 16:03:40 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #include "libft.h"
 #include "utils.h"
 #include "commands.h"
+#include "utils_shell.h"
+#include "error_codes.h"
 
 char	*check_access(char **paths, char *cmd)
 {
@@ -42,6 +44,8 @@ char	*get_command_path(char *cmd)
 
 	if (access(cmd, X_OK) == 0)
 		return (ft_strdup(cmd));
+	else if (access(cmd, F_OK) == 0 && !ft_perror(cmd))
+		exit(EXIT_PERM_DENIED);
 	path_env = getenv("PATH");
 	if (!path_env)
 		ft_error("PATH variable not found.");
@@ -51,7 +55,9 @@ char	*get_command_path(char *cmd)
 	cmd_path = check_access(paths, cmd);
 	ft_free_str_tab(paths);
 	if (!cmd_path)
-		ft_error("Command not found: ");
+		ft_perror(cmd);
+	if (!cmd_path)
+		exit(EXIT_CMD_NOT_FOUND);
 	return (cmd_path);
 }
 
@@ -68,12 +74,12 @@ void	ft_child(int *pipefd, t_com *cmd)
 	if (cmd->args[0])
 	{
 		path = get_command_path(cmd->args[0]);
-		if (execve(path, cmd->args, cmd->env) == -1)
-			ft_error("Execve error");
+		execve(path, cmd->args, cmd->env);
+		ft_perror(cmd->args[0]);
 		path = ft_free(path);
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
-	exit(0);
+	exit(EXIT_SUCCESS);
 }
 
 int	ft_parent(int *pipefd, t_com *cmd, pid_t child_pid)
@@ -90,6 +96,8 @@ int	ft_parent(int *pipefd, t_com *cmd, pid_t child_pid)
 		pid = 0;
 		while (pid >= 0)
 			pid = wait(NULL);
+		if (return_val == 3)
+			printf("Quit: %d\n", return_val);
 	}
 	if (cmd->o_fd != OUTPUT_PIPE)
 		return (return_val);
@@ -108,11 +116,13 @@ int	ft_fork_and_exec(t_com *cmd)
 		ft_error("Fork error");
 	if (pid == 0)
 	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		if (cmd->i_fd > 0)
 			ft_dup2(cmd->i_fd, STDIN_FILENO);
 		if (cmd->i_fd != -1)
 			ft_child(pipefd, cmd);
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 	free(cmd->args);
 	return (ft_parent(pipefd, cmd, pid));

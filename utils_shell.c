@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 11:48:32 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/24 11:04:01 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/24 12:42:12 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,11 @@ int	e_token_write(char *s, char *expec)
 	return (0);
 }
 
-int	e_file_write(char *file)
+int	ft_perror(char *mess)
 {
 	fdwrite(2, "minishell: ");
-	fdwrite(2, file);
-	fdwrite(2, ": No such file or directory\n");
-	return (-1);
+	perror(mess);
+	return (0);
 }
 
 int	exit_shell(int code)

@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 11:07:11 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/24 11:06:41 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/24 12:35:58 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	open_fd(char *name, int prev, int type)
 	else
 		fd = exec_redir(name);
 	if (fd == -1)
-		e_file_write(name);
+		ft_perror(name);
 	return (fd);
 }
 
