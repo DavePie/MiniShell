@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 09:35:09 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/24 15:09:58 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/24 15:43:32 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	main(int ac, char *av[], char **envp)
 	tcgetattr(0, &termios_new);
 	termios_new.c_lflag &= ~ECHOCTL;
 	tcsetattr(0, 0, &termios_new);
-	av += ac * 0;
+	(void)ac, (void)av;
 	signal(SIGINT, handle_ctrlc);
 	signal(SIGQUIT, SIG_IGN);
 	while (1)
