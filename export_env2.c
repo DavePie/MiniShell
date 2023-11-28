@@ -3,25 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   export_env2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alde-oli <alde-oli@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 13:43:31 by alde-oli          #+#    #+#             */
-/*   Updated: 2023/11/28 13:48:43 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/28 16:12:33 by alde-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_export	*create_list(char **env)
+t_export	**create_list(char **env)
 {
-	t_export	*first;
+	t_export	**first;
 	int			i;
 
 	i = 0;
-	first = NULL;
+	first = malloc(sizeof(t_export *));
+	if (!first)
+		exit_shell(1, "unable to allocate space");
 	while (env[i])
 	{
-		if (!export_add(&first, env[i], 1))
+		if (!export_add(first, env[i], 0))
 			return (NULL);
 		i++;
 	}
@@ -45,10 +47,24 @@ t_export	*export_clear(t_export **first)
 
 void	ft_split_export(char *new, char **k_v)
 {
-	k_v[0] = ft_strndup(new, ft_strchr(new, '=') - new);//unprotected malloc
-	k_v[1] = ft_strdup(ft_strchr(new, '=') + 1);//unprotected malloc
-	if (k_v[1][0] == '\"')
-		k_v[1] = ft_strtrim(k_v[1], "\"");//mem leaks and unprotected malloc
-	else if (k_v[1][0] == '\'')
-		k_v[1] = ft_strtrim(k_v[1], "\'");//mem leak and unprotected malloc
+	char	*tmp;
+
+	k_v[0] = ft_strndup(new, ft_strchr(new, '=') - new);
+	k_v[1] = ft_strdup(ft_strchr(new, '=') + 1);
+	if (!k_v[0] || !k_v[1])
+	{
+		if (k_v[0])
+			free(k_v[0]);
+		if (k_v[1])
+			free(k_v[1]);
+		ft_error("Malloc error.");
+	}
+	if (k_v[1][0] == '\"' || k_v[1][0] == '\'')
+	{
+		tmp = ft_strndup(k_v[1] + 1, ft_strlen(k_v[1]) - 2);
+		free(k_v[1]);
+		k_v[1] = tmp;
+		if (!k_v[1])
+			ft_error("Malloc error.");
+	}
 }

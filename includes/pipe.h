@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alde-oli <alde-oli@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 10:06:33 by alde-oli          #+#    #+#             */
-/*   Updated: 2023/11/28 13:45:43 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/28 14:09:25 by alde-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	*join_path_with_cmd(const char *path, const char *cmd);
  * @param cmd 
  * @param envp 
  */
-void	ft_child(int *pipefd, t_com *cmd);
+void	ft_child(int *pipefd, t_com *cmd, t_data *d);
 
 /**
  * @brief executes parent routine

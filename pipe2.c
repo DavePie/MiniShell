@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alde-oli <alde-oli@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 16:08:01 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/28 13:46:38 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/28 16:04:14 by alde-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "commands.h"
 #include "utils_shell.h"
 #include "error_codes.h"
+#include "builtin.h"
 
 char	*check_access(char **paths, char *cmd)
 {
@@ -62,10 +63,8 @@ char	*get_command_path(char *cmd)
 }
 
 /**********************************************************/
-void	ft_child(int *pipefd, t_com *cmd)
+void	ft_child(int *pipefd, t_com *cmd, t_data *d)
 {
-	char	*path;
-
 	ft_close(pipefd[0]);
 	if (cmd->o_fd == OUTPUT_PIPE)
 		ft_dup2(pipefd[1], STDOUT_FILENO);
@@ -73,10 +72,8 @@ void	ft_child(int *pipefd, t_com *cmd)
 		ft_dup2(cmd->o_fd, STDOUT_FILENO);
 	if (cmd->args[0])
 	{
-		path = get_command_path(cmd->args[0]);
-		execve(path, cmd->args, cmd->env);
+		cmd_exe(cmd->args, d);
 		ft_perror(cmd->args[0]);
-		path = ft_free(path);
 		exit(EXIT_FAILURE);
 	}
 	exit(EXIT_SUCCESS);
@@ -108,7 +105,6 @@ int	ft_fork_and_exec(t_data *d, t_com *cmd)
 	int		pipefd[2];
 	pid_t	pid;
 
-	(void)d;
 	if (pipe(pipefd) == -1)
 		ft_error("Pipe error");
 	pid = fork();
@@ -121,7 +117,7 @@ int	ft_fork_and_exec(t_data *d, t_com *cmd)
 		if (cmd->i_fd > 0)
 			ft_dup2(cmd->i_fd, STDIN_FILENO);
 		if (cmd->i_fd != -1)
-			ft_child(pipefd, cmd);
+			ft_child(pipefd, cmd, d);
 		exit(EXIT_FAILURE);
 	}
 	free(cmd->args);

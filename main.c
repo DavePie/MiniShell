@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alde-oli <alde-oli@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 09:35:09 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/28 13:18:47 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/28 16:07:55 by alde-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	main(int ac, char *av[], char **envp)
 	t_data			d;
 
 	(void)ac, (void)av;
-	d = (t_data){};
+	d = (t_data){.exports = create_list(envp)};
 	tcgetattr(0, &termios_new);
 	termios_new.c_lflag &= ~ECHOCTL;
 	tcsetattr(0, 0, &termios_new);

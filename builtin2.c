@@ -1,0 +1,88 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin2.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alde-oli <alde-oli@student.42lausanne.c    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/13 12:56:10 by dvandenb          #+#    #+#             */
+/*   Updated: 2023/11/28 15:43:05 by alde-oli         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+#include "builtin.h"
+
+int	unset(t_data *d, char *av[])
+{
+	int			i;
+	t_export	*tmp;
+
+	i = 1;
+	while (av[i])
+	{
+		tmp = export_find(*d->exports, av[i]);
+		if (tmp)
+			export_remove(d->exports, tmp);
+		i++;
+	}
+	return (0);
+}
+
+char	**export_to_tab(t_export **list)
+{
+	char		**tab;
+	int			i;
+	t_export	*tmp;
+
+	i = 0;
+	tmp = *list;
+	while (tmp)
+	{
+		if (!tmp->is_export)
+			i++;
+		tmp = tmp->next;
+	}
+	tab = malloc(sizeof(char *) * (i + 1));
+	if (!tab)
+		exit_shell(1, "unable to allocate space");
+	i = 0;
+	tmp = *list;
+	while (tmp)
+	{
+		if (!tmp->is_export)
+			tab[i++] = ft_strjoin(tmp->key, tmp->value);
+		tmp = tmp->next;
+	}
+	tab[i] = NULL;
+	return (tab);
+}
+
+int	cmd_exe(char *av[], t_data *d)
+{
+	char		*path;
+	char		**env_tab;
+	static char	*builtin[7] = {"echo", "pwd", "cd", "env", "export",
+		"unset", NULL};
+	static int	(*builtin_func[7])(t_data *, char **) = {&echo, &pwd, &cd,
+		&env, &export, &unset, NULL};
+	int			i;
+
+	i = 0;
+	while (builtin[i])
+	{
+		if (!ft_strcmp(builtin[i], av[0]))
+			return (builtin_func[i](d, av));
+		i++;
+	}
+	path = get_command_path(av[0]);
+	env_tab = export_to_tab(d->exports);
+	if (execve(path, av, env_tab) == -1)
+	{
+		ft_free_str_tab(env_tab);
+		ft_error("Execve error");
+	}
+	ft_free_str_tab(env_tab);
+	path = ft_free(path);
+	exit(1);
+}
