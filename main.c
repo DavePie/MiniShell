@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alde-oli <alde-oli@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 09:35:09 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/28 16:07:55 by alde-oli         ###   ########.fr       */
+/*   Updated: 2023/11/28 16:19:23 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	main(int ac, char *av[], char **envp)
 	while (1)
 	{
 		d.input = ft_read_line();
-		if (!d.input)
+		if (!d.input || !strcmp(d.input, "exit"))
 			exit_shell(0, 0);
 		if (verify_input(d.input))
 			run_all_commands(&d, envp);
