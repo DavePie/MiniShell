@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alde-oli <alde-oli@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 15:38:29 by alde-oli          #+#    #+#             */
-/*   Updated: 2023/11/28 15:42:29 by alde-oli         ###   ########.fr       */
+/*   Updated: 2023/11/28 16:25:21 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,6 @@ int		export(t_data *d, char *av[]);
 int		unset(t_data *d, char *av[]);
 char	**export_to_tab(t_export **list);
 int		cmd_exe(char *av[], t_data *d);
-
+int		is_builtin(char *cmd);
 
 #endif

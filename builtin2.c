@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alde-oli <alde-oli@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 12:56:10 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/28 15:43:05 by alde-oli         ###   ########.fr       */
+/*   Updated: 2023/11/28 16:56:13 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,22 @@ char	**export_to_tab(t_export **list)
 	return (tab);
 }
 
+int	is_builtin(char *cmd)
+{
+	static char	*builtin[7] = {"echo", "pwd", "cd", "env", "export",
+		"unset", NULL};
+	int			i;
+
+	i = 0;
+	while (builtin[i])
+	{
+		if (!ft_strcmp(builtin[i], cmd))
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 int	cmd_exe(char *av[], t_data *d)
 {
 	char		*path;
@@ -68,12 +84,11 @@ int	cmd_exe(char *av[], t_data *d)
 		&env, &export, &unset, NULL};
 	int			i;
 
-	i = 0;
-	while (builtin[i])
+	i = -1;
+	while (builtin[++i])
 	{
 		if (!ft_strcmp(builtin[i], av[0]))
 			return (builtin_func[i](d, av));
-		i++;
 	}
 	path = get_command_path(av[0]);
 	env_tab = export_to_tab(d->exports);
@@ -82,6 +97,7 @@ int	cmd_exe(char *av[], t_data *d)
 		ft_free_str_tab(env_tab);
 		ft_error("Execve error");
 	}
+	ft_perror(av[0]);
 	ft_free_str_tab(env_tab);
 	path = ft_free(path);
 	exit(1);

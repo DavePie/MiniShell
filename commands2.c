@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 11:07:11 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/28 13:45:06 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/28 17:20:15 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,8 @@ int	exec_commands(t_data *d, char **envp)
 	prev = NO_INPUT;
 	while (cur)
 	{
-		cur_c = (t_com){.env = envp, .i_fd = prev, .o_fd = OUTPUT_STD};
+		cur_c = (t_com){.env = envp, .i_fd = prev, .o_fd = OUTPUT_STD,
+			.prev_pipe = prev != NO_INPUT};
 		prev = exec_next_command(d, &cur, &cur_c, 0);
 	}
 	return (prev);

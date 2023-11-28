@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 12:05:34 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/28 13:44:36 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/28 17:15:36 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ typedef struct s_com
 	int		i_fd;
 	int		o_fd;
 	int		is_pipe;
+	int		prev_pipe;
 }	t_com;
 
 int		exec_commands(t_data *d, char **envp);

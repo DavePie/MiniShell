@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alde-oli <alde-oli@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 16:08:01 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/28 16:04:14 by alde-oli         ###   ########.fr       */
+/*   Updated: 2023/11/28 17:21:40 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ void	ft_child(int *pipefd, t_com *cmd, t_data *d)
 	if (cmd->args[0])
 	{
 		cmd_exe(cmd->args, d);
-		ft_perror(cmd->args[0]);
 		exit(EXIT_FAILURE);
 	}
 	exit(EXIT_SUCCESS);
@@ -100,16 +99,38 @@ int	ft_parent(int *pipefd, t_com *cmd, pid_t child_pid)
 	return (pipefd[0]);
 }
 
+int	redir_builtin(t_data *d, t_com *cmd)
+{
+	int		output;
+	int		stdin_c;
+	int		stdout_c;
+
+	stdin_c = dup(STDOUT_FILENO);
+	stdout_c = dup(STDOUT_FILENO);
+	if (cmd->i_fd > 0)
+		ft_dup2(cmd->i_fd, STDIN_FILENO);
+	if (cmd->o_fd != OUTPUT_STD)
+		ft_dup2(cmd->o_fd, STDOUT_FILENO);
+	output = (cmd_exe(cmd->args, d));
+	ft_dup2(stdin_c, STDIN_FILENO);
+	ft_dup2(stdout_c, STDOUT_FILENO);
+	close(cmd->i_fd);
+	close(cmd->o_fd);
+	return output;
+}
+
 int	ft_fork_and_exec(t_data *d, t_com *cmd)
 {
 	int		pipefd[2];
 	pid_t	pid;
 
+	if (!cmd->is_pipe && is_builtin(cmd->args[0]) && !cmd->prev_pipe)
+		return (redir_builtin(d, cmd));
 	if (pipe(pipefd) == -1)
-		ft_error("Pipe error");
+		exit_shell(1, "Pipe error");
 	pid = fork();
 	if (pid == -1)
-		ft_error("Fork error");
+		exit_shell(1, "Fork error");
 	if (pid == 0)
 	{
 		signal(SIGINT, SIG_DFL);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alde-oli <alde-oli@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 12:56:10 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/28 16:11:50 by alde-oli         ###   ########.fr       */
+/*   Updated: 2023/11/28 17:43:55 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,18 @@ int	echo(t_data *d, char*av[])
 {
 	int	i;
 
-	i = 1;
+	i = 1 + (av[1] && !ft_strcmp("-n", av[1]));
 	(void)d;
 	(void)av;
-	if (!av[1])
+	while (av[i] && av[i + 1])
 	{
-		printf("\n");
-		return (0);
-	}
-	while (av[i])
-	{
-		printf("%s\n", av[i]);
+		printf("%s ", av[i]);
 		i++;
 	}
+	if (av[i])
+		printf("%s", av[i]);
+	if (!av[1] || ft_strcmp("-n", av[1]))
+		printf("\n");
 	return (0);
 }
 
