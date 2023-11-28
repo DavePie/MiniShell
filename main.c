@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 09:35:09 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/24 15:43:32 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/28 13:18:47 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,24 +32,25 @@ void	handle_ctrlc(int val)
 
 int	main(int ac, char *av[], char **envp)
 {
-	char			*input;
 	struct termios	termios_new;
+	t_data			d;
 
+	(void)ac, (void)av;
+	d = (t_data){};
 	tcgetattr(0, &termios_new);
 	termios_new.c_lflag &= ~ECHOCTL;
 	tcsetattr(0, 0, &termios_new);
-	(void)ac, (void)av;
 	signal(SIGINT, handle_ctrlc);
 	signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
-		input = ft_read_line();
-		if (!input)
-			exit_shell(0);
-		if (verify_input(input))
-			run_all_commands(input, envp);
+		d.input = ft_read_line();
+		if (!d.input)
+			exit_shell(0, 0);
+		if (verify_input(d.input))
+			run_all_commands(&d, envp);
 		signal(SIGINT, handle_ctrlc);
-		free(input);
+		free(d.input);
 	}
 	return (0);
 }

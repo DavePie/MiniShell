@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_env.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alde-oli <alde-oli@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 10:52:06 by alde-oli          #+#    #+#             */
-/*   Updated: 2023/11/27 10:18:07 by alde-oli         ###   ########.fr       */
+/*   Updated: 2023/11/28 13:26:22 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_export	*create_export(char *new_s, int is_export)
 
 	new = malloc(sizeof(t_export));
 	if (!new)
-		return (NULL);
+		exit_shell(1, "unable to allocate space");
 	ft_split_export(new_s, k_v);
 	new->key = k_v[0];
 	new->value = k_v[1];

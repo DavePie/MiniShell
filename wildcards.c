@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 11:16:39 by alde-oli          #+#    #+#             */
-/*   Updated: 2023/11/23 16:15:00 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/28 13:30:24 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,9 @@ t_token	*get_matching_elems(t_token *token)
 	elem = readdir(dir);
 	while (elem)
 	{
-		if (match_wildcard(token, elem->d_name))
-			t_add_back(&new_list, t_new(ft_strdup(elem->d_name), 1));
+		if (match_wildcard(token, elem->d_name)
+			&& !t_add_back(&new_list, t_new(ft_strdup(elem->d_name), 1)))
+			exit_shell(1, "unable to allocate space");
 		elem = readdir(dir);
 	}
 	closedir(dir);

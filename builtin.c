@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alde-oli <alde-oli@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 12:56:10 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/27 15:55:11 by alde-oli         ###   ########.fr       */
+/*   Updated: 2023/11/28 13:24:45 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ char	**export_to_tab(t_export **list)
 	}
 	tab = malloc(sizeof(char *) * (i + 1));
 	if (!tab)
-		ft_error("Malloc error");
+		exit_shell(1, "unable to allocate space");
 	i = 0;
 	tmp = *list;
 	while (tmp)

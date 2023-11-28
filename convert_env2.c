@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 16:16:15 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/23 16:19:58 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/28 12:36:22 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,13 @@ int	remove_env_token(t_token **tokens, char *env, t_token **cur, t_token **prev)
 	return (0);
 }
 
-t_token	**ft_convert_envs(t_token **tokens)
+t_token	**ft_convert_envs(t_data *d)
 {
 	t_token	*cur;
 	t_token	*prev;
 	char	*env;
 
-	cur = *tokens;
+	cur = *d->tokens;
 	prev = NULL;
 	while (cur)
 	{
@@ -45,13 +45,13 @@ t_token	**ft_convert_envs(t_token **tokens)
 			if (env || cur->is_string == DOUBLE)
 				cur->token = ft_insert_env(&cur->token, env);
 			if (cur->is_string == 0 && (env || cur->is_string == DOUBLE))
-				cur = ft_split_token(tokens, cur, prev,
+				cur = ft_split_token(d->tokens, cur, prev,
 						cur->adj_prev * !is_s(*cur->token));
-			remove_env_token(tokens, env, &cur, &prev);
+			remove_env_token(d->tokens, env, &cur, &prev);
 			continue ;
 		}
 		prev = cur;
 		cur = cur->next;
 	}
-	return (tokens);
+	return (d->tokens);
 }

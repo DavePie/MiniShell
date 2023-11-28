@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 14:27:39 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/24 14:09:18 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/27 17:34:11 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,16 @@ int	is_logic(char *str, int i)
 	return (0);
 }
 
-int	run_command_at(char *str, int start, char **envp)
+int	run_command_at(t_data *d, int start, char **envp)
 {
 	int	i;
 
-	while (is_logic(str, start) || is_s(str[start]))
+	while (is_logic(d->input, start) || is_s(d->input[start]))
 		start++;
 	i = start;
-	while (str[i] && (instr(str, i) || !is_logic(str, i)))
+	while (d->input[i] && (instr(d->input, i) || !is_logic(d->input, i)))
 		i++;
-	return (run(str, start, i, envp));
+	return (run(d, start, i, envp));
 }
 
 int	get_next_command(char *str, char *op, int i)
@@ -72,23 +72,23 @@ int	get_next_command(char *str, char *op, int i)
 	return (i);
 }
 
-int	run_all_commands(char *str, char **envp)
+int	run_all_commands(t_data *d, char **envp)
 {
 	int	cur;
 	int	next_i;
 
 	signal(SIGINT, SIG_IGN);
-	cur = run_command_at(str, 0, envp);
+	cur = run_command_at(d, 0, envp);
 	next_i = 0;
 	while (next_i != -1)
 	{
 		if (cur)
-			next_i = get_next_command(str, "||", next_i);
+			next_i = get_next_command(d->input, "||", next_i);
 		else
-			next_i = get_next_command(str, "&&", next_i);
+			next_i = get_next_command(d->input, "&&", next_i);
 		if (next_i == -1)
 			break ;
-		cur = run_command_at(str, next_i, envp);
+		cur = run_command_at(d, next_i, envp);
 	}
 	return (0);
 }

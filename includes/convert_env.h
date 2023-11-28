@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 11:04:00 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/23 16:18:33 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/28 12:36:58 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define CONVERT_ENV_H
 # include "minishell.h"
 
-t_token	**ft_convert_envs(t_token **tokens);
+t_token	**ft_convert_envs(t_data *d);
 
 int		ft_is_env(char *s);
 

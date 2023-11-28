@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 11:46:12 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/23 14:29:43 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/28 13:19:38 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include "libft.h"
 #include "create_tokens.h"
 
-int	add_token_split(t_token **list, char *s)
+int	add_token_split(t_data *d, char *s)
 {
 	int		i;
 	int		is_str;
@@ -27,7 +27,8 @@ int	add_token_split(t_token **list, char *s)
 	if ((*s == '|' || *s == '<' || *s == '>' || *s == '*'))
 	{
 		i = 1 + (*s == s[1]);
-		t_add_back(list, t_new(ft_substr(s, 0, i), 0));
+		if (!t_add_back(d->tokens, t_new(ft_substr(s, 0, i), 0)))
+			exit_shell(1, "unable to allocate space");
 		return (i);
 	}
 	i++;
@@ -36,37 +37,38 @@ int	add_token_split(t_token **list, char *s)
 	while (!is_str && s[i]
 		&& !is_s(s[i]) && !ft_strchr("$\"'|><*", s[i]))
 		i++;
-	t_add_back(list, t_new(ft_substr(s, !!is_str, i - 2 * !!is_str), is_str));
+	if (!t_add_back(d->tokens,
+			t_new(ft_substr(s, !!is_str, i - 2 * !!is_str), is_str)))
+		exit_shell(1, "unable to allocate space");
 	return (i);
 }
 
-t_token	**split_args(char *input)
+t_token	**split_args(t_data *d)
 {
 	int		i;
-	t_token	**first;
 	int		prev;
 	int		is_special;
 	int		spec_prev;
 
 	spec_prev = 0;
 	i = 0;
-	first = ft_calloc(1, sizeof(t_token *));
-	if (!input || !first)
-		return (0);
-	while (input[i])
+	d->tokens = ft_calloc(1, sizeof(t_token *));
+	if (!d->command || !d->tokens)
+		exit_shell(1, "unable to allocate space");
+	while (d->command[i])
 	{
 		prev = 0;
-		while (is_s(input[i]) && ++prev)
+		while (is_s(d->command[i]) && ++prev)
 			i++;
-		if (!input[i])
+		if (!d->command[i])
 			break ;
-		i += add_token_split(first, input + i);
-		is_special = (!t_get_last(*first)->is_string
-				&& ft_strchr("|<>", t_get_last(*first)->token[0]));
-		t_get_last(*first)->adj_prev = !prev * !is_special * spec_prev;
+		i += add_token_split(d, d->command + i);
+		is_special = (!t_get_last(*d->tokens)->is_string
+				&& ft_strchr("|<>", t_get_last(*d->tokens)->token[0]));
+		t_get_last(*d->tokens)->adj_prev = !prev * !is_special * spec_prev;
 		spec_prev = !is_special;
 	}
-	return (first);
+	return (d->tokens);
 }
 
 int	is_wild_token(t_token *cur)
@@ -82,6 +84,11 @@ void	merge_str(t_token *cur, int l, int ignore_wild)
 	temp = cur->next;
 	s = cur->token;
 	cur->token = malloc(sizeof(char) * l + 1);
+	if (!cur->token)
+	{
+		cur->token = s;
+		exit_shell(1, "unable to allocate space");
+	}
 	ft_strcpy(cur->token, s);
 	free(s);
 	s = cur->token + ft_strlen(s);

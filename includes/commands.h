@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 12:05:34 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/24 10:56:09 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/28 13:44:36 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,16 @@ typedef struct s_com
 	char	**env;
 	int		i_fd;
 	int		o_fd;
+	int		is_pipe;
 }	t_com;
 
-int		exec_commands(t_token **first, char **envp);
+int		exec_commands(t_data *d, char **envp);
 
 void	print_tokens(t_token *cur);
 
-int		run(char *str, int start, int end, char **envp);
+int		run(t_data *d, int start, int end, char **envp);
 
-int		exec_next_command(t_token **cur, t_com *cmd, int l);
+int		exec_next_command(t_data *d, t_token **cur, t_com *cmd, int l);
 
 int		type_t(t_token *token);
 

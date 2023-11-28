@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 14:30:27 by alde-oli          #+#    #+#             */
-/*   Updated: 2023/11/23 16:10:59 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/28 13:28:46 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	*join_path_with_cmd(const char *path, const char *cmd)
 	cmd_len = ft_strlen(cmd);
 	full_path = ft_calloc(sizeof(char), (path_len + cmd_len + 2));
 	if (!full_path)
-		return (NULL);
+		exit_shell(1, "unable to allocate space");
 	ft_strcpy(full_path, (char *)path);
 	full_path[path_len] = '/';
 	ft_strcpy(&full_path[path_len + 1], (char *)cmd);

@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 11:42:02 by alde-oli          #+#    #+#             */
-/*   Updated: 2023/11/23 16:18:47 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/28 13:29:32 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	*ft_get_env_var(char *s)
 		j++;
 	env = ft_calloc(j + 1, sizeof(char));
 	if (!env)
-		return (NULL);
+		exit_shell(1, "unable to allocate space");
 	j = 0;
 	while (s[i + j] && !is_s(s[i + j]) && s[i + j] != '$')
 	{
@@ -79,6 +79,8 @@ char	*ft_insert_env(char **token, char *env)
 	env_var = ft_get_env_var(s);
 	modified_s = ft_calloc(ft_strlen(s) - ft_strlen(env_var)
 			+ ft_strlen(env) + 1, sizeof(char));
+	if (!modified_s)
+		exit_shell(1, "unable to allocate space");
 	i = 0;
 	while (s[i] && s[i] != '$')
 	{
@@ -109,7 +111,8 @@ t_token	*ft_split_token(t_token **tokens, t_token *cur,
 	i = 0;
 	while (strs[i])
 	{
-		t_add_back(&split, t_new(ft_strdup(strs[i]), 0));
+		if (!t_add_back(&split, t_new(ft_strdup(strs[i]), 0)))
+			exit_shell(1, "unable to allocate space");
 		i++;
 	}
 	split->adj_prev = adj_prev;

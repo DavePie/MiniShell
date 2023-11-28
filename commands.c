@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 15:40:46 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/27 16:26:35 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/28 13:27:00 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	set_cmd_args(t_token *cur, int l, t_com *cur_c)
 
 	args = malloc(sizeof(char *) * (l + 1));
 	if (!args)
-		return (0);
+		exit_shell(1, "unable to allocate space");
 	args[l] = 0;
 	prev = 0;
 	i = 0;
@@ -71,9 +71,11 @@ int	reallojoin(char **dest, int cur_size, char *src, int src_size)
 	int		i;
 
 	i = -1;
-	temp = (char *)malloc(sizeof(char) * (cur_size + src_size + 1));
-	if (!temp || !(*dest) || (!src))
+	if (!(*dest) || (!src))
 		return (0);
+	temp = (char *)malloc(sizeof(char) * (cur_size + src_size + 1));
+	if (!temp)
+		exit_shell(1, "unable to allocate space");
 	while (++i < cur_size)
 		temp[i] = (*dest)[i];
 	while (i < cur_size + src_size)
@@ -94,6 +96,8 @@ char	*read_delimiter(char *del)
 
 	input = readline("> ");
 	ans = ft_calloc(1, sizeof(char));
+	if (!ans)
+		exit_shell(1, "unable to allocate space");
 	while (ft_strcmp(input, del))
 	{
 		reallojoin(&ans, ft_strlen(ans), input, ft_strlen(input));

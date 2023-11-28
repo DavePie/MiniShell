@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 11:48:32 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/24 12:42:12 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/28 13:17:58 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,21 @@ int	ft_perror(char *mess)
 	return (0);
 }
 
-int	exit_shell(int code)
+void	ft_free_zero(void **ptr)
 {
+	if (!ptr)
+		return ;
+	if (*ptr)
+		free(*ptr);
+	*ptr = NULL;
+}
+
+int	exit_shell(int code, char *error)
+{
+	if (error)
+		ewrite(error);
+	else
+		printf("exit\n");
 	clear_history();
 	exit(code);
 }

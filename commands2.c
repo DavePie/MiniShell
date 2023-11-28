@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 11:07:11 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/27 16:30:22 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/28 13:45:06 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	print_tokens(t_token *cur)
 	printf("\n");
 }
 
-int	exec_next_command(t_token **cur, t_com *cmd, int l)
+int	exec_next_command(t_data *d, t_token **cur, t_com *cmd, int l)
 {
 	t_token	*first;
 
@@ -76,6 +76,7 @@ int	exec_next_command(t_token **cur, t_com *cmd, int l)
 			if (cmd->o_fd == OUTPUT_STD)
 				cmd->o_fd = OUTPUT_PIPE;
 			(*cur) = (*cur)->next;
+			cmd->is_pipe = 1;
 			break ;
 		}
 		if (type_t(*cur))
@@ -85,42 +86,40 @@ int	exec_next_command(t_token **cur, t_com *cmd, int l)
 		(*cur) = (*cur)->next;
 	}
 	set_cmd_args(first, l, cmd);
-	return (ft_fork_and_exec(cmd));
+	return (ft_fork_and_exec(d, cmd));
 }
 
-int	exec_commands(t_token **first, char **envp)
+int	exec_commands(t_data *d, char **envp)
 {
 	t_token	*cur;
 	t_com	cur_c;
 	int		prev;
 
-	cur = *first;
+	cur = *d->tokens;
 	prev = NO_INPUT;
 	while (cur)
 	{
 		cur_c = (t_com){.env = envp, .i_fd = prev, .o_fd = OUTPUT_STD};
-		prev = exec_next_command(&cur, &cur_c, 0);
+		prev = exec_next_command(d, &cur, &cur_c, 0);
 	}
 	return (prev);
 }
 
-int	run(char *str, int start, int end, char **envp)
+int	run(t_data *d, int start, int end, char **envp)
 {
-	char	*input;
-	t_token	**f_list;
 	int		return_val;
 
-	input = ft_substr(str, start, end - start);
-	f_list = split_args(input);
-	if (!input || !f_list)
+	if (!d->input)
 		return (0);
-	ft_convert_envs(f_list);
-	merge_tokens(*f_list, 0);
-	convert_wildcards(f_list);
-	merge_tokens(*f_list, 1);
-	free(input);
-	return_val = exec_commands(f_list, envp);
-	t_clear(f_list);
-	free(f_list);
+	d->command = ft_substr(d->input, start, end - start);
+	d->tokens = split_args(d);
+	ft_convert_envs(d);
+	merge_tokens(*d->tokens, 0);
+	convert_wildcards(d->tokens);
+	merge_tokens(*d->tokens, 1);
+	free(d->command);
+	return_val = exec_commands(d, envp);
+	t_clear(d->tokens);
+	free(d->tokens);
 	return (return_val);
 }
