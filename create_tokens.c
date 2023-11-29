@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 11:46:12 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/29 10:46:09 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/29 10:55:42 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	merge_str(t_token *cur, int l, int ignore_wild)
 {
 	t_token	*temp;
 	char	*s;
-	int		l;
+	int		k;
 
 	temp = cur->next;
 	s = cur->token;
@@ -91,9 +91,9 @@ void	merge_str(t_token *cur, int l, int ignore_wild)
 		exit_shell(1, "unable to allocate space");
 	}
 	ft_strcpy(cur->token, s);
-	l = ft_strlen(s);
+	k = ft_strlen(s);
 	free(s);
-	s = cur->token + l;
+	s = cur->token + k;
 	while (temp && temp->adj_prev && (ignore_wild || !is_wild_token(temp)))
 	{
 		ft_strcpy(s, temp->token);
