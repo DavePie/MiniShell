@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 12:56:10 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/29 12:58:12 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/29 13:58:57 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,7 @@ char	**export_to_tab(t_export **list)
 	tmp = *list;
 	while (tmp)
 	{
-		if (!tmp->is_export)
-			i++;
+		i++;
 		tmp = tmp->next;
 	}
 	tab = malloc(sizeof(char *) * (i + 1));
@@ -50,8 +49,7 @@ char	**export_to_tab(t_export **list)
 	tmp = *list;
 	while (tmp)
 	{
-		if (!tmp->is_export)
-			tab[i++] = ft_strjoin(tmp->key, tmp->value);
+		tab[i++] = ft_strjoin(tmp->key, tmp->value);
 		tmp = tmp->next;
 	}
 	tab[i] = NULL;

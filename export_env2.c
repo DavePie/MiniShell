@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 13:43:31 by alde-oli          #+#    #+#             */
-/*   Updated: 2023/11/29 11:57:53 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/29 13:59:07 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,26 +46,54 @@ t_export	*export_clear(t_export **first)
 	return (NULL);
 }
 
-void	ft_split_export(char *new, char **k_v)
+static void	handle_allocation_error(char **k_v)
+{
+	if (k_v[0])
+		free(k_v[0]);
+	if (k_v[1])
+		free(k_v[1]);
+	exit(1);
+}
+
+static void	handle_quotes(char **k_v)
 {
 	char	*tmp;
 
-	k_v[0] = ft_strndup(new, ft_strchr(new, '=') - new);
-	k_v[1] = ft_strdup(ft_strchr(new, '=') + 1);
-	if (!k_v[0] || !k_v[1])
+	if (*k_v[1] == '\'' || *k_v[1] == '\"')
 	{
-		if (k_v[0])
-			free(k_v[0]);
-		if (k_v[1])
-			free(k_v[1]);
-		ft_error("Malloc error.");
-	}
-	if (k_v[1][0] == '\"' || k_v[1][0] == '\'')
-	{
-		tmp = ft_strndup(k_v[1] + 1, ft_strlen(k_v[1]) - 2);
+		tmp = ft_substr(k_v[1], 1, ft_strlen(k_v[1]) - 2);
+		if (!tmp)
+			handle_allocation_error(k_v);
 		free(k_v[1]);
 		k_v[1] = tmp;
+	}
+}
+
+void	ft_split_export(char *new, char **k_v)
+{
+	char	*equal_pos = ft_strchr(new, '=');
+
+	if (equal_pos)
+	{
+		k_v[0] = ft_substr(new, 0, equal_pos - new);
+		if (!k_v[0])
+			handle_allocation_error(k_v);
+
+		if (*(equal_pos + 1))
+			k_v[1] = ft_substr(equal_pos + 1, 0, ft_strlen(equal_pos + 1));
+		else
+			k_v[1] = ft_strdup("");
+
 		if (!k_v[1])
-			ft_error("Malloc error.");
+			handle_allocation_error(k_v);
+
+		handle_quotes(k_v);
+	}
+	else
+	{
+		k_v[0] = ft_strdup(new);
+		k_v[1] = NULL;
+		if (!k_v[0])
+			handle_allocation_error(k_v);
 	}
 }

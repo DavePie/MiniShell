@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 10:52:06 by alde-oli          #+#    #+#             */
-/*   Updated: 2023/11/28 13:26:22 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/29 13:57:18 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,16 @@ t_export	*create_export(char *new_s, int is_export)
 	new = malloc(sizeof(t_export));
 	if (!new)
 		exit_shell(1, "unable to allocate space");
+	if (!*new_s && !ft_perror("export: `\': not a valid identifier"))
+		return (NULL);
 	ft_split_export(new_s, k_v);
 	new->key = k_v[0];
 	new->value = k_v[1];
-	if (!new->key || !new->value)
+	if (!new->key)
 	{
 		free(new->key);
-		free(new->value);
+		if (new->value)
+			free(new->value);
 		free(new);
 		return (NULL);
 	}
@@ -98,6 +101,8 @@ t_export	*export_modify(t_export **first, char *new)
 	t_export	*tmp;
 	char		*k_v[2];
 
+	if (!*new && !ft_perror("export: `\': not a valid identifier"))
+		return (NULL);
 	ft_split_export(new, k_v);
 	tmp = export_find(*first, k_v[0]);
 	if (!tmp)
