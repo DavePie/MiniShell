@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alde-oli <alde-oli@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 12:56:10 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/29 10:30:05 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/29 12:16:39 by alde-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,7 @@ char	**export_to_tab(t_export **list)
 	tmp = *list;
 	while (tmp)
 	{
-		if (!tmp->is_export)
-			i++;
+		i++;
 		tmp = tmp->next;
 	}
 	tab = malloc(sizeof(char *) * (i + 1));
@@ -50,8 +49,7 @@ char	**export_to_tab(t_export **list)
 	tmp = *list;
 	while (tmp)
 	{
-		if (!tmp->is_export)
-			tab[i++] = ft_strjoin(tmp->key, tmp->value);
+		tab[i++] = ft_strjoin(tmp->key, tmp->value);
 		tmp = tmp->next;
 	}
 	tab[i] = NULL;

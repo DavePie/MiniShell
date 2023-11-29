@@ -6,7 +6,7 @@
 /*   By: alde-oli <alde-oli@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 13:43:31 by alde-oli          #+#    #+#             */
-/*   Updated: 2023/11/29 10:21:45 by alde-oli         ###   ########.fr       */
+/*   Updated: 2023/11/29 11:51:27 by alde-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_export	*export_clear(t_export **first)
 	return (NULL);
 }
 
-void	handle_allocation_error(char **k_v)
+static void	handle_allocation_error(char **k_v)
 {
 	if (k_v[0])
 		free(k_v[0]);
@@ -54,7 +54,7 @@ void	handle_allocation_error(char **k_v)
 	exit(1);
 }
 
-void	handle_quotes(char **k_v)
+static void	handle_quotes(char **k_v)
 {
 	char	*tmp;
 

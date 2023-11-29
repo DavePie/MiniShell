@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alde-oli <alde-oli@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 12:56:10 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/28 17:43:55 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/29 12:03:23 by alde-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,12 +86,15 @@ int	export(t_data *d, char *av[])
 	i = 1;
 	while (!av[1] && list)
 	{
-		printf("declare -x %s=\"%s\"\n", list->key, list->value);
+		if (list->value)
+			printf("declare -x %s=\"%s\"\n", list->key, list->value);
+		else
+			printf("declare -x %s\n", list->key);
 		list = list->next;
 	}
 	while (av[i])
 	{
-		export_add(d->exports, av[i], 1);
+		export_modify(d->exports, av[i]);
 		i++;
 	}
 	return (0);
