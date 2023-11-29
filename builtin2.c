@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 12:56:10 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/29 10:30:05 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/29 12:58:12 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ char	**export_to_tab(t_export **list)
 
 int	is_builtin(char *cmd)
 {
-	static char	*builtin[7] = {"echo", "pwd", "cd", "env", "export",
+	static char	*builtin[7] = {"pwd", "cd", "env", "export",
 		"unset", NULL};
 	int			i;
 

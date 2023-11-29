@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 15:40:46 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/28 13:27:00 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/29 11:35:03 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ char	*read_delimiter(char *del)
 	ans = ft_calloc(1, sizeof(char));
 	if (!ans)
 		exit_shell(1, "unable to allocate space");
-	while (ft_strcmp(input, del))
+	while (input && ft_strcmp(input, del))
 	{
 		reallojoin(&ans, ft_strlen(ans), input, ft_strlen(input));
 		reallojoin(&ans, ft_strlen(ans), "\n", 1);
