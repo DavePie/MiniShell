@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 12:56:10 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/29 13:58:57 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/29 16:42:04 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,36 @@ int	unset(t_data *d, char *av[])
 		i++;
 	}
 	return (0);
+}
+
+int	builtin_exit(t_data *d, char *av[])
+{
+	int		ans;
+	int		sign;
+	char	*str;
+
+	(void)d;
+	printf("exit\n");
+	if (!av[1])
+		exit(0);
+	if (av[2])
+		ft_error("exit: numeric argument required");
+	if (av[2])
+		return (1);
+	str = av[1];
+	ans = 0;
+	sign = 1;
+	while (*str == ' ' || (*str >= 9 && *str <= 13))
+		str++;
+	if ((*str == '+' || *str == '-') && *(str++) == '-')
+			sign *= -1;
+	while (*str >= '0' && *str <= '9')
+		ans = ans * 10 + sign * (*(str++) - '0');
+	if (*str || str == av[1])
+		ft_error("exit: numeric argument required");
+	ans = ans * (!*str) + 255 * (!!*str);
+	exit(ans % 256);
+	return (ans);
 }
 
 char	**export_to_tab(t_export **list)
@@ -59,7 +89,7 @@ char	**export_to_tab(t_export **list)
 int	is_builtin(char *cmd)
 {
 	static char	*builtin[7] = {"pwd", "cd", "env", "export",
-		"unset", NULL};
+		"unset", "exit", NULL};
 	int			i;
 
 	i = 0;
@@ -76,10 +106,10 @@ int	cmd_exe(char *av[], t_data *d)
 {
 	char		*path;
 	char		**env_tab;
-	static char	*builtin[7] = {"echo", "pwd", "cd", "env", "export",
-		"unset", NULL};
-	static int	(*builtin_func[7])(t_data *, char **) = {&echo, &pwd, &cd,
-		&env, &export, &unset, NULL};
+	static char	*builtin[8] = {"echo", "pwd", "cd", "env", "export",
+		"unset", "exit", NULL};
+	static int	(*builtin_func[8])(t_data *, char **) = {&echo, &pwd, &cd,
+		&env, &export, &unset, &builtin_exit, NULL};
 	int			i;
 
 	i = -1;

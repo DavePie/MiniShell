@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 13:43:31 by alde-oli          #+#    #+#             */
-/*   Updated: 2023/11/29 13:59:07 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/29 15:47:20 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,14 +71,14 @@ static void	handle_quotes(char **k_v)
 
 void	ft_split_export(char *new, char **k_v)
 {
-	char	*equal_pos = ft_strchr(new, '=');
+	char	*equal_pos;
 
+	equal_pos = ft_strchr(new, '=');
 	if (equal_pos)
 	{
 		k_v[0] = ft_substr(new, 0, equal_pos - new);
 		if (!k_v[0])
 			handle_allocation_error(k_v);
-
 		if (*(equal_pos + 1))
 			k_v[1] = ft_substr(equal_pos + 1, 0, ft_strlen(equal_pos + 1));
 		else
@@ -86,7 +86,6 @@ void	ft_split_export(char *new, char **k_v)
 
 		if (!k_v[1])
 			handle_allocation_error(k_v);
-
 		handle_quotes(k_v);
 	}
 	else

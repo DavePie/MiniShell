@@ -6,14 +6,13 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 15:38:29 by alde-oli          #+#    #+#             */
-/*   Updated: 2023/11/28 16:25:21 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/29 15:46:30 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILTIN_H
 # define BUILTIN_H
-
-#include "structs.h"
+# include "structs.h"
 
 int		echo(t_data *d, char*av[]);
 int		pwd(t_data *d, char *av[]);
