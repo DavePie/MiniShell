@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 16:08:01 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/29 10:51:47 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/29 14:07:00 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,7 @@ void	ft_child(int *pipefd, t_com *cmd, t_data *d)
 	if (cmd->o_fd != OUTPUT_STD)
 		ft_dup2(cmd->o_fd, STDOUT_FILENO);
 	if (cmd->args[0])
-	{
-		cmd_exe(cmd->args, d);
-		exit(EXIT_FAILURE);
-	}
+		exit(cmd_exe(cmd->args, d));
 	exit(EXIT_SUCCESS);
 }
 
