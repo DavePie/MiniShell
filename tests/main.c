@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 14:08:50 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/28 15:53:20 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/29 09:54:01 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,36 +22,12 @@
 #include "get_next_line.h"
 #include "libft.h"
 
-
 typedef struct s_test{
 	const char	*cmds[100];
 	const char	*outputs[100];
 	const char	*description;
 }	t_test;
 
-// int	reallojoin(char **dest, int cur_size, char *src, int src_size)
-// {
-// 	char	*temp;
-// 	int		i;
-
-// 	i = -1;
-// 	if (!(*dest) || (!src))
-// 		return (0);
-// 	temp = (char *)malloc(sizeof(char) * (cur_size + src_size + 1));
-// 	if (!temp)
-// 		return 0;
-// 	while (++i < cur_size)
-// 		temp[i] = (*dest)[i];
-// 	while (i < cur_size + src_size)
-// 	{
-// 		temp[i] = src[i - cur_size];
-// 		i++;
-// 	}
-// 	temp[i] = '\0';
-// 	free(*dest);
-// 	*dest = temp;
-// 	return (cur_size + src_size);
-// }
 void test_case(const char **input,
 	const char **output, const char *description)
 {
@@ -81,8 +57,8 @@ void test_case(const char **input,
 		{
 			reallojoin(&test_output, ft_strlen(test_output),
 				line_output, ft_strlen(line_output));
-			
-		} else if (test_output)
+		}
+		else if (test_output)
 		{
 			printf("Test %d ", i);
 			if (ft_strncmp(test_output, *output, ft_strlen(test_output)))

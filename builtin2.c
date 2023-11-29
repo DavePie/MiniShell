@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 12:56:10 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/28 16:56:13 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/29 10:30:05 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,6 @@ int	cmd_exe(char *av[], t_data *d)
 	env_tab = export_to_tab(d->exports);
 	if (execve(path, av, env_tab) == -1)
 	{
-		ft_free_str_tab(env_tab);
-		ft_error("Execve error");
 	}
 	ft_perror(av[0]);
 	ft_free_str_tab(env_tab);

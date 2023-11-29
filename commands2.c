@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 11:07:11 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/28 17:20:15 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/29 10:37:59 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,8 @@ int	run(t_data *d, int start, int end, char **envp)
 	convert_wildcards(d->tokens);
 	merge_tokens(*d->tokens, 1);
 	free(d->command);
+	if (!(*d->tokens)->is_string && !(*d->tokens)->token[0])
+		t_del(d->tokens, 0);
 	return_val = exec_commands(d, envp);
 	t_clear(d->tokens);
 	free(d->tokens);

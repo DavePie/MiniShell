@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 16:08:01 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/28 17:21:40 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/29 10:29:40 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ char	*get_command_path(char *cmd)
 	char	*cmd_path;
 	char	**paths;
 
+	if (!cmd || !cmd[0])
+		return (ft_strdup(""));
 	if (access(cmd, X_OK) == 0)
 		return (ft_strdup(cmd));
 	else if (access(cmd, F_OK) == 0 && !ft_perror(cmd))
