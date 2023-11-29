@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_env.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alde-oli <alde-oli@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 10:52:06 by alde-oli          #+#    #+#             */
-/*   Updated: 2023/11/29 12:00:31 by alde-oli         ###   ########.fr       */
+/*   Updated: 2023/11/29 13:57:18 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,11 @@ t_export	*create_export(char *new_s, int is_export)
 	new = malloc(sizeof(t_export));
 	if (!new)
 		exit_shell(1, "unable to allocate space");
-	if (!*new_s)
-		return (NULL + ft_perror("export: `\': not a valid identifier"));
+	if (!*new_s && !ft_perror("export: `\': not a valid identifier"))
+		return (NULL);
 	ft_split_export(new_s, k_v);
 	new->key = k_v[0];
 	new->value = k_v[1];
-	printf("key: %s\n", new->key);
-	printf("value: %s\n", new->value);
 	if (!new->key)
 	{
 		free(new->key);
@@ -47,16 +45,13 @@ t_export	*export_add(t_export **first, char *new_exp, int is_export)
 	t_export	*tmp;
 
 	new = create_export(new_exp, is_export);
-	write(1, "prout0\n", 7);
 	if (!new)
 		return (NULL);
-	write(1, "prout1\n", 7);
 	if (!*first)
 	{
 		*first = new;
 		return (*first);
 	}
-	write(1, "prout2\n", 7);
 	tmp = *first;
 	while (tmp->next)
 		tmp = tmp->next;
@@ -106,8 +101,8 @@ t_export	*export_modify(t_export **first, char *new)
 	t_export	*tmp;
 	char		*k_v[2];
 
-	if (!*new)
-		return (NULL + ft_perror("export: `\': not a valid identifier"));
+	if (!*new && !ft_perror("export: `\': not a valid identifier"))
+		return (NULL);
 	ft_split_export(new, k_v);
 	tmp = export_find(*first, k_v[0]);
 	if (!tmp)

@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 14:08:50 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/29 09:54:01 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/29 13:01:29 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,14 @@ int	main(void)
 		.cmds = {"cat | wc -l | tr -d ' '", 0},
 		.outputs = {"0\n", 0},
 		.description = "test pipes and input (stdin empty)"},
+		(t_test){
+		.cmds = {"$a | echo", 0},
+		.outputs = {"\n", 0},
+		.description = "Empty arg Pipe"},
+		(t_test){
+		.cmds = {"echo $a", 0},
+		.outputs = {"\n", 0},
+		.description = "Empty arg empty"},
 		(t_test){
 		.cmds = {"echo test && echo hello | cat", 0},
 		.outputs = {"test\nhello\n", 0},

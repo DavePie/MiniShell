@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alde-oli <alde-oli@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 12:56:10 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/29 12:16:39 by alde-oli         ###   ########.fr       */
+/*   Updated: 2023/11/29 13:53:47 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char	**export_to_tab(t_export **list)
 
 int	is_builtin(char *cmd)
 {
-	static char	*builtin[7] = {"echo", "pwd", "cd", "env", "export",
+	static char	*builtin[7] = {"pwd", "cd", "env", "export",
 		"unset", NULL};
 	int			i;
 

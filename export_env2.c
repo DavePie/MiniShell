@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_env2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alde-oli <alde-oli@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 13:43:31 by alde-oli          #+#    #+#             */
-/*   Updated: 2023/11/29 11:51:27 by alde-oli         ###   ########.fr       */
+/*   Updated: 2023/11/29 13:54:20 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ t_export	**create_list(char **env)
 
 	i = 0;
 	first = malloc(sizeof(t_export *));
+	*first = 0;
 	if (!first)
 		exit_shell(1, "unable to allocate space");
 	while (env[i])
