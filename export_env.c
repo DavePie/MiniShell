@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_env.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alde-oli <alde-oli@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 10:52:06 by alde-oli          #+#    #+#             */
-/*   Updated: 2023/11/28 13:26:22 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/29 10:29:49 by alde-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ t_export	*create_export(char *new_s, int is_export)
 	new = malloc(sizeof(t_export));
 	if (!new)
 		exit_shell(1, "unable to allocate space");
+	if (!*new_s)
+		return (NULL + ft_perror("export: `\': not a valid identifier"));
 	ft_split_export(new_s, k_v);
 	new->key = k_v[0];
 	new->value = k_v[1];
@@ -98,6 +100,8 @@ t_export	*export_modify(t_export **first, char *new)
 	t_export	*tmp;
 	char		*k_v[2];
 
+	if (!*new)
+		return (NULL + ft_perror("export: `\': not a valid identifier"));
 	ft_split_export(new, k_v);
 	tmp = export_find(*first, k_v[0]);
 	if (!tmp)
