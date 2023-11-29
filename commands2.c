@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 11:07:11 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/29 12:23:15 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/29 15:39:44 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,28 @@ int	exec_commands(t_data *d, char **envp)
 	return (prev);
 }
 
+void	remove_empty_tokens(t_token **t)
+{
+	t_token	*prev;
+	t_token	*cur;
+
+	prev = 0;
+	cur = *t;
+	while (cur)
+	{
+		if (!cur->is_string && !cur->token[0])
+		{
+			t_del(t, prev);
+			cur = prev->next;
+		}
+		else
+		{
+			prev = cur;
+			cur = cur->next;
+		}
+	}
+}
+
 int	run(t_data *d, int start, int end, char **envp)
 {
 	int		return_val;
@@ -119,8 +141,7 @@ int	run(t_data *d, int start, int end, char **envp)
 	convert_wildcards(d->tokens);
 	merge_tokens(*d->tokens, 1);
 	free(d->command);
-	if (*d->tokens && !(*d->tokens)->is_string && !(*d->tokens)->token[0])
-		t_del(d->tokens, 0);
+	remove_empty_tokens(d->tokens);
 	return_val = exec_commands(d, envp);
 	t_clear(d->tokens);
 	free(d->tokens);
