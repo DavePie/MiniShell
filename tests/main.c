@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 14:08:50 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/29 13:01:29 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/29 17:10:11 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ void test_case(const char **input,
 			if (ft_strncmp(test_output, *output, ft_strlen(test_output)))
 			{
 				printf("\033[0;31m[KO]\033[0;0m\n");
-				printf("got: %s\n", test_output);
-				printf("expected: %s\n", *output);
+				printf("got:      <%s>\n", test_output);
+				printf("expected: <%s>\n", *output);
 			}
 			else
 			{
@@ -83,8 +83,8 @@ void test_case(const char **input,
 		if (ft_strncmp(test_output, *output, ft_strlen(test_output)))
 		{
 			printf("\033[0;31m[KO]\033[0;0m\n");
-			printf("got: %s\n", test_output);
-			printf("expected: %s\n", *output);
+			printf("got:      <%s>\n", test_output);
+			printf("expected: <%s>\n", *output);
 		}
 		else
 		{
@@ -93,6 +93,12 @@ void test_case(const char **input,
 		output++;
 		i++;
 		test_output = 0;
+	}
+	if (*output)
+	{
+		printf("\033[0;31m[KO]\033[0;0m\n");
+		printf("got:      <%s>\n", "[nothing]");
+		printf("expected: <%s>\n", *output);
 	}
 	while (line_output)
 		line_output = get_next_line(fdout);
@@ -109,8 +115,8 @@ int	main(void)
 		.outputs = {"test\n", "a b c\n", 0},
 		.description = "echo print argument"},
 		(t_test){
-		.cmds = {"\"e\"c'h'o 	\"t\"es't'", "   	 ech'o'	 a 	'b  \tc'", 0},
-		.outputs = {"test\n", "a b  \tc\n", 0},
+		.cmds = {"\"e\"c'h'o 	\"t\"es't'", "   	 ech'o'	 a 	'b  c'", 0},
+		.outputs = {"test\n", "a b  c\n", 0},
 		.description = "in strings and spaces"},
 		(t_test){
 		.cmds = {"cat | wc -l | tr -d ' '", "abc", "ok", 0},
@@ -132,6 +138,10 @@ int	main(void)
 		.cmds = {"echo test && echo hello | cat", 0},
 		.outputs = {"test\nhello\n", 0},
 		.description = "mix pipes and logic"},
+		(t_test){
+		.cmds = {"echo $d $a $x", 0},
+		.outputs = {"\n", 0},
+		.description = "empty args empty"},
 		(t_test){.cmds = {0}}
 	};
 	int				i;

@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 09:35:09 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/29 16:36:54 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/29 17:27:34 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	main(int ac, char *av[], char **envp)
 		if (!d.input)
 			exit_shell(0, 0);
 		if (verify_input(d.input))
-			run_all_commands(&d, envp);
+			run_all_commands(&d);
 		signal(SIGINT, handle_ctrlc);
 		free(d.input);
 	}

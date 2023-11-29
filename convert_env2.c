@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 16:16:15 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/28 12:36:22 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/29 17:34:11 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_token	**ft_convert_envs(t_data *d)
 	{
 		if (cur->is_string != SINGLE && ft_is_env(cur->token))
 		{
-			env = ft_get_env(cur->token);
+			env = ft_get_env(cur->token, d);
 			if (env || cur->is_string == DOUBLE)
 				cur->token = ft_insert_env(&cur->token, env);
 			if (cur->is_string == 0 && (env || cur->is_string == DOUBLE))

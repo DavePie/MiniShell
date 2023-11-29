@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 11:04:00 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/28 12:36:58 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/29 17:34:00 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,6 @@ t_token	*ft_split_token(t_token **tokens, t_token *cur,
 
 char	*ft_insert_env(char **token, char *env);
 
-char	*ft_get_env(char *s);
+char	*ft_get_env(char *s, t_data *d);
 
 #endif

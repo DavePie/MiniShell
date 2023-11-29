@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 11:07:11 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/29 15:39:44 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/29 17:57:20 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	exec_next_command(t_data *d, t_token **cur, t_com *cmd, int l)
 	return (ft_fork_and_exec(d, cmd));
 }
 
-int	exec_commands(t_data *d, char **envp)
+int	exec_commands(t_data *d)
 {
 	t_token	*cur;
 	t_com	cur_c;
@@ -99,7 +99,7 @@ int	exec_commands(t_data *d, char **envp)
 	prev = NO_INPUT;
 	while (cur)
 	{
-		cur_c = (t_com){.env = envp, .i_fd = prev, .o_fd = OUTPUT_STD,
+		cur_c = (t_com){.i_fd = prev, .o_fd = OUTPUT_STD,
 			.prev_pipe = prev != NO_INPUT};
 		prev = exec_next_command(d, &cur, &cur_c, 0);
 	}
@@ -112,13 +112,18 @@ void	remove_empty_tokens(t_token **t)
 	t_token	*cur;
 
 	prev = 0;
+	if (!t)
+		return ;
 	cur = *t;
 	while (cur)
 	{
 		if (!cur->is_string && !cur->token[0])
 		{
 			t_del(t, prev);
-			cur = prev->next;
+			if (prev)
+				cur = prev->next;
+			else
+				cur = 0;
 		}
 		else
 		{
@@ -128,7 +133,7 @@ void	remove_empty_tokens(t_token **t)
 	}
 }
 
-int	run(t_data *d, int start, int end, char **envp)
+int	run(t_data *d, int start, int end)
 {
 	int		return_val;
 
@@ -142,7 +147,7 @@ int	run(t_data *d, int start, int end, char **envp)
 	merge_tokens(*d->tokens, 1);
 	free(d->command);
 	remove_empty_tokens(d->tokens);
-	return_val = exec_commands(d, envp);
+	return_val = exec_commands(d);
 	t_clear(d->tokens);
 	free(d->tokens);
 	return (return_val);

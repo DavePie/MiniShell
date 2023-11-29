@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 16:08:01 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/29 14:07:00 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/29 17:57:51 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ int	redir_builtin(t_data *d, t_com *cmd)
 	ft_dup2(stdout_c, STDOUT_FILENO);
 	close(cmd->i_fd);
 	close(cmd->o_fd);
+	free(cmd->args);
 	return (output);
 }
 
