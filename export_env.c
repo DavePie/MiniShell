@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 10:52:06 by alde-oli          #+#    #+#             */
-/*   Updated: 2023/11/29 13:57:18 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/29 15:25:25 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_export	*create_export(char *new_s, int is_export)
 t_export	*export_add(t_export **first, char *new_exp, int is_export)
 {
 	t_export	*new;
-	t_export	*tmp;
+	t_export	*cur;
 
 	new = create_export(new_exp, is_export);
 	if (!new)
@@ -52,11 +52,21 @@ t_export	*export_add(t_export **first, char *new_exp, int is_export)
 		*first = new;
 		return (*first);
 	}
-	tmp = *first;
-	while (tmp->next)
-		tmp = tmp->next;
-	tmp->next = new;
-	new->prev = tmp;
+	cur = *first;
+	if (cur->next && ft_strcmp(cur->next->key, new->key) >= 0)
+	{
+		(*first)->prev = new;
+		new->next = *first;
+		*first = new;
+		return (*first);
+	}
+	while (cur->next && ft_strcmp(cur->next->key, new->key) < 0)
+		cur = cur->next;
+	if (cur->next)
+		cur->next->prev = new;
+	new->next = cur->next;
+	cur->next = new;
+	new->prev = cur;
 	return (*first);
 }
 
@@ -111,8 +121,11 @@ t_export	*export_modify(t_export **first, char *new)
 		free(k_v[1]);
 		return (export_add(first, new, 1));
 	}
-	free(tmp->value);
-	tmp->value = k_v[1];
+	if (k_v[1])
+	{
+		free(tmp->value);
+		tmp->value = k_v[1];
+	}
 	free(k_v[0]);
 	if (!tmp->value)
 		return (NULL);

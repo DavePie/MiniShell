@@ -6,9 +6,9 @@ NAME	:= minishell
 CC		:= gcc
 INCDIR	:= -I includes -I libft -I $(HOME)/.brew/Cellar/readline/8.1.1/include
 
-LIB	:= libft.a
-LIBDIR := libft
-LIBPATH := $(LIBDIR)/$(LIB)
+LIB		:= libft.a
+LIBDIR	:= libft
+LIBPATH	:= $(LIBDIR)/$(LIB)
 CFLAGS	:= -Wall -Wextra -Werror $(INCDIR) #-fsanitize=address 
 
 all: $(NAME)
