@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 16:08:01 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/30 16:31:16 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/30 18:12:42 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*get_command_path(char *cmd, t_export **exports)
 		exit(EXIT_PERM_DENIED);
 	path_env = export_find(*exports, "PATH");
 	if (!path_env)
-		ewrite("PATH variable not found.");
+		return (ft_strdup(""));
 	paths = ft_split(path_env->value, ':');
 	if (!paths)
 		ewrite("Split error on PATH variable.");

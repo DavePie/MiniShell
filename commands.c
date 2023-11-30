@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 15:40:46 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/30 14:00:49 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/30 17:59:22 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,12 +89,16 @@ int	reallojoin(char **dest, int cur_size, char *src, int src_size)
 	return (cur_size + src_size);
 }
 
-char	*read_delimiter(char *del)
+char	*read_delimiter(char *del, t_data *d)
 {
 	char	*input;
 	char	*ans;
+	char	*env;
 
 	input = readline("> ");
+	env = ft_get_env(input, d);
+	if (env)
+		input = ft_insert_env(&input, env);
 	ans = ft_calloc(1, sizeof(char));
 	if (!ans)
 		exit_shell(1, "unable to allocate space");
@@ -105,11 +109,14 @@ char	*read_delimiter(char *del)
 		if (input)
 			free(input);
 		input = readline("> ");
+		env = ft_get_env(input, d);
+		if (env)
+			input = ft_insert_env(&input, env);
 	}
 	return (ans);
 }
 
-int	exec_redir(char *delim)
+int	exec_redir(char *delim, t_data *d)
 {
 	int		pipefd[2];
 	pid_t	pid;
@@ -123,7 +130,7 @@ int	exec_redir(char *delim)
 	if (pid == 0)
 	{
 		signal(SIGINT, SIG_DFL);
-		input = read_delimiter(delim);
+		input = read_delimiter(delim, d);
 		ft_close(pipefd[0]);
 		ft_dup2(pipefd[1], STDOUT_FILENO);
 		printf("%s", input);

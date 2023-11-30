@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 11:07:11 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/30 16:28:38 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/30 18:00:18 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 #include "pipe.h"
 #include "utils_shell.h"
 
-int	open_fd(char *name, int prev, int type)
+int	open_f(char *name, int prev, int type, t_data *d)
 {
 	int	fd;
 	int	tags;
@@ -43,7 +43,7 @@ int	open_fd(char *name, int prev, int type)
 	if (type != IN_D)
 		fd = open(name, tags, mode);
 	else
-		fd = exec_redir(name);
+		fd = exec_redir(name, d);
 	if (fd == -1)
 		ft_perror(name);
 	return (fd);
@@ -68,9 +68,9 @@ int	exec_next_command(t_data *d, t_token **cur, t_com *cmd, int l)
 	while (*cur && cmd->i_fd != -1 && cmd->o_fd != -1)
 	{
 		if (type_t(*cur) == OUT || type_t(*cur) == OUT_A)
-			cmd->o_fd = open_fd((*cur)->next->token, cmd->o_fd, type_t(*cur));
+			cmd->o_fd = open_f((*cur)->next->token, cmd->o_fd, type_t(*cur), d);
 		else if (type_t(*cur) == IN || type_t(*cur) == IN_D)
-			cmd->i_fd = open_fd((*cur)->next->token, cmd->i_fd, type_t(*cur));
+			cmd->i_fd = open_f((*cur)->next->token, cmd->i_fd, type_t(*cur), d);
 		else if (type_t(*cur) == PIPE)
 		{
 			if (cmd->o_fd == OUTPUT_STD)

@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 11:42:02 by alde-oli          #+#    #+#             */
-/*   Updated: 2023/11/30 13:46:31 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/30 18:07:56 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ char	*ft_get_env_var(char *s)
 	int		j;
 	char	*env;
 
+	if (!s)
+		return (NULL);
 	i = 0;
 	while (s[i] && s[i] != '$')
 		i++;
@@ -45,7 +47,7 @@ char	*ft_get_env_var(char *s)
 	if (!env)
 		exit_shell(1, "unable to allocate space");
 	j = 0;
-	while (s[i + j] && !is_s(s[i + j]) && s[i + j] != '$')
+	while (s[i + j] && !is_s(s[i + j]) && !ft_strchr("$'\"", s[i + j]))
 	{
 		env[j] = s[i + j];
 		j++;
@@ -62,8 +64,6 @@ char	*ft_get_env(char *s, t_data *d)
 	if (!env_var)
 		return (NULL);
 	env = 0;
-	if (!ft_strcmp(env_var, "?"))
-		return (ft_itoa((int)d->prev_return));
 	if (export_find(*d->exports, env_var))
 		env = export_find(*d->exports, env_var)->value;
 	free(env_var);
