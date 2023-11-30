@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 12:07:21 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/23 16:19:11 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/30 15:42:53 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int		verify_paranthesis(char *s);
  * @param s the string
  * @return char * (the second adjacent character) 
  */
-char	*verify_special_characters(char *s);
+char	*verify_special_characters(char *s, int i, int j);
 
 /**
  * @brief Verify no special chars around edges

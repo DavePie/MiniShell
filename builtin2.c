@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 12:56:10 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/30 14:18:33 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/30 15:22:13 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int	is_builtin(char *cmd)
 	i = 0;
 	while (builtin[i])
 	{
-		if (!ft_strcmp(builtin[i], cmd))
+		if (cmd && !ft_strcmp(builtin[i], cmd))
 			return (1);
 		i++;
 	}

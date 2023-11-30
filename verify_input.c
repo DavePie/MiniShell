@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 13:13:17 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/23 15:38:23 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/30 15:44:19 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,15 +100,13 @@ int	is_expection(char *first, char *second)
 	return (0);
 }
 
-char	*verify_special_characters(char *s)
+char	*verify_special_characters(char *s, int i, int j)
 {
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
 	if (!s[i])
 		return (0);
+	while (is_s(s[i]))
+		i++;
+	j = i;
 	if (is_special(s, i))
 		j += ft_strlen(is_special(s, i));
 	while (is_s(s[j]))
