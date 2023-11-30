@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 12:05:34 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/30 17:59:33 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/30 18:24:16 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,5 @@ int		set_cmd_args(t_token *cur, int l, t_com *cur_c);
 
 int		exec_redir(char *delim, t_data *d);
 
+void	read_sub_env(char **input, t_data *d);
 #endif

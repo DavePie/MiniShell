@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 15:40:46 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/30 17:59:22 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/30 18:24:33 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,12 +93,8 @@ char	*read_delimiter(char *del, t_data *d)
 {
 	char	*input;
 	char	*ans;
-	char	*env;
 
-	input = readline("> ");
-	env = ft_get_env(input, d);
-	if (env)
-		input = ft_insert_env(&input, env);
+	read_sub_env(&input, d);
 	ans = ft_calloc(1, sizeof(char));
 	if (!ans)
 		exit_shell(1, "unable to allocate space");
@@ -108,10 +104,7 @@ char	*read_delimiter(char *del, t_data *d)
 		reallojoin(&ans, ft_strlen(ans), "\n", 1);
 		if (input)
 			free(input);
-		input = readline("> ");
-		env = ft_get_env(input, d);
-		if (env)
-			input = ft_insert_env(&input, env);
+		read_sub_env(&input, d);
 	}
 	return (ans);
 }
