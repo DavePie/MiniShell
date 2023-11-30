@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 10:06:33 by alde-oli          #+#    #+#             */
-/*   Updated: 2023/11/30 14:18:23 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/30 15:59:10 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 # include <sys/wait.h>
 # include <stdio.h>
 # include "commands.h"
-
 
 char	*ft_free(char *s);
 

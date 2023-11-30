@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 15:31:25 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/30 15:43:00 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/30 15:59:37 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ int	verify_input(char *s)
 	if (verify_edges(s))
 		return (e_token_write(verify_edges(s), "unexpected"));
 	if (verify_special_characters(s, 0, 0))
-		return (e_token_write(verify_special_characters(s, 0, 0), "unexpected"));
+		return (e_token_write(
+				verify_special_characters(s, 0, 0), "unexpected"));
 	return (verify_paranthesis(s) && verify_str(s));
 }

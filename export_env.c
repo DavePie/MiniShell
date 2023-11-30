@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 10:52:06 by alde-oli          #+#    #+#             */
-/*   Updated: 2023/11/29 15:25:25 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/30 16:07:24 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,7 @@ t_export	*export_add(t_export **first, char *new_exp, int is_export)
 	if (!new)
 		return (NULL);
 	if (!*first)
-	{
-		*first = new;
-		return (*first);
-	}
+		return (*first = new);
 	cur = *first;
 	if (cur->next && ft_strcmp(cur->next->key, new->key) >= 0)
 	{

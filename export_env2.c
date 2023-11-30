@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 13:43:31 by alde-oli          #+#    #+#             */
-/*   Updated: 2023/11/29 15:47:20 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/30 16:00:19 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ void	ft_split_export(char *new, char **k_v)
 			k_v[1] = ft_substr(equal_pos + 1, 0, ft_strlen(equal_pos + 1));
 		else
 			k_v[1] = ft_strdup("");
-
 		if (!k_v[1])
 			handle_allocation_error(k_v);
 		handle_quotes(k_v);
