@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alde-oli <alde-oli@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 12:56:10 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/30 16:20:04 by alde-oli         ###   ########.fr       */
+/*   Updated: 2023/11/30 16:44:32 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int	export(t_data *d, char *av[])
 	while (av[i])
 	{
 		if (!is_valid_key(av[i]))
-			printf("export: `%s\': not a valid identifier\n", av[i]);
+			write_export_error("export", av[i]);
 		else
 			export_modify(d->exports, av[i]);
 		i++;

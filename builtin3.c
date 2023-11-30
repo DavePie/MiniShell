@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   builtin3.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alde-oli <alde-oli@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 12:56:10 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/30 16:18:26 by alde-oli         ###   ########.fr       */
+/*   Updated: 2023/11/30 17:15:08 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "builtin.h"
+#include "utils_shell.h"
 
 int	is_valid_key(char *key)
 {
@@ -21,12 +22,12 @@ int	is_valid_key(char *key)
 
 	ret = 1;
 	ft_split_export(key, k_v);
-	if (!k_v[0] || !*k_v[0] || !(ft_isalpha(*k_v[0]) || *k_v[0] == '_'))
+	if (!k_v[0] || !*k_v[0] || (ft_isdigit(*k_v[0])))
 		ret = 0;
 	i = 0;
 	while (ret && k_v[0][i])
 	{
-		if (!ft_isalnum(k_v[0][i]) && k_v[0][i] != '_')
+		if (ft_strchr("=&|()\"'", k_v[0][i]))
 			ret = 0;
 		i++;
 	}
@@ -34,4 +35,14 @@ int	is_valid_key(char *key)
 	if (k_v[1])
 		free(k_v[1]);
 	return (ret);
+}
+
+int	write_export_error(char *name, char *input)
+{
+	fdwrite(2, "minishell: ");
+	fdwrite(2, name);
+	fdwrite(2, ": `");
+	fdwrite(2, input);
+	fdwrite(2, "': not a valid identifier\n");
+	return (1);
 }

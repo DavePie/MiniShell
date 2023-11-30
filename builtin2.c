@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 12:56:10 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/30 15:22:13 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/30 17:15:15 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,21 @@ int	unset(t_data *d, char *av[])
 {
 	int			i;
 	t_export	*tmp;
+	int			j;
 
 	i = 1;
 	while (av[i])
 	{
+		if ((!av[i][0] || ft_isdigit(av[i][0]))
+			&& write_export_error("unset", av[i]) && ++i)
+			continue ;
+		j = 0;
+		while (av[i][j] && (!((is_s(av[i][j])
+			|| ft_strchr("=&|()\"'", av[i][j])))
+			|| !write_export_error("unset", av[i])))
+			j++;
+		if (av[i][j] && ++i)
+			continue ;
 		tmp = export_find(*d->exports, av[i]);
 		if (tmp)
 			export_remove(d->exports, tmp);
