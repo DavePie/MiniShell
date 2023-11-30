@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcards.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alde-oli <alde-oli@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 11:16:39 by alde-oli          #+#    #+#             */
-/*   Updated: 2023/11/28 13:30:24 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/30 12:51:06 by alde-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ int	match_wildcard(t_token *token, char *str)
 {
 	int	is_matching;
 
+	if (token->token[0] == '*' && str[0] == '.')
+		return (0);
 	is_matching = 1;
 	if (!ft_is_star(token) && ft_search_substr(str, token->token) != 0)
 		is_matching = 0;
