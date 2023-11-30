@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 15:40:46 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/29 11:35:03 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/30 14:00:49 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,10 +116,10 @@ int	exec_redir(char *delim)
 	char	*input;
 
 	if (pipe(pipefd) == -1)
-		ft_error("Pipe error");
+		exit_shell(1, "Pipe error");
 	pid = fork();
 	if (pid == -1)
-		ft_error("Fork error");
+		exit_shell(1, "Fork error");
 	if (pid == 0)
 	{
 		signal(SIGINT, SIG_DFL);

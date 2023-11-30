@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alde-oli <alde-oli@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 12:56:10 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/30 10:16:23 by alde-oli         ###   ########.fr       */
+/*   Updated: 2023/11/30 14:12:55 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	builtin_exit(t_data *d, char *av[])
 	if (!av[1])
 		exit(0);
 	if (av[2])
-		ft_error("exit: numeric argument required");
+		ewrite("exit: too many arguments");
 	if (av[2])
 		return (1);
 	str = av[1];
@@ -53,7 +53,7 @@ int	builtin_exit(t_data *d, char *av[])
 	while (*str >= '0' && *str <= '9')
 		ans = ans * 10 + sign * (*(str++) - '0');
 	if (*str || str == av[1])
-		ft_error("exit: numeric argument required");
+		ewrite("exit: numeric argument required");
 	ans = ans * (!*str) + 255 * (!!*str);
 	exit(ans % 256);
 	return (ans);

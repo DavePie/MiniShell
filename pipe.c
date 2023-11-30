@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 14:30:27 by alde-oli          #+#    #+#             */
-/*   Updated: 2023/11/28 13:28:46 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/30 13:57:12 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,6 @@ char	*ft_free(char *s)
 		free(s);
 	s = 0;
 	return (0);
-}
-
-void	ft_error(char *s)
-{
-	printf("%s\n", s);
 }
 
 void	ft_close(int fd)
