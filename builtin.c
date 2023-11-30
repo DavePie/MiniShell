@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alde-oli <alde-oli@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 12:56:10 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/30 14:07:08 by alde-oli         ###   ########.fr       */
+/*   Updated: 2023/11/30 14:18:15 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	cd(t_data *d, char *av[])
 	if (cd_return == -1)
 		ft_perror("cd");
 	if (cd_return == -2)
-		ft_error("cd: HOME not set");
+		ewrite("cd: HOME not set");
 	return (cd_return);
 }
 

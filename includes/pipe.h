@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alde-oli <alde-oli@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 10:06:33 by alde-oli          #+#    #+#             */
-/*   Updated: 2023/11/30 10:20:10 by alde-oli         ###   ########.fr       */
+/*   Updated: 2023/11/30 14:18:23 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 # include <stdio.h>
 # include "commands.h"
 
-void	ft_error(char *s);
 
 char	*ft_free(char *s);
 

@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 12:56:10 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/30 14:17:43 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/30 14:18:33 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	builtin_exit(t_data *d, char *av[])
 	while (*str >= '0' && *str <= '9')
 		ans = ans * 10 + sign * (*(str++) - '0');
 	if (*str || str == av[1])
-		ft_error("exit: numeric argument required");
+		ewrite("exit: numeric argument required");
 	exit((ans * (!*str) + 255 * (!!*str)) % 256);
 	return (ans * (!*str) + 255 * (!!*str));
 }
