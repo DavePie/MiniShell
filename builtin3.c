@@ -6,7 +6,7 @@
 /*   By: alde-oli <alde-oli@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 12:56:10 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/30 14:07:11 by alde-oli         ###   ########.fr       */
+/*   Updated: 2023/11/30 16:18:26 by alde-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,23 @@
 
 int	is_valid_key(char *key)
 {
-	int	i;
+	int		i;
+	char	*k_v[2];
+	int		ret;
 
-	if (!key || !*key || !(ft_isalpha(*key) || *key == '_'))
+	ret = 1;
+	ft_split_export(key, k_v);
+	if (!k_v[0] || !*k_v[0] || !(ft_isalpha(*k_v[0]) || *k_v[0] == '_'))
+		ret = 0;
+	i = 0;
+	while (ret && k_v[0][i])
 	{
-		return (0);
-	}
-
-	i = 1;
-	while (key[i])
-	{
-		if (!ft_isalnum(key[i]) && key[i] != '_')
-			return (0);
+		if (!ft_isalnum(k_v[0][i]) && k_v[0][i] != '_')
+			ret = 0;
 		i++;
 	}
-
-	return (1);
+	free(k_v[0]);
+	if (k_v[1])
+		free(k_v[1]);
+	return (ret);
 }

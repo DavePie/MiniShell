@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alde-oli <alde-oli@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 12:56:10 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/30 14:18:15 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/30 16:20:04 by alde-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,8 @@ int	export(t_data *d, char *av[])
 	{
 		if (!is_valid_key(av[i]))
 			printf("export: `%s\': not a valid identifier\n", av[i]);
-		export_modify(d->exports, av[i]);
+		else
+			export_modify(d->exports, av[i]);
 		i++;
 	}
 	return (0);
