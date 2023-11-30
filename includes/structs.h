@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 14:16:16 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/28 13:20:34 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/30 12:46:52 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,11 @@ typedef struct s_export
 
 typedef struct s_data
 {
-	char		*input;
-	char		*command;
-	t_token		**tokens;
-	t_export	**exports;
+	char			*input;
+	char			*command;
+	t_token			**tokens;
+	t_export		**exports;
+	unsigned char	prev_return;
 }	t_data;
 
 #endif

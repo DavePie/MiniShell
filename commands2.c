@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 11:07:11 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/29 17:57:20 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/30 13:40:16 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,7 @@ int	run(t_data *d, int start, int end)
 	free(d->command);
 	remove_empty_tokens(d->tokens);
 	return_val = exec_commands(d);
+	d->prev_return = return_val;
 	t_clear(d->tokens);
 	free(d->tokens);
 	return (return_val);
