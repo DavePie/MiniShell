@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 11:07:11 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/30 13:40:16 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/30 16:28:38 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,17 +48,17 @@ int	open_fd(char *name, int prev, int type)
 		ft_perror(name);
 	return (fd);
 }
-
-void	print_tokens(t_token *cur)
-{
-	while (cur)
-	{
-		printf("[%s](s:%d)(ad:%d), ",
-			cur->token, cur->is_string, cur->adj_prev);
-		cur = cur->next;
-	}
-	printf("\n");
-}
+//
+// void	print_tokens(t_token *cur)
+// {
+// 	while (cur)
+// 	{
+// 		printf("[%s](s:%d)(ad:%d), ",
+// 			cur->token, cur->is_string, cur->adj_prev);
+// 		cur = cur->next;
+// 	}
+// 	printf("\n");
+// }
 
 int	exec_next_command(t_data *d, t_token **cur, t_com *cmd, int l)
 {

@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 11:48:32 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/28 13:17:58 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/30 16:26:56 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,6 @@ int	ft_perror(char *mess)
 	fdwrite(2, "minishell: ");
 	perror(mess);
 	return (0);
-}
-
-void	ft_free_zero(void **ptr)
-{
-	if (!ptr)
-		return ;
-	if (*ptr)
-		free(*ptr);
-	*ptr = NULL;
 }
 
 int	exit_shell(int code, char *error)

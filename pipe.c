@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 14:30:27 by alde-oli          #+#    #+#             */
-/*   Updated: 2023/11/30 13:57:12 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/30 16:31:25 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,25 @@ void	ft_dup2(int fd1, int fd2)
 {
 	dup2(fd1, fd2);
 	ft_close(fd1);
+}
+
+char	*check_access(char **paths, char *cmd)
+{
+	char	*full_path;
+	int		i;
+
+	i = 0;
+	while (paths[i])
+	{
+		full_path = join_path_with_cmd(paths[i], cmd);
+		if (!full_path)
+			continue ;
+		if (access(full_path, X_OK) == 0)
+			return (full_path);
+		full_path = ft_free(full_path);
+		i++;
+	}
+	return (NULL);
 }
 
 char	*join_path_with_cmd(const char *path, const char *cmd)

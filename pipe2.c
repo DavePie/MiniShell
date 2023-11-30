@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 16:08:01 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/30 15:31:33 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/30 16:31:16 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,25 +17,6 @@
 #include "utils_shell.h"
 #include "error_codes.h"
 #include "builtin.h"
-
-char	*check_access(char **paths, char *cmd)
-{
-	char	*full_path;
-	int		i;
-
-	i = 0;
-	while (paths[i])
-	{
-		full_path = join_path_with_cmd(paths[i], cmd);
-		if (!full_path)
-			continue ;
-		if (access(full_path, X_OK) == 0)
-			return (full_path);
-		full_path = ft_free(full_path);
-		i++;
-	}
-	return (NULL);
-}
 
 char	*get_command_path(char *cmd, t_export **exports)
 {
