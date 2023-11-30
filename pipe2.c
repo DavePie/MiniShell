@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alde-oli <alde-oli@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 16:08:01 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/30 10:19:08 by alde-oli         ###   ########.fr       */
+/*   Updated: 2023/11/30 13:39:42 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int	ft_parent(int *pipefd, t_com *cmd, pid_t child_pid)
 			pid = wait(NULL);
 		if (return_val == 3)
 			printf("Quit: %d\n", return_val);
-		return (return_val);
+		return (WEXITSTATUS(return_val));
 	}
 	return (pipefd[0]);
 }
