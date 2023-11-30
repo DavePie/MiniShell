@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alde-oli <alde-oli@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 16:08:01 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/29 17:57:51 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/30 10:19:08 by alde-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,11 @@ char	*check_access(char **paths, char *cmd)
 	return (NULL);
 }
 
-char	*get_command_path(char *cmd)
+char	*get_command_path(char *cmd, t_export **exports)
 {
-	char	*path_env;
-	char	*cmd_path;
-	char	**paths;
+	t_export	*path_env;
+	char		*cmd_path;
+	char		**paths;
 
 	if (!cmd || !cmd[0])
 		return (ft_strdup(""));
@@ -49,10 +49,10 @@ char	*get_command_path(char *cmd)
 		return (ft_strdup(cmd));
 	else if (access(cmd, F_OK) == 0 && !ft_perror(cmd))
 		exit(EXIT_PERM_DENIED);
-	path_env = getenv("PATH");
+	path_env = export_find(*exports, "PATH");
 	if (!path_env)
 		ft_error("PATH variable not found.");
-	paths = ft_split(path_env, ':');
+	paths = ft_split(path_env->value, ':');
 	if (!paths)
 		ft_error("Split error on PATH variable.");
 	cmd_path = check_access(paths, cmd);

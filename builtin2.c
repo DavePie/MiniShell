@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alde-oli <alde-oli@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 12:56:10 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/29 16:42:04 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/11/30 10:16:23 by alde-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ int	cmd_exe(char *av[], t_data *d)
 		if (!ft_strcmp(builtin[i], av[0]))
 			return (builtin_func[i](d, av));
 	}
-	path = get_command_path(av[0]);
+	path = get_command_path(av[0], d->exports);
 	env_tab = export_to_tab(d->exports);
 	if (execve(path, av, env_tab) == -1)
 	{
