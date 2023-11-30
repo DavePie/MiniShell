@@ -6,7 +6,7 @@
 /*   By: alde-oli <alde-oli@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 12:56:10 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/29 12:03:23 by alde-oli         ###   ########.fr       */
+/*   Updated: 2023/11/30 14:07:08 by alde-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,16 +50,24 @@ int	pwd(t_data *d, char *av[])
 int	cd(t_data *d, char *av[])
 {
 	t_export	*home;
+	int			cd_return;
 
 	home = NULL;
 	if (!av[1])
 	{
 		home = export_find(*d->exports, "HOME");
 		if (!home)
-			return (-2);
-		return (chdir(home->value));
+			cd_return = -2;
+		else
+			cd_return = chdir(home->value);
 	}
-	return (chdir(av[1]));
+	else
+		cd_return = chdir(av[1]);
+	if (cd_return == -1)
+		ft_perror("cd");
+	if (cd_return == -2)
+		ft_error("cd: HOME not set");
+	return (cd_return);
 }
 
 int	env(t_data *d, char *av[])
@@ -94,6 +102,8 @@ int	export(t_data *d, char *av[])
 	}
 	while (av[i])
 	{
+		if (!is_valid_key(av[i]))
+			printf("export: `%s\': not a valid identifier\n", av[i]);
 		export_modify(d->exports, av[i]);
 		i++;
 	}
