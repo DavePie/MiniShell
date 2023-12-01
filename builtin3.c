@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin3.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alde-oli <alde-oli@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 12:56:10 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/30 17:15:08 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/12/01 10:05:43 by alde-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,15 @@ int	write_export_error(char *name, char *input)
 	fdwrite(2, input);
 	fdwrite(2, "': not a valid identifier\n");
 	return (1);
+}
+
+void	change_pwd(t_data *d)
+{
+	char	*cwd;
+	char	*pwd;
+
+	cwd = getcwd(NULL, 0);
+	pwd = ft_strjoin("PWD=", cwd);
+	free(cwd);
+	export_modify(d->exports, pwd);
 }
