@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alde-oli <alde-oli@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 12:56:10 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/12/01 10:07:45 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/12/01 10:22:15 by alde-oli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,15 @@ int	echo(t_data *d, char*av[])
 int	pwd(t_data *d, char *av[])
 {
 	char	*pwd;
-	int		printf_return;
 
 	(void)d;
 	(void)av;
 	pwd = getcwd(NULL, 0);
 	if (!pwd)
 		return (1);
-	printf_return = printf("%s\n", pwd);
+	printf("%s\n", pwd);
 	free(pwd);
-	return (printf_return);
+	return (0);
 }
 
 int	cd(t_data *d, char *av[])
