@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 11:42:02 by alde-oli          #+#    #+#             */
-/*   Updated: 2023/11/30 18:07:56 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/12/01 09:27:00 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,9 @@ char	*ft_get_env(char *s, t_data *d)
 	if (!env_var)
 		return (NULL);
 	env = 0;
-	if (export_find(*d->exports, env_var))
+	if (!ft_strcmp(env_var, "?"))
+		env = ft_itoa(d->prev_return);
+	else if (export_find(*d->exports, env_var))
 		env = export_find(*d->exports, env_var)->value;
 	free(env_var);
 	if (!env)
