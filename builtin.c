@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alde-oli <alde-oli@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 12:56:10 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/12/01 10:22:15 by alde-oli         ###   ########.fr       */
+/*   Updated: 2023/12/01 14:15:08 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	env(t_data *d, char *av[])
 	(void)av;
 	while (list)
 	{
-		if (!list->is_export)
+		if (list->value)
 			printf("%s=%s\n", list->key, list->value);
 		list = list->next;
 	}

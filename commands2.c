@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 11:07:11 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/30 18:00:18 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/12/01 14:36:19 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	open_f(char *name, int prev, int type, t_data *d)
 		ft_perror(name);
 	return (fd);
 }
-//
+
 // void	print_tokens(t_token *cur)
 // {
 // 	while (cur)
@@ -65,13 +65,13 @@ int	exec_next_command(t_data *d, t_token **cur, t_com *cmd, int l)
 	t_token	*first;
 
 	first = *cur;
-	while (*cur && cmd->i_fd != -1 && cmd->o_fd != -1)
+	while (*cur && cmd->o_fd != -1)
 	{
-		if (type_t(*cur) == OUT || type_t(*cur) == OUT_A)
-			cmd->o_fd = open_f((*cur)->next->token, cmd->o_fd, type_t(*cur), d);
-		else if (type_t(*cur) == IN || type_t(*cur) == IN_D)
-			cmd->i_fd = open_f((*cur)->next->token, cmd->i_fd, type_t(*cur), d);
-		else if (type_t(*cur) == PIPE)
+		if ((typ_t(*cur) == OUT || typ_t(*cur) == OUT_A) && cmd->i_fd != -1)
+			cmd->o_fd = open_f((*cur)->next->token, cmd->o_fd, typ_t(*cur), d);
+		else if ((typ_t(*cur) == IN || typ_t(*cur) == IN_D) && cmd->i_fd != -1)
+			cmd->i_fd = open_f((*cur)->next->token, cmd->i_fd, typ_t(*cur), d);
+		else if (typ_t(*cur) == PIPE)
 		{
 			if (cmd->o_fd == OUTPUT_STD)
 				cmd->o_fd = OUTPUT_PIPE;
@@ -79,7 +79,7 @@ int	exec_next_command(t_data *d, t_token **cur, t_com *cmd, int l)
 			cmd->is_pipe = 1;
 			break ;
 		}
-		if (type_t(*cur))
+		if (typ_t(*cur))
 			(*cur) = (*cur)->next;
 		else
 			l++;

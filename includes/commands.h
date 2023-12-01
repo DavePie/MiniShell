@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 12:05:34 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/30 18:24:16 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/12/01 14:36:19 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int		run(t_data *d, int start, int end);
 
 int		exec_next_command(t_data *d, t_token **cur, t_com *cmd, int l);
 
-int		type_t(t_token *token);
+int		typ_t(t_token *token);
 
 int		set_cmd_args(t_token *cur, int l, t_com *cur_c);
 

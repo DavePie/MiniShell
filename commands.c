@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 15:40:46 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/30 18:24:33 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/12/01 14:36:19 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ Pipes: Fake pipe if redir on command
 Arg not redir but after command without pipe
 */
 
-int	type_t(t_token *token)
+int	typ_t(t_token *token)
 {
 	if (token->is_string)
 		return (0);
@@ -54,11 +54,11 @@ int	set_cmd_args(t_token *cur, int l, t_com *cur_c)
 	args[l] = 0;
 	prev = 0;
 	i = 0;
-	while (cur && type_t(cur) != PIPE)
+	while (cur && typ_t(cur) != PIPE)
 	{
-		if (!prev && !type_t(cur))
+		if (!prev && !typ_t(cur))
 			args[i++] = cur->token;
-		prev = type_t(cur);
+		prev = typ_t(cur);
 		cur = cur->next;
 	}
 	cur_c->args = args;
