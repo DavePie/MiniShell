@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 12:56:10 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/12/01 09:40:00 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/12/01 10:11:08 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,7 @@ int	unset(t_data *d, char *av[])
 			&& write_export_error("unset", *av) && ++return_v)
 			continue ;
 		j = 0;
-		while ((*av)[j] && (!((is_s((*av)[j])
-			|| ft_strchr("=&|()\"'", (*av)[j])))
+		while ((*av)[j] && ((ft_isalnum((*av)[j]) || (*av)[j] == '_')
 			|| !write_export_error("unset", *av)))
 			j++;
 		if ((*av)[j])
