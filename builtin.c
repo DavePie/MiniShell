@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 12:56:10 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/30 16:44:32 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/12/01 10:06:14 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,9 @@ int	export(t_data *d, char *av[])
 {
 	int			i;
 	t_export	*list;
+	int			return_v;
 
+	return_v = 0;
 	list = *d->exports;
 	i = 1;
 	while (!av[1] && list)
@@ -102,11 +104,11 @@ int	export(t_data *d, char *av[])
 	}
 	while (av[i])
 	{
-		if (!is_valid_key(av[i]))
+		if (!is_valid_key(av[i]) && ++return_v)
 			write_export_error("export", av[i]);
-		else
+		else if (av[i][0] != '_' || (av[i][1] && av[i][1] != '='))
 			export_modify(d->exports, av[i]);
 		i++;
 	}
-	return (0);
+	return (return_v > 0);
 }

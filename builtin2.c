@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 12:56:10 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/11/30 17:15:15 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/12/01 09:40:00 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,29 +15,28 @@
 
 int	unset(t_data *d, char *av[])
 {
-	int			i;
 	t_export	*tmp;
 	int			j;
+	int			return_v;
 
-	i = 1;
-	while (av[i])
+	return_v = 0;
+	while (*av && *(++av))
 	{
-		if ((!av[i][0] || ft_isdigit(av[i][0]))
-			&& write_export_error("unset", av[i]) && ++i)
+		if ((!(*av)[0] || ft_isdigit((*av)[0]))
+			&& write_export_error("unset", *av) && ++return_v)
 			continue ;
 		j = 0;
-		while (av[i][j] && (!((is_s(av[i][j])
-			|| ft_strchr("=&|()\"'", av[i][j])))
-			|| !write_export_error("unset", av[i])))
+		while ((*av)[j] && (!((is_s((*av)[j])
+			|| ft_strchr("=&|()\"'", (*av)[j])))
+			|| !write_export_error("unset", *av)))
 			j++;
-		if (av[i][j] && ++i)
+		if ((*av)[j])
 			continue ;
-		tmp = export_find(*d->exports, av[i]);
+		tmp = export_find(*d->exports, *av);
 		if (tmp)
 			export_remove(d->exports, tmp);
-		i++;
 	}
-	return (0);
+	return (return_v > 0);
 }
 
 int	builtin_exit(t_data *d, char *av[])
