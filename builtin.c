@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 12:56:10 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/12/01 10:06:14 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/12/01 10:07:45 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int	cd(t_data *d, char *av[])
 {
 	t_export	*home;
 	int			cd_return;
+	char		*cwd;
 
 	home = NULL;
 	if (!av[1])
@@ -67,6 +68,8 @@ int	cd(t_data *d, char *av[])
 		ft_perror("cd");
 	if (cd_return == -2)
 		ewrite("cd: HOME not set");
+	cwd = getcwd(NULL, 0);
+	change_pwd(d);
 	return (cd_return);
 }
 

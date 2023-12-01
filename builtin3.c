@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 12:56:10 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/12/01 09:56:10 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/12/01 10:07:58 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,15 @@ int	write_export_error(char *name, char *input)
 	fdwrite(2, input);
 	fdwrite(2, "': not a valid identifier\n");
 	return (1);
+}
+
+void	change_pwd(t_data *d)
+{
+	char	*cwd;
+	char	*pwd;
+
+	cwd = getcwd(NULL, 0);
+	pwd = ft_strjoin("PWD=", cwd);
+	free(cwd);
+	export_modify(d->exports, pwd);
 }
