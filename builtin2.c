@@ -6,7 +6,7 @@
 /*   By: dvandenb <dvandenb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 12:56:10 by dvandenb          #+#    #+#             */
-/*   Updated: 2023/12/01 10:14:37 by dvandenb         ###   ########.fr       */
+/*   Updated: 2023/12/04 13:42:14 by dvandenb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,14 +72,12 @@ char	**export_to_tab(t_export **list)
 	char		**tab;
 	int			i;
 	t_export	*tmp;
+	char		*temp;
 
 	i = 0;
 	tmp = *list;
-	while (tmp)
-	{
-		i++;
+	while (tmp && ++i)
 		tmp = tmp->next;
-	}
 	tab = malloc(sizeof(char *) * (i + 1));
 	if (!tab)
 		exit_shell(1, "unable to allocate space");
@@ -87,7 +85,9 @@ char	**export_to_tab(t_export **list)
 	tmp = *list;
 	while (tmp)
 	{
-		tab[i++] = ft_strjoin(tmp->key, tmp->value);
+		temp = ft_strjoin(tmp->key, "=");
+		tab[i++] = ft_strjoin(temp, tmp->value);
+		free(temp);
 		tmp = tmp->next;
 	}
 	tab[i] = NULL;
