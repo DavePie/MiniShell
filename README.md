@@ -10,19 +10,19 @@ minishell is a simple shell client written in C that replicates many of the basi
 
 ### Quoting and Special Characters
 
-- Single Quotes ('): Prevents the shell from interpreting meta-characters within the quoted sequence.
-- Double Quotes ("): Prevents the shell from interpreting meta-characters within the quoted sequence, except for $ (dollar sign).
+- Single Quotes (`'`): Prevents the shell from interpreting meta-characters within the quoted sequence.
+- Double Quotes (`"`): Prevents the shell from interpreting meta-characters within the quoted sequence, except for $ (dollar sign).
 - Unclosed Quotes and Special Characters: The shell does not interpret unclosed quotes or special characters such as \ (backslash) or ; (semicolon).
 
 ### Redirections
 
-- Input Redirection (<): Redirects input from a file.
-- Output Redirection (>): Redirects output to a file, overwriting the file if it exists.
-- Append Output Redirection (>>): Redirects output to a file, appending to the file if it exists.
-- Heredoc (<<): Accepts input until a line containing a specified delimiter is seen. This input is not added to the command history.
+- Input Redirection (`<`): Redirects input from a file.
+- Output Redirection (`>`): Redirects output to a file, overwriting the file if it exists.
+- Append Output Redirection (`>>`): Redirects output to a file, appending to the file if it exists.
+- Heredoc (`<<`): Accepts input until a line containing a specified delimiter is seen. This input is not added to the command history.
 
 ### Pipes
-- Pipes (|): Connects the output of one command to the input of the next command in a pipeline.
+- Pipes (`|`): Connects the output of one command to the input of the next command in a pipeline.
 
 ### Environment Variables
 
@@ -30,9 +30,9 @@ minishell is a simple shell client written in C that replicates many of the basi
 - Exit Status (`$?`): Expands to the exit status of the most recently executed foreground pipeline.
 
 ### Signal Handling in Interactive Mode
-- Ctrl-C: Displays a new prompt on a new line without terminating the shell.
-- Ctrl-D: Exits the shell.
-- Ctrl-\: Ignored by the shell, similar to bash behavior.
+- `Ctrl-C`: Displays a new prompt on a new line without terminating the shell.
+- `Ctrl-D`: Exits the shell.
+- `Ctrl-\`: Ignored by the shell, similar to bash behavior.
 
 ### Built-in Commands
 
@@ -48,11 +48,11 @@ The following built-in commands are implemented with specific options:
 
 ### Logical Operators
 
- Logical AND (&&) and OR (||): Implements command chaining with logical operators, respecting parenthesis for prioritization.
+ Logical AND (`&&`) and OR (`||`): Implements command chaining with logical operators, respecting parenthesis for prioritization.
 
 ### Wildcards
 
-Wildcard Expansion (*): Expands wildcards to match filenames in the current working directory.
+Wildcard Expansion (`*`): Expands wildcards to match filenames in the current working directory.
 
 ## Installation and Usage
 ### Building the Shell
