@@ -58,7 +58,7 @@ int	builtin_exit(t_data *d, char *av[])
 	while (*str == ' ' || (*str >= 9 && *str <= 13))
 		str++;
 	if ((*str == '+' || *str == '-') && *(str++) == '-')
-			sign *= -1;
+		sign *= -1;
 	while (*str >= '0' && *str <= '9')
 		ans = ans * 10 + sign * (*(str++) - '0');
 	if (*str || str == av[1])

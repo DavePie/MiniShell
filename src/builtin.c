@@ -50,7 +50,6 @@ int	cd(t_data *d, char *av[])
 {
 	t_export	*home;
 	int			cd_return;
-	char		*cwd;
 
 	home = NULL;
 	if (!av[1])
@@ -67,7 +66,6 @@ int	cd(t_data *d, char *av[])
 		ft_perror("cd");
 	if (cd_return == -2)
 		ewrite("cd: HOME not set");
-	cwd = getcwd(NULL, 0);
 	change_pwd(d);
 	return (cd_return);
 }

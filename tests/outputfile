@@ -1,4 +1,0 @@
-minishell$ echo test && echo hello | cat
-test
-hello
-minishell$ exit

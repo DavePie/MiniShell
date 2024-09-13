@@ -10,23 +10,32 @@
 #                                                                              #
 # **************************************************************************** #
 
+SRCDIR	:= src
 CFILES	:= verify_input.c utils.c utils_shell.c main.c logic.c list_utils2.c list_utils.c \
 history.c builtin.c builtin2.c create_tokens.c wildcards.c convert_env.c commands.c pipe.c \
 wildcards2.c verify_input2.c pipe2.c commands2.c convert_env2.c export_env.c export_env2.c builtin3.c
+CFILES	:= $(patsubst %,$(SRCDIR)/%,$(CFILES))
+
 RM		:= rm -f
 NAME	:= minishell
 CC		:= gcc
-INCDIR	:= -I includes -I libft -I $(HOME)/.brew/Cellar/readline/8.1.1/include
+INCDIR	:= -I includes -I libft
 
 LIB		:= libft.a
 LIBDIR	:= libft
 LIBPATH	:= $(LIBDIR)/$(LIB)
-CFLAGS	:= -Wall -Wextra -Werror $(INCDIR) -fsanitize=address 
+CFLAGS	:= -Wall -Wextra -Werror -fsanitize=address
+READLINE_LIB_DIR :=
+
+ifeq ($(shell uname -s),Darwin)
+    INCDIR := $(INCDIR) -I $(HOME)/.brew/Cellar/readline/8.1.1/include
+	READLINE_LIB_DIR := -L $(HOME)/.brew/opt/readline/lib
+endif
 
 all: $(NAME)
 
 $(NAME): $(CFILES) $(LIBPATH)
-	$(CC) $(CFLAGS) $(CFILES) -o $(NAME) -lreadline -L$(HOME)/.brew/opt/readline/lib $(LIBPATH)
+	$(CC) $(CFLAGS) $(CFILES) $(INCDIR) -o $(NAME) -lreadline $(READLINE_LIB_DIR) $(LIBPATH)
 
 $(LIBPATH):
 	make -C $(LIBDIR)
